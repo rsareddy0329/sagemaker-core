@@ -37,7 +37,7 @@ from sagemaker_core.main.utils import (
     is_primitive_list,
     serialize,
 )
-from sagemaker_core.main.intelligent_defaults_helper import (
+from sagemaker_core.main.default_configs_helper import (
     load_default_configs_for_resource_name,
     get_config_value,
 )
@@ -978,6 +978,7 @@ class App(Base):
         user_profile_name: The user profile name.
         space_name: The name of the space. If this value is not set, then UserProfileName must be set.
         status: The status.
+        effective_trusted_identity_propagation_status: The effective status of Trusted Identity Propagation (TIP) for this application. When enabled, user identities from IAM Identity Center are being propagated through the application to TIP enabled Amazon Web Services services. When disabled, standard IAM role-based access is used.
         recovery_mode:  Indicates whether the application is launched in recovery mode.
         last_health_check_timestamp: The timestamp of the last health check.
         last_user_activity_timestamp: The timestamp of the last user's activity. LastUserActivityTimestamp is also updated when SageMaker AI performs health checks without user activity. As a result, this value is set to the same value as LastHealthCheckTimestamp.
@@ -995,6 +996,7 @@ class App(Base):
     user_profile_name: Optional[str] = Unassigned()
     space_name: Optional[str] = Unassigned()
     status: Optional[str] = Unassigned()
+    effective_trusted_identity_propagation_status: Optional[str] = Unassigned()
     recovery_mode: Optional[bool] = Unassigned()
     last_health_check_timestamp: Optional[datetime.datetime] = Unassigned()
     last_user_activity_timestamp: Optional[datetime.datetime] = Unassigned()
@@ -3219,9 +3221,14 @@ class Cluster(Base):
         cluster_name: The name of the SageMaker HyperPod cluster.
         creation_time: The time when the SageMaker Cluster is created.
         failure_message: The failure message of the SageMaker HyperPod cluster.
+        restricted_instance_groups: The specialized instance groups for training models like Amazon Nova to be created in the SageMaker HyperPod cluster.
         vpc_config:
         orchestrator: The type of orchestrator used for the SageMaker HyperPod cluster.
+        tiered_storage_config: The current configuration for managed tier checkpointing on the HyperPod cluster. For example, this shows whether the feature is enabled and the percentage of cluster memory allocated for checkpoint storage.
         node_recovery: The node recovery mode configured for the SageMaker HyperPod cluster.
+        node_provisioning_mode: The mode used for provisioning nodes in the cluster.
+        cluster_role: The Amazon Resource Name (ARN) of the IAM role that HyperPod uses for cluster autoscaling operations.
+        auto_scaling: The current autoscaling configuration and status for the autoscaler.
 
     """
 
@@ -3231,9 +3238,16 @@ class Cluster(Base):
     creation_time: Optional[datetime.datetime] = Unassigned()
     failure_message: Optional[str] = Unassigned()
     instance_groups: Optional[List[shapes.ClusterInstanceGroupDetails]] = Unassigned()
+    restricted_instance_groups: Optional[List[shapes.ClusterRestrictedInstanceGroupDetails]] = (
+        Unassigned()
+    )
     vpc_config: Optional[shapes.VpcConfig] = Unassigned()
     orchestrator: Optional[shapes.ClusterOrchestrator] = Unassigned()
+    tiered_storage_config: Optional[shapes.ClusterTieredStorageConfig] = Unassigned()
     node_recovery: Optional[str] = Unassigned()
+    node_provisioning_mode: Optional[str] = Unassigned()
+    cluster_role: Optional[str] = Unassigned()
+    auto_scaling: Optional[shapes.ClusterAutoScalingConfigOutput] = Unassigned()
 
     def get_name(self) -> str:
         attributes = vars(self)
@@ -3258,7 +3272,8 @@ class Cluster(Base):
                 "vpc_config": {
                     "security_group_ids": {"type": "array", "items": {"type": "string"}},
                     "subnets": {"type": "array", "items": {"type": "string"}},
-                }
+                },
+                "cluster_role": {"type": "string"},
             }
             return create_func(
                 *args,
@@ -3275,11 +3290,18 @@ class Cluster(Base):
     def create(
         cls,
         cluster_name: str,
-        instance_groups: List[shapes.ClusterInstanceGroupSpecification],
+        instance_groups: Optional[List[shapes.ClusterInstanceGroupSpecification]] = Unassigned(),
+        restricted_instance_groups: Optional[
+            List[shapes.ClusterRestrictedInstanceGroupSpecification]
+        ] = Unassigned(),
         vpc_config: Optional[shapes.VpcConfig] = Unassigned(),
         tags: Optional[List[shapes.Tag]] = Unassigned(),
         orchestrator: Optional[shapes.ClusterOrchestrator] = Unassigned(),
         node_recovery: Optional[str] = Unassigned(),
+        tiered_storage_config: Optional[shapes.ClusterTieredStorageConfig] = Unassigned(),
+        node_provisioning_mode: Optional[str] = Unassigned(),
+        cluster_role: Optional[str] = Unassigned(),
+        auto_scaling: Optional[shapes.ClusterAutoScalingConfig] = Unassigned(),
         session: Optional[Session] = None,
         region: Optional[str] = None,
     ) -> Optional["Cluster"]:
@@ -3289,10 +3311,15 @@ class Cluster(Base):
         Parameters:
             cluster_name: The name for the new SageMaker HyperPod cluster.
             instance_groups: The instance groups to be created in the SageMaker HyperPod cluster.
+            restricted_instance_groups: The specialized instance groups for training models like Amazon Nova to be created in the SageMaker HyperPod cluster.
             vpc_config: Specifies the Amazon Virtual Private Cloud (VPC) that is associated with the Amazon SageMaker HyperPod cluster. You can control access to and from your resources by configuring your VPC. For more information, see Give SageMaker access to resources in your Amazon VPC.  When your Amazon VPC and subnets support IPv6, network communications differ based on the cluster orchestration platform:   Slurm-orchestrated clusters automatically configure nodes with dual IPv6 and IPv4 addresses, allowing immediate IPv6 network communications.   In Amazon EKS-orchestrated clusters, nodes receive dual-stack addressing, but pods can only use IPv6 when the Amazon EKS cluster is explicitly IPv6-enabled. For information about deploying an IPv6 Amazon EKS cluster, see Amazon EKS IPv6 Cluster Deployment.   Additional resources for IPv6 configuration:   For information about adding IPv6 support to your VPC, see to IPv6 Support for VPC.   For information about creating a new IPv6-compatible VPC, see Amazon VPC Creation Guide.   To configure SageMaker HyperPod with a custom Amazon VPC, see Custom Amazon VPC Setup for SageMaker HyperPod.
             tags: Custom tags for managing the SageMaker HyperPod cluster as an Amazon Web Services resource. You can add tags to your cluster in the same way you add them in other Amazon Web Services services that support tagging. To learn more about tagging Amazon Web Services resources in general, see Tagging Amazon Web Services Resources User Guide.
-            orchestrator: The type of orchestrator to use for the SageMaker HyperPod cluster. Currently, the only supported value is "eks", which is to use an Amazon Elastic Kubernetes Service (EKS) cluster as the orchestrator.
+            orchestrator: The type of orchestrator to use for the SageMaker HyperPod cluster. Currently, the only supported value is "eks", which is to use an Amazon Elastic Kubernetes Service cluster as the orchestrator.
             node_recovery: The node recovery mode for the SageMaker HyperPod cluster. When set to Automatic, SageMaker HyperPod will automatically reboot or replace faulty nodes when issues are detected. When set to None, cluster administrators will need to manually manage any faulty cluster instances.
+            tiered_storage_config: The configuration for managed tier checkpointing on the HyperPod cluster. When enabled, this feature uses a multi-tier storage approach for storing model checkpoints, providing faster checkpoint operations and improved fault tolerance across cluster nodes.
+            node_provisioning_mode: The mode for provisioning nodes in the cluster. You can specify the following modes:    Continuous: Scaling behavior that enables 1) concurrent operation execution within instance groups, 2) continuous retry mechanisms for failed operations, 3) enhanced customer visibility into cluster events through detailed event streams, 4) partial provisioning capabilities. Your clusters and instance groups remain InService while scaling. This mode is only supported for EKS orchestrated clusters.
+            cluster_role: The Amazon Resource Name (ARN) of the IAM role that HyperPod assumes to perform cluster autoscaling operations. This role must have permissions for sagemaker:BatchAddClusterNodes and sagemaker:BatchDeleteClusterNodes. This is only required when autoscaling is enabled and when HyperPod is performing autoscaling operations.
+            auto_scaling: The autoscaling configuration for the cluster. Enables automatic scaling of cluster nodes based on workload demand using a Karpenter-based system.
             session: Boto3 session.
             region: Region name.
 
@@ -3324,10 +3351,15 @@ class Cluster(Base):
         operation_input_args = {
             "ClusterName": cluster_name,
             "InstanceGroups": instance_groups,
+            "RestrictedInstanceGroups": restricted_instance_groups,
             "VpcConfig": vpc_config,
             "Tags": tags,
             "Orchestrator": orchestrator,
             "NodeRecovery": node_recovery,
+            "TieredStorageConfig": tiered_storage_config,
+            "NodeProvisioningMode": node_provisioning_mode,
+            "ClusterRole": cluster_role,
+            "AutoScaling": auto_scaling,
         }
 
         operation_input_args = Base.populate_chained_attributes(
@@ -3437,9 +3469,15 @@ class Cluster(Base):
     @Base.add_validate_call
     def update(
         self,
-        instance_groups: List[shapes.ClusterInstanceGroupSpecification],
+        instance_groups: Optional[List[shapes.ClusterInstanceGroupSpecification]] = Unassigned(),
+        restricted_instance_groups: Optional[
+            List[shapes.ClusterRestrictedInstanceGroupSpecification]
+        ] = Unassigned(),
+        tiered_storage_config: Optional[shapes.ClusterTieredStorageConfig] = Unassigned(),
         node_recovery: Optional[str] = Unassigned(),
         instance_groups_to_delete: Optional[List[str]] = Unassigned(),
+        cluster_role: Optional[str] = Unassigned(),
+        auto_scaling: Optional[shapes.ClusterAutoScalingConfig] = Unassigned(),
     ) -> Optional["Cluster"]:
         """
         Update a Cluster resource
@@ -3471,8 +3509,12 @@ class Cluster(Base):
         operation_input_args = {
             "ClusterName": self.cluster_name,
             "InstanceGroups": instance_groups,
+            "RestrictedInstanceGroups": restricted_instance_groups,
+            "TieredStorageConfig": tiered_storage_config,
             "NodeRecovery": node_recovery,
             "InstanceGroupsToDelete": instance_groups_to_delete,
+            "ClusterRole": cluster_role,
+            "AutoScaling": auto_scaling,
         }
         logger.debug(f"Input request: {operation_input_args}")
         # serialize the input request
@@ -3664,7 +3706,7 @@ class Cluster(Base):
         Parameters:
             creation_time_after: Set a start time for the time range during which you want to list SageMaker HyperPod clusters. Timestamps are formatted according to the ISO 8601 standard.  Acceptable formats include:    YYYY-MM-DDThh:mm:ss.sssTZD (UTC), for example, 2014-10-01T20:30:00.000Z     YYYY-MM-DDThh:mm:ss.sssTZD (with offset), for example, 2014-10-01T12:30:00.000-08:00     YYYY-MM-DD, for example, 2014-10-01    Unix time in seconds, for example, 1412195400. This is also referred to as Unix Epoch time and represents the number of seconds since midnight, January 1, 1970 UTC.   For more information about the timestamp format, see Timestamp in the Amazon Web Services Command Line Interface User Guide.
             creation_time_before: Set an end time for the time range during which you want to list SageMaker HyperPod clusters. A filter that returns nodes in a SageMaker HyperPod cluster created before the specified time. The acceptable formats are the same as the timestamp formats for CreationTimeAfter. For more information about the timestamp format, see Timestamp in the Amazon Web Services Command Line Interface User Guide.
-            max_results: Set the maximum number of SageMaker HyperPod clusters to list.
+            max_results: Specifies the maximum number of clusters to evaluate for the operation (not necessarily the number of matching items). After SageMaker processes the number of clusters up to MaxResults, it stops the operation and returns the matching clusters up to that point. If all the matching clusters are desired, SageMaker will go through all the clusters until NextToken is empty.
             name_contains: Set the maximum number of instances to print in the list.
             next_token: Set the next token to retrieve the list of SageMaker HyperPod clusters.
             sort_by: The field by which to sort results. The default value is CREATION_TIME.
@@ -3717,7 +3759,8 @@ class Cluster(Base):
     @Base.add_validate_call
     def get_node(
         self,
-        node_id: str,
+        node_id: Optional[str] = Unassigned(),
+        node_logical_id: Optional[str] = Unassigned(),
         session: Optional[Session] = None,
         region: Optional[str] = None,
     ) -> Optional[shapes.ClusterNodeDetails]:
@@ -3726,6 +3769,7 @@ class Cluster(Base):
 
         Parameters:
             node_id: The ID of the SageMaker HyperPod cluster node.
+            node_logical_id: The logical identifier of the node to describe. You can specify either NodeLogicalId or InstanceId, but not both. NodeLogicalId can be used to describe nodes that are still being provisioned and don't yet have an InstanceId assigned.
             session: Boto3 session.
             region: Region name.
 
@@ -3748,6 +3792,7 @@ class Cluster(Base):
         operation_input_args = {
             "ClusterName": self.cluster_name,
             "NodeId": node_id,
+            "NodeLogicalId": node_logical_id,
         }
         # serialize the input request
         operation_input_args = serialize(operation_input_args)
@@ -3772,6 +3817,7 @@ class Cluster(Base):
         instance_group_name_contains: Optional[str] = Unassigned(),
         sort_by: Optional[str] = Unassigned(),
         sort_order: Optional[str] = Unassigned(),
+        include_node_logical_ids: Optional[bool] = Unassigned(),
         session: Optional[Session] = None,
         region: Optional[str] = None,
     ) -> ResourceIterator[shapes.ClusterNodeDetails]:
@@ -3786,6 +3832,7 @@ class Cluster(Base):
             next_token: If the result of the previous ListClusterNodes request was truncated, the response includes a NextToken. To retrieve the next set of cluster nodes, use the token in the next request.
             sort_by: The field by which to sort results. The default value is CREATION_TIME.
             sort_order: The sort order for results. The default value is Ascending.
+            include_node_logical_ids: Specifies whether to include nodes that are still being provisioned in the response. When set to true, the response includes all nodes regardless of their provisioning status. When set to False (default), only nodes with assigned InstanceIds are returned.
             session: Boto3 session.
             region: Region name.
 
@@ -3812,6 +3859,7 @@ class Cluster(Base):
             "InstanceGroupNameContains": instance_group_name_contains,
             "SortBy": sort_by,
             "SortOrder": sort_order,
+            "IncludeNodeLogicalIds": include_node_logical_ids,
         }
         # serialize the input request
         operation_input_args = serialize(operation_input_args)
@@ -3834,6 +3882,7 @@ class Cluster(Base):
     def update_software(
         self,
         deployment_config: Optional[shapes.DeploymentConfiguration] = Unassigned(),
+        image_id: Optional[str] = Unassigned(),
         session: Optional[Session] = None,
         region: Optional[str] = None,
     ) -> None:
@@ -3842,6 +3891,7 @@ class Cluster(Base):
 
         Parameters:
             deployment_config: The configuration to use when updating the AMI versions.
+            image_id: When configuring your HyperPod cluster, you can specify an image ID using one of the following options:    HyperPodPublicAmiId: Use a HyperPod public AMI    CustomAmiId: Use your custom AMI    default: Use the default latest system image   If you choose to use a custom AMI (CustomAmiId), ensure it meets the following requirements:   Encryption: The custom AMI must be unencrypted.   Ownership: The custom AMI must be owned by the same Amazon Web Services account that is creating the HyperPod cluster.   Volume support: Only the primary AMI snapshot volume is supported; additional AMI volumes are not supported.   When updating the instance group's AMI through the UpdateClusterSoftware operation, if an instance group uses a custom AMI, you must provide an ImageId or use the default as input. Note that if you don't specify an instance group in your UpdateClusterSoftware request, then all of the instance groups are patched with the specified image.
             session: Boto3 session.
             region: Region name.
 
@@ -3863,6 +3913,7 @@ class Cluster(Base):
             "ClusterName": self.cluster_name,
             "InstanceGroups": self.instance_groups,
             "DeploymentConfig": deployment_config,
+            "ImageId": image_id,
         }
         # serialize the input request
         operation_input_args = serialize(operation_input_args)
@@ -3879,7 +3930,8 @@ class Cluster(Base):
     @Base.add_validate_call
     def batch_delete_nodes(
         self,
-        node_ids: List[str],
+        node_ids: Optional[List[str]] = Unassigned(),
+        node_logical_ids: Optional[List[str]] = Unassigned(),
         session: Optional[Session] = None,
         region: Optional[str] = None,
     ) -> Optional[shapes.BatchDeleteClusterNodesResponse]:
@@ -3888,6 +3940,7 @@ class Cluster(Base):
 
         Parameters:
             node_ids: A list of node IDs to be deleted from the specified cluster.    For SageMaker HyperPod clusters using the Slurm workload manager, you cannot remove instances that are configured as Slurm controller nodes.   If you need to delete more than 99 instances, contact Support for assistance.
+            node_logical_ids: A list of NodeLogicalIds identifying the nodes to be deleted. You can specify up to 50 NodeLogicalIds. You must specify either NodeLogicalIds, InstanceIds, or both, with a combined maximum of 50 identifiers.
             session: Boto3 session.
             region: Region name.
 
@@ -3910,6 +3963,7 @@ class Cluster(Base):
         operation_input_args = {
             "ClusterName": self.cluster_name,
             "NodeIds": node_ids,
+            "NodeLogicalIds": node_logical_ids,
         }
         # serialize the input request
         operation_input_args = serialize(operation_input_args)
@@ -7402,9 +7456,9 @@ class Domain(Base):
         domain_name: str,
         auth_mode: str,
         default_user_settings: shapes.UserSettings,
-        subnet_ids: List[str],
-        vpc_id: str,
         domain_settings: Optional[shapes.DomainSettings] = Unassigned(),
+        subnet_ids: Optional[List[str]] = Unassigned(),
+        vpc_id: Optional[str] = Unassigned(),
         tags: Optional[List[shapes.Tag]] = Unassigned(),
         app_network_access_type: Optional[str] = Unassigned(),
         home_efs_file_system_kms_key_id: Optional[str] = Unassigned(),
@@ -7422,9 +7476,9 @@ class Domain(Base):
             domain_name: A name for the domain.
             auth_mode: The mode of authentication that members use to access the domain.
             default_user_settings: The default settings to use to create a user profile when UserSettings isn't specified in the call to the CreateUserProfile API.  SecurityGroups is aggregated when specified in both calls. For all other settings in UserSettings, the values specified in CreateUserProfile take precedence over those specified in CreateDomain.
-            subnet_ids: The VPC subnets that the domain uses for communication.
-            vpc_id: The ID of the Amazon Virtual Private Cloud (VPC) that the domain uses for communication.
             domain_settings: A collection of Domain settings.
+            subnet_ids: The VPC subnets that the domain uses for communication. The field is optional when the AppNetworkAccessType parameter is set to PublicInternetOnly for domains created from Amazon SageMaker Unified Studio.
+            vpc_id: The ID of the Amazon Virtual Private Cloud (VPC) that the domain uses for communication. The field is optional when the AppNetworkAccessType parameter is set to PublicInternetOnly for domains created from Amazon SageMaker Unified Studio.
             tags: Tags to associated with the Domain. Each tag consists of a key and an optional value. Tag keys must be unique per resource. Tags are searchable using the Search API. Tags that you specify for the Domain are also added to all Apps that the Domain launches.
             app_network_access_type: Specifies the VPC used for non-EFS traffic. The default value is PublicInternetOnly.    PublicInternetOnly - Non-EFS traffic is through a VPC managed by Amazon SageMaker AI, which allows direct internet access    VpcOnly - All traffic is through the specified VPC and subnets
             home_efs_file_system_kms_key_id: Use KmsKeyId.
@@ -9394,20 +9448,20 @@ class Endpoint(Base):
         region: Optional[str] = None,
     ) -> Optional[shapes.InvokeEndpointOutput]:
         """
-        After you deploy a model into production using Amazon SageMaker hosting services, your client applications use this API to get inferences from the model hosted at the specified endpoint.
+        After you deploy a model into production using Amazon SageMaker AI hosting services, your client applications use this API to get inferences from the model hosted at the specified endpoint.
 
         Parameters:
-            body: Provides input data, in the format specified in the ContentType request header. Amazon SageMaker passes all of the data in the body to the model.  For information about the format of the request body, see Common Data Formats-Inference.
+            body: Provides input data, in the format specified in the ContentType request header. Amazon SageMaker AI passes all of the data in the body to the model.  For information about the format of the request body, see Common Data Formats-Inference.
             content_type: The MIME type of the input data in the request body.
             accept: The desired MIME type of the inference response from the model container.
-            custom_attributes: Provides additional information about a request for an inference submitted to a model hosted at an Amazon SageMaker endpoint. The information is an opaque value that is forwarded verbatim. You could use this value, for example, to provide an ID that you can use to track a request or to provide other metadata that a service endpoint was programmed to process. The value must consist of no more than 1024 visible US-ASCII characters as specified in Section 3.3.6. Field Value Components of the Hypertext Transfer Protocol (HTTP/1.1).  The code in your model is responsible for setting or updating any custom attributes in the response. If your code does not set this value in the response, an empty value is returned. For example, if a custom attribute represents the trace ID, your model can prepend the custom attribute with Trace ID: in your post-processing function.  This feature is currently supported in the Amazon Web Services SDKs but not in the Amazon SageMaker Python SDK.
+            custom_attributes: Provides additional information about a request for an inference submitted to a model hosted at an Amazon SageMaker AI endpoint. The information is an opaque value that is forwarded verbatim. You could use this value, for example, to provide an ID that you can use to track a request or to provide other metadata that a service endpoint was programmed to process. The value must consist of no more than 1024 visible US-ASCII characters as specified in Section 3.3.6. Field Value Components of the Hypertext Transfer Protocol (HTTP/1.1).  The code in your model is responsible for setting or updating any custom attributes in the response. If your code does not set this value in the response, an empty value is returned. For example, if a custom attribute represents the trace ID, your model can prepend the custom attribute with Trace ID: in your post-processing function.  This feature is currently supported in the Amazon Web Services SDKs but not in the Amazon SageMaker AI Python SDK.
             target_model: The model to request for inference when invoking a multi-model endpoint.
             target_variant: Specify the production variant to send the inference request to when invoking an endpoint that is running two or more variants. Note that this parameter overrides the default behavior for the endpoint, which is to distribute the invocation traffic based on the variant weights. For information about how to use variant targeting to perform a/b testing, see Test models in production
             target_container_hostname: If the endpoint hosts multiple containers and is configured to use direct invocation, this parameter specifies the host name of the container to invoke.
             inference_id: If you provide a value, it is added to the captured data when you enable data capture on the endpoint. For information about data capture, see Capture Data.
             enable_explanations: An optional JMESPath expression used to override the EnableExplanations parameter of the ClarifyExplainerConfig API. See the EnableExplanations section in the developer guide for more information.
             inference_component_name: If the endpoint hosts one or more inference components, this parameter specifies the name of inference component to invoke.
-            session_id: Creates a stateful session or identifies an existing one. You can do one of the following:   Create a stateful session by specifying the value NEW_SESSION.   Send your request to an existing stateful session by specifying the ID of that session.   With a stateful session, you can send multiple requests to a stateful model. When you create a session with a stateful model, the model must create the session ID and set the expiration time. The model must also provide that information in the response to your request. You can get the ID and timestamp from the NewSessionId response parameter. For any subsequent request where you specify that session ID, SageMaker routes the request to the same instance that supports the session.
+            session_id: Creates a stateful session or identifies an existing one. You can do one of the following:   Create a stateful session by specifying the value NEW_SESSION.   Send your request to an existing stateful session by specifying the ID of that session.   With a stateful session, you can send multiple requests to a stateful model. When you create a session with a stateful model, the model must create the session ID and set the expiration time. The model must also provide that information in the response to your request. You can get the ID and timestamp from the NewSessionId response parameter. For any subsequent request where you specify that session ID, SageMaker AI routes the request to the same instance that supports the session.
             session: Boto3 session.
             region: Region name.
 
@@ -9475,14 +9529,14 @@ class Endpoint(Base):
         region: Optional[str] = None,
     ) -> Optional[shapes.InvokeEndpointAsyncOutput]:
         """
-        After you deploy a model into production using Amazon SageMaker hosting services, your client applications use this API to get inferences from the model hosted at the specified endpoint in an asynchronous manner.
+        After you deploy a model into production using Amazon SageMaker AI hosting services, your client applications use this API to get inferences from the model hosted at the specified endpoint in an asynchronous manner.
 
         Parameters:
             input_location: The Amazon S3 URI where the inference request payload is stored.
             content_type: The MIME type of the input data in the request body.
             accept: The desired MIME type of the inference response from the model container.
-            custom_attributes: Provides additional information about a request for an inference submitted to a model hosted at an Amazon SageMaker endpoint. The information is an opaque value that is forwarded verbatim. You could use this value, for example, to provide an ID that you can use to track a request or to provide other metadata that a service endpoint was programmed to process. The value must consist of no more than 1024 visible US-ASCII characters as specified in Section 3.3.6. Field Value Components of the Hypertext Transfer Protocol (HTTP/1.1).  The code in your model is responsible for setting or updating any custom attributes in the response. If your code does not set this value in the response, an empty value is returned. For example, if a custom attribute represents the trace ID, your model can prepend the custom attribute with Trace ID: in your post-processing function.  This feature is currently supported in the Amazon Web Services SDKs but not in the Amazon SageMaker Python SDK.
-            inference_id: The identifier for the inference request. Amazon SageMaker will generate an identifier for you if none is specified.
+            custom_attributes: Provides additional information about a request for an inference submitted to a model hosted at an Amazon SageMaker AI endpoint. The information is an opaque value that is forwarded verbatim. You could use this value, for example, to provide an ID that you can use to track a request or to provide other metadata that a service endpoint was programmed to process. The value must consist of no more than 1024 visible US-ASCII characters as specified in Section 3.3.6. Field Value Components of the Hypertext Transfer Protocol (HTTP/1.1).  The code in your model is responsible for setting or updating any custom attributes in the response. If your code does not set this value in the response, an empty value is returned. For example, if a custom attribute represents the trace ID, your model can prepend the custom attribute with Trace ID: in your post-processing function.  This feature is currently supported in the Amazon Web Services SDKs but not in the Amazon SageMaker AI Python SDK.
+            inference_id: The identifier for the inference request. Amazon SageMaker AI will generate an identifier for you if none is specified.
             request_ttl_seconds: Maximum age in seconds a request can be in the queue before it is marked as expired. The default is 6 hours, or 21,600 seconds.
             invocation_timeout_seconds: Maximum amount of time in seconds a request can be processed before it is marked as expired. The default is 15 minutes, or 900 seconds.
             session: Boto3 session.
@@ -9550,10 +9604,10 @@ class Endpoint(Base):
         Invokes a model at the specified endpoint to return the inference response as a stream.
 
         Parameters:
-            body: Provides input data, in the format specified in the ContentType request header. Amazon SageMaker passes all of the data in the body to the model.  For information about the format of the request body, see Common Data Formats-Inference.
+            body: Provides input data, in the format specified in the ContentType request header. Amazon SageMaker AI passes all of the data in the body to the model.  For information about the format of the request body, see Common Data Formats-Inference.
             content_type: The MIME type of the input data in the request body.
             accept: The desired MIME type of the inference response from the model container.
-            custom_attributes: Provides additional information about a request for an inference submitted to a model hosted at an Amazon SageMaker endpoint. The information is an opaque value that is forwarded verbatim. You could use this value, for example, to provide an ID that you can use to track a request or to provide other metadata that a service endpoint was programmed to process. The value must consist of no more than 1024 visible US-ASCII characters as specified in Section 3.3.6. Field Value Components of the Hypertext Transfer Protocol (HTTP/1.1).  The code in your model is responsible for setting or updating any custom attributes in the response. If your code does not set this value in the response, an empty value is returned. For example, if a custom attribute represents the trace ID, your model can prepend the custom attribute with Trace ID: in your post-processing function.  This feature is currently supported in the Amazon Web Services SDKs but not in the Amazon SageMaker Python SDK.
+            custom_attributes: Provides additional information about a request for an inference submitted to a model hosted at an Amazon SageMaker AI endpoint. The information is an opaque value that is forwarded verbatim. You could use this value, for example, to provide an ID that you can use to track a request or to provide other metadata that a service endpoint was programmed to process. The value must consist of no more than 1024 visible US-ASCII characters as specified in Section 3.3.6. Field Value Components of the Hypertext Transfer Protocol (HTTP/1.1).  The code in your model is responsible for setting or updating any custom attributes in the response. If your code does not set this value in the response, an empty value is returned. For example, if a custom attribute represents the trace ID, your model can prepend the custom attribute with Trace ID: in your post-processing function.  This feature is currently supported in the Amazon Web Services SDKs but not in the Amazon SageMaker AI Python SDK.
             target_variant: Specify the production variant to send the inference request to when invoking an endpoint that is running two or more variants. Note that this parameter overrides the default behavior for the endpoint, which is to distribute the invocation traffic based on the variant weights. For information about how to use variant targeting to perform a/b testing, see Test models in production
             target_container_hostname: If the endpoint hosts multiple containers and is configured to use direct invocation, this parameter specifies the host name of the container to invoke.
             inference_id: An identifier that you assign to your request.
@@ -9578,7 +9632,7 @@ class Endpoint(Base):
             InternalFailure: An internal failure occurred. Try your request again. If the problem persists, contact Amazon Web Services customer support.
             InternalStreamFailure: The stream processing failed because of an unknown error, exception or failure. Try your request again.
             ModelError: Model (owned by the customer in the container) returned 4xx or 5xx error code.
-            ModelStreamError: An error occurred while streaming the response body. This error can have the following error codes:  ModelInvocationTimeExceeded  The model failed to finish sending the response within the timeout period allowed by Amazon SageMaker.  StreamBroken  The Transmission Control Protocol (TCP) connection between the client and the model was reset or closed.
+            ModelStreamError: An error occurred while streaming the response body. This error can have the following error codes:  ModelInvocationTimeExceeded  The model failed to finish sending the response within the timeout period allowed by Amazon SageMaker AI.  StreamBroken  The Transmission Control Protocol (TCP) connection between the client and the model was reset or closed.
             ServiceUnavailable: The service is currently unavailable.
             ValidationError: There was an error validating your request.
         """
@@ -12763,6 +12817,116 @@ class HubContent(Base):
             resource_cls=HubContent,
             list_method_kwargs=operation_input_args,
         )
+
+
+class HubContentPresignedUrls(Base):
+    """
+    Class representing resource HubContentPresignedUrls
+
+    Attributes:
+        hub_name: The name or Amazon Resource Name (ARN) of the hub that contains the content. For public content, use SageMakerPublicHub.
+        hub_content_type: The type of hub content to access. Valid values include Model, Notebook, and ModelReference.
+        hub_content_name: The name of the hub content for which to generate presigned URLs. This identifies the specific model or content within the hub.
+        authorized_url_configs: An array of authorized URL configurations, each containing a presigned URL and its corresponding local file path for proper file organization during download.
+        hub_content_version: The version of the hub content. If not specified, the latest version is used.
+        access_config: Configuration settings for accessing the hub content, including end-user license agreement acceptance for gated models and expected S3 URL validation.
+        max_results: The maximum number of presigned URLs to return in the response. Default value is 100. Large models may contain hundreds of files, requiring pagination to retrieve all URLs.
+        next_token: A token for pagination. If present, indicates that more presigned URLs are available. Use this token in a subsequent request to retrieve additional URLs.
+
+    """
+
+    hub_name: Union[str, object]
+    hub_content_type: str
+    hub_content_name: Union[str, object]
+    authorized_url_configs: List[shapes.AuthorizedUrl]
+    hub_content_version: Optional[str] = Unassigned()
+    access_config: Optional[shapes.PresignedUrlAccessConfig] = Unassigned()
+    max_results: Optional[int] = Unassigned()
+    next_token: Optional[str] = Unassigned()
+
+    def get_name(self) -> str:
+        attributes = vars(self)
+        resource_name = "hub_content_presigned_urls_name"
+        resource_name_split = resource_name.split("_")
+        attribute_name_candidates = []
+
+        l = len(resource_name_split)
+        for i in range(0, l):
+            attribute_name_candidates.append("_".join(resource_name_split[i:l]))
+
+        for attribute, value in attributes.items():
+            if attribute == "name" or attribute in attribute_name_candidates:
+                return value
+        logger.error("Name attribute not found for object hub_content_presigned_urls")
+        return None
+
+    @classmethod
+    @Base.add_validate_call
+    def create(
+        cls,
+        hub_name: Union[str, object],
+        hub_content_type: str,
+        hub_content_name: Union[str, object],
+        hub_content_version: Optional[str] = Unassigned(),
+        access_config: Optional[shapes.PresignedUrlAccessConfig] = Unassigned(),
+        max_results: Optional[int] = Unassigned(),
+        next_token: Optional[str] = Unassigned(),
+    ) -> Optional["HubContentPresignedUrls"]:
+        """
+        Create a HubContentPresignedUrls resource
+
+        Parameters:
+            hub_name: The name or Amazon Resource Name (ARN) of the hub that contains the content. For public content, use SageMakerPublicHub.
+            hub_content_type: The type of hub content to access. Valid values include Model, Notebook, and ModelReference.
+            hub_content_name: The name of the hub content for which to generate presigned URLs. This identifies the specific model or content within the hub.
+            hub_content_version: The version of the hub content. If not specified, the latest version is used.
+            access_config: Configuration settings for accessing the hub content, including end-user license agreement acceptance for gated models and expected S3 URL validation.
+            max_results: The maximum number of presigned URLs to return in the response. Default value is 100. Large models may contain hundreds of files, requiring pagination to retrieve all URLs.
+            next_token:  A token for pagination. Use this token to retrieve the next set of presigned URLs when the response is truncated.
+            session: Boto3 session.
+            region: Region name.
+
+        Returns:
+            The HubContentPresignedUrls resource.
+
+        Raises:
+            botocore.exceptions.ClientError: This exception is raised for AWS service related errors.
+                The error message and error code can be parsed from the exception as follows:
+                ```
+                try:
+                    # AWS service call here
+                except botocore.exceptions.ClientError as e:
+                    error_message = e.response['Error']['Message']
+                    error_code = e.response['Error']['Code']
+                ```
+            ConfigSchemaValidationError: Raised when a configuration file does not adhere to the schema
+            LocalConfigNotFoundError: Raised when a configuration file is not found in local file system
+            S3ConfigNotFoundError: Raised when a configuration file is not found in S3
+        """
+
+        operation_input_args = {
+            "HubName": hub_name,
+            "HubContentType": hub_content_type,
+            "HubContentName": hub_content_name,
+            "HubContentVersion": hub_content_version,
+            "AccessConfig": access_config,
+            "MaxResults": max_results,
+            "NextToken": next_token,
+        }
+        # serialize the input request
+        operation_input_args = serialize(operation_input_args)
+        logger.debug(f"Serialized input request: {operation_input_args}")
+
+        client = Base.get_sagemaker_client(
+            session=session, region_name=region, service_name="sagemaker"
+        )
+
+        logger.debug(f"Calling create_hub_content_presigned_urls API")
+        response = client.create_hub_content_presigned_urls(**operation_input_args)
+        logger.debug(f"Response: {response}")
+
+        transformed_response = transform(response, "CreateHubContentPresignedUrlsResponse")
+        return cls(**operation_input_args, **transformed_response)
 
 
 class HubContentReference(Base):
@@ -16793,7 +16957,7 @@ class LabelingJob(Base):
 
         Parameters:
             labeling_job_name: The name of the labeling job. This name is used to identify the job in a list of labeling jobs. Labeling job names must be unique within an Amazon Web Services account and region. LabelingJobName is not case sensitive. For example, Example-job and example-job are considered the same labeling job name by Ground Truth.
-            label_attribute_name: The attribute name to use for the label in the output manifest file. This is the key for the key/value pair formed with the label that a worker assigns to the object. The LabelAttributeName must meet the following requirements.   The name can't end with "-metadata".    If you are using one of the following built-in task types, the attribute name must end with "-ref". If the task type you are using is not listed below, the attribute name must not end with "-ref".   Image semantic segmentation (SemanticSegmentation), and adjustment (AdjustmentSemanticSegmentation) and verification (VerificationSemanticSegmentation) labeling jobs for this task type.   Video frame object detection (VideoObjectDetection), and adjustment and verification (AdjustmentVideoObjectDetection) labeling jobs for this task type.   Video frame object tracking (VideoObjectTracking), and adjustment and verification (AdjustmentVideoObjectTracking) labeling jobs for this task type.   3D point cloud semantic segmentation (3DPointCloudSemanticSegmentation), and adjustment and verification (Adjustment3DPointCloudSemanticSegmentation) labeling jobs for this task type.    3D point cloud object tracking (3DPointCloudObjectTracking), and adjustment and verification (Adjustment3DPointCloudObjectTracking) labeling jobs for this task type.        If you are creating an adjustment or verification labeling job, you must use a different LabelAttributeName than the one used in the original labeling job. The original labeling job is the Ground Truth labeling job that produced the labels that you want verified or adjusted. To learn more about adjustment and verification labeling jobs, see Verify and Adjust Labels.
+            label_attribute_name: The attribute name to use for the label in the output manifest file. This is the key for the key/value pair formed with the label that a worker assigns to the object. The LabelAttributeName must meet the following requirements.   The name can't end with "-metadata".    If you are using one of the built-in task types or one of the following, the attribute name must end with "-ref".   Image semantic segmentation (SemanticSegmentation) and adjustment (AdjustmentSemanticSegmentation) labeling jobs for this task type. One exception is that verification (VerificationSemanticSegmentation) must not end with -"ref".   Video frame object detection (VideoObjectDetection), and adjustment and verification (AdjustmentVideoObjectDetection) labeling jobs for this task type.   Video frame object tracking (VideoObjectTracking), and adjustment and verification (AdjustmentVideoObjectTracking) labeling jobs for this task type.   3D point cloud semantic segmentation (3DPointCloudSemanticSegmentation), and adjustment and verification (Adjustment3DPointCloudSemanticSegmentation) labeling jobs for this task type.    3D point cloud object tracking (3DPointCloudObjectTracking), and adjustment and verification (Adjustment3DPointCloudObjectTracking) labeling jobs for this task type.        If you are creating an adjustment or verification labeling job, you must use a different LabelAttributeName than the one used in the original labeling job. The original labeling job is the Ground Truth labeling job that produced the labels that you want verified or adjusted. To learn more about adjustment and verification labeling jobs, see Verify and Adjust Labels.
             input_config: Input data for the labeling job, such as the Amazon S3 location of the data objects and the location of the manifest file that describes the data objects. You must specify at least one of the following: S3DataSource or SnsDataSource.    Use SnsDataSource to specify an SNS input topic for a streaming labeling job. If you do not specify and SNS input topic ARN, Ground Truth will create a one-time labeling job that stops after all data objects in the input manifest file have been labeled.   Use S3DataSource to specify an input manifest file for both streaming and one-time labeling jobs. Adding an S3DataSource is optional if you use SnsDataSource to create a streaming labeling job.   If you use the Amazon Mechanical Turk workforce, your input data should not include confidential information, personal information or protected health information. Use ContentClassifiers to specify that your data is free of personally identifiable information and adult content.
             output_config: The location of the output data and the Amazon Web Services Key Management Service key ID for the key used to encrypt the output data, if any.
             role_arn: The Amazon Resource Number (ARN) that Amazon SageMaker assumes to perform tasks on your behalf during data labeling. You must grant this role the necessary permissions so that Amazon SageMaker can successfully complete data labeling.
@@ -17364,6 +17528,7 @@ class MlflowTrackingServer(Base):
         mlflow_version: The MLflow version used for the described tracking server.
         role_arn: The Amazon Resource Name (ARN) for an IAM role in your account that the described MLflow Tracking Server uses to access the artifact store in Amazon S3.
         tracking_server_status: The current creation status of the described MLflow Tracking Server.
+        tracking_server_maintenance_status:  The current maintenance status of the described MLflow Tracking Server.
         is_active: Whether the described MLflow Tracking Server is currently active.
         tracking_server_url: The URL to connect to the MLflow user interface for the described tracking server.
         weekly_maintenance_window_start: The day and time of the week when weekly maintenance occurs on the described tracking server.
@@ -17382,6 +17547,7 @@ class MlflowTrackingServer(Base):
     mlflow_version: Optional[str] = Unassigned()
     role_arn: Optional[str] = Unassigned()
     tracking_server_status: Optional[str] = Unassigned()
+    tracking_server_maintenance_status: Optional[str] = Unassigned()
     is_active: Optional[str] = Unassigned()
     tracking_server_url: Optional[str] = Unassigned()
     weekly_maintenance_window_start: Optional[str] = Unassigned()
@@ -22385,6 +22551,7 @@ class NotebookInstance(Base):
         failure_reason: If status is Failed, the reason it failed.
         url: The URL that you use to connect to the Jupyter notebook that is running in your notebook instance.
         instance_type: The type of ML compute instance running on the notebook instance.
+        ip_address_type: The IP address type configured for the notebook instance. Returns ipv4 for IPv4-only connectivity or dualstack for both IPv4 and IPv6 connectivity.
         subnet_id: The ID of the VPC subnet.
         security_groups: The IDs of the VPC security groups.
         role_arn: The Amazon Resource Name (ARN) of the IAM role associated with the instance.
@@ -22410,6 +22577,7 @@ class NotebookInstance(Base):
     failure_reason: Optional[str] = Unassigned()
     url: Optional[str] = Unassigned()
     instance_type: Optional[str] = Unassigned()
+    ip_address_type: Optional[str] = Unassigned()
     subnet_id: Optional[str] = Unassigned()
     security_groups: Optional[List[str]] = Unassigned()
     role_arn: Optional[str] = Unassigned()
@@ -22473,6 +22641,7 @@ class NotebookInstance(Base):
         role_arn: str,
         subnet_id: Optional[str] = Unassigned(),
         security_group_ids: Optional[List[str]] = Unassigned(),
+        ip_address_type: Optional[str] = Unassigned(),
         kms_key_id: Optional[str] = Unassigned(),
         tags: Optional[List[shapes.Tag]] = Unassigned(),
         lifecycle_config_name: Optional[str] = Unassigned(),
@@ -22498,6 +22667,7 @@ class NotebookInstance(Base):
             role_arn:  When you send any requests to Amazon Web Services resources from the notebook instance, SageMaker AI assumes this role to perform tasks on your behalf. You must grant this role necessary permissions so SageMaker AI can perform these tasks. The policy must allow the SageMaker AI service principal (sagemaker.amazonaws.com) permissions to assume this role. For more information, see SageMaker AI Roles.   To be able to pass this role to SageMaker AI, the caller of this API must have the iam:PassRole permission.
             subnet_id: The ID of the subnet in a VPC to which you would like to have a connectivity from your ML compute instance.
             security_group_ids: The VPC security group IDs, in the form sg-xxxxxxxx. The security groups must be for the same VPC as specified in the subnet.
+            ip_address_type: The IP address type for the notebook instance. Specify ipv4 for IPv4-only connectivity or dualstack for both IPv4 and IPv6 connectivity. When you specify dualstack, the subnet must support IPv6 CIDR blocks. If not specified, defaults to ipv4.
             kms_key_id: The Amazon Resource Name (ARN) of a Amazon Web Services Key Management Service key that SageMaker AI uses to encrypt data on the storage volume attached to your notebook instance. The KMS key you provide must be enabled. For information, see Enabling and Disabling Keys in the Amazon Web Services Key Management Service Developer Guide.
             tags: An array of key-value pairs. You can use tags to categorize your Amazon Web Services resources in different ways, for example, by purpose, owner, or environment. For more information, see Tagging Amazon Web Services Resources.
             lifecycle_config_name: The name of a lifecycle configuration to associate with the notebook instance. For information about lifestyle configurations, see Step 2.1: (Optional) Customize a Notebook Instance.
@@ -22507,7 +22677,7 @@ class NotebookInstance(Base):
             default_code_repository: A Git repository to associate with the notebook instance as its default code repository. This can be either the name of a Git repository stored as a resource in your account, or the URL of a Git repository in Amazon Web Services CodeCommit or in any other Git repository. When you open a notebook instance, it opens in the directory that contains this repository. For more information, see Associating Git Repositories with SageMaker AI Notebook Instances.
             additional_code_repositories: An array of up to three Git repositories to associate with the notebook instance. These can be either the names of Git repositories stored as resources in your account, or the URL of Git repositories in Amazon Web Services CodeCommit or in any other Git repository. These repositories are cloned at the same level as the default repository of your notebook instance. For more information, see Associating Git Repositories with SageMaker AI Notebook Instances.
             root_access: Whether root access is enabled or disabled for users of the notebook instance. The default value is Enabled.  Lifecycle configurations need root access to be able to set up a notebook instance. Because of this, lifecycle configurations associated with a notebook instance always run with root access even if you disable root access for users.
-            platform_identifier: The platform identifier of the notebook instance runtime environment.
+            platform_identifier: The platform identifier of the notebook instance runtime environment. The default value is notebook-al2-v2.
             instance_metadata_service_configuration: Information on the IMDS configuration of the notebook instance
             session: Boto3 session.
             region: Region name.
@@ -22541,6 +22711,7 @@ class NotebookInstance(Base):
             "InstanceType": instance_type,
             "SubnetId": subnet_id,
             "SecurityGroupIds": security_group_ids,
+            "IpAddressType": ip_address_type,
             "RoleArn": role_arn,
             "KmsKeyId": kms_key_id,
             "Tags": tags,
@@ -22663,6 +22834,7 @@ class NotebookInstance(Base):
     def update(
         self,
         instance_type: Optional[str] = Unassigned(),
+        ip_address_type: Optional[str] = Unassigned(),
         role_arn: Optional[str] = Unassigned(),
         lifecycle_config_name: Optional[str] = Unassigned(),
         disassociate_lifecycle_config: Optional[bool] = Unassigned(),
@@ -22710,6 +22882,7 @@ class NotebookInstance(Base):
         operation_input_args = {
             "NotebookInstanceName": self.notebook_instance_name,
             "InstanceType": instance_type,
+            "IpAddressType": ip_address_type,
             "RoleArn": role_arn,
             "LifecycleConfigName": lifecycle_config_name,
             "DisassociateLifecycleConfig": disassociate_lifecycle_config,
@@ -23824,7 +23997,7 @@ class PartnerApp(Base):
         arn: The ARN of the SageMaker Partner AI App that was described.
         name: The name of the SageMaker Partner AI App.
         type: The type of SageMaker Partner AI App. Must be one of the following: lakera-guard, comet, deepchecks-llm-evaluation, or fiddler.
-        status: The status of the SageMaker Partner AI App.
+        status: The status of the SageMaker Partner AI App.   Creating: SageMaker AI is creating the partner AI app. The partner AI app is not available during creation.   Updating: SageMaker AI is updating the partner AI app. The partner AI app is not available when updating.   Deleting: SageMaker AI is deleting the partner AI app. The partner AI app is not available during deletion.   Available: The partner AI app is provisioned and accessible.   Failed: The partner AI app is in a failed state and isn't available. SageMaker AI is investigating the issue. For further guidance, contact Amazon Web Services Support.   UpdateFailed: The partner AI app couldn't be updated but is available.   Deleted: The partner AI app is permanently deleted and not available.
         creation_time: The time that the SageMaker Partner AI App was created.
         last_modified_time: The time that the SageMaker Partner AI App was last modified.
         execution_role_arn: The ARN of the IAM role associated with the SageMaker Partner AI App.
@@ -24426,6 +24599,8 @@ class Pipeline(Base):
         created_by:
         last_modified_by:
         parallelism_configuration: Lists the parallelism configuration applied to the pipeline.
+        pipeline_version_display_name: The display name of the pipeline version.
+        pipeline_version_description: The description of the pipeline version.
 
     """
 
@@ -24442,6 +24617,8 @@ class Pipeline(Base):
     created_by: Optional[shapes.UserContext] = Unassigned()
     last_modified_by: Optional[shapes.UserContext] = Unassigned()
     parallelism_configuration: Optional[shapes.ParallelismConfiguration] = Unassigned()
+    pipeline_version_display_name: Optional[str] = Unassigned()
+    pipeline_version_description: Optional[str] = Unassigned()
 
     def get_name(self) -> str:
         attributes = vars(self)
@@ -24565,6 +24742,7 @@ class Pipeline(Base):
     def get(
         cls,
         pipeline_name: str,
+        pipeline_version_id: Optional[int] = Unassigned(),
         session: Optional[Session] = None,
         region: Optional[str] = None,
     ) -> Optional["Pipeline"]:
@@ -24573,6 +24751,7 @@ class Pipeline(Base):
 
         Parameters:
             pipeline_name: The name or Amazon Resource Name (ARN) of the pipeline to describe.
+            pipeline_version_id: The ID of the pipeline version to describe.
             session: Boto3 session.
             region: Region name.
 
@@ -24594,6 +24773,7 @@ class Pipeline(Base):
 
         operation_input_args = {
             "PipelineName": pipeline_name,
+            "PipelineVersionId": pipeline_version_id,
         }
         # serialize the input request
         operation_input_args = serialize(operation_input_args)
@@ -24614,6 +24794,7 @@ class Pipeline(Base):
     @Base.add_validate_call
     def refresh(
         self,
+        pipeline_version_id: Optional[int] = Unassigned(),
     ) -> Optional["Pipeline"]:
         """
         Refresh a Pipeline resource
@@ -24636,6 +24817,7 @@ class Pipeline(Base):
 
         operation_input_args = {
             "PipelineName": self.pipeline_name,
+            "PipelineVersionId": pipeline_version_id,
         }
         # serialize the input request
         operation_input_args = serialize(operation_input_args)
@@ -24941,6 +25123,7 @@ class PipelineExecution(Base):
         last_modified_by:
         parallelism_configuration: The parallelism configuration applied to the pipeline.
         selective_execution_config: The selective execution configuration applied to the pipeline run.
+        pipeline_version_id: The ID of the pipeline version.
 
     """
 
@@ -24957,6 +25140,7 @@ class PipelineExecution(Base):
     last_modified_by: Optional[shapes.UserContext] = Unassigned()
     parallelism_configuration: Optional[shapes.ParallelismConfiguration] = Unassigned()
     selective_execution_config: Optional[shapes.SelectiveExecutionConfig] = Unassigned()
+    pipeline_version_id: Optional[int] = Unassigned()
 
     def get_name(self) -> str:
         attributes = vars(self)
@@ -26318,6 +26502,7 @@ class Project(Base):
         project_description: The description of the project.
         service_catalog_provisioning_details: Information used to provision a service catalog product. For information, see What is Amazon Web Services Service Catalog.
         service_catalog_provisioned_product_details: Information about a provisioned service catalog product.
+        template_provider_details:  An array of template providers associated with the project.
         created_by:
         last_modified_time: The timestamp when project was last modified.
         last_modified_by:
@@ -26335,6 +26520,7 @@ class Project(Base):
         shapes.ServiceCatalogProvisionedProductDetails
     ] = Unassigned()
     project_status: Optional[str] = Unassigned()
+    template_provider_details: Optional[List[shapes.TemplateProviderDetail]] = Unassigned()
     created_by: Optional[shapes.UserContext] = Unassigned()
     creation_time: Optional[datetime.datetime] = Unassigned()
     last_modified_time: Optional[datetime.datetime] = Unassigned()
@@ -26366,6 +26552,7 @@ class Project(Base):
             shapes.ServiceCatalogProvisioningDetails
         ] = Unassigned(),
         tags: Optional[List[shapes.Tag]] = Unassigned(),
+        template_providers: Optional[List[shapes.CreateTemplateProvider]] = Unassigned(),
         session: Optional[Session] = None,
         region: Optional[str] = None,
     ) -> Optional["Project"]:
@@ -26377,6 +26564,7 @@ class Project(Base):
             project_description: A description for the project.
             service_catalog_provisioning_details: The product ID and provisioning artifact ID to provision a service catalog. The provisioning artifact ID will default to the latest provisioning artifact ID of the product, if you don't provide the provisioning artifact ID. For more information, see What is Amazon Web Services Service Catalog.
             tags: An array of key-value pairs that you want to use to organize and track your Amazon Web Services resource costs. For more information, see Tagging Amazon Web Services resources in the Amazon Web Services General Reference Guide.
+            template_providers:  An array of template provider configurations for creating infrastructure resources for the project.
             session: Boto3 session.
             region: Region name.
 
@@ -26409,6 +26597,7 @@ class Project(Base):
             "ProjectDescription": project_description,
             "ServiceCatalogProvisioningDetails": service_catalog_provisioning_details,
             "Tags": tags,
+            "TemplateProviders": template_providers,
         }
 
         operation_input_args = Base.populate_chained_attributes(
@@ -26520,6 +26709,7 @@ class Project(Base):
             shapes.ServiceCatalogProvisioningUpdateDetails
         ] = Unassigned(),
         tags: Optional[List[shapes.Tag]] = Unassigned(),
+        template_providers_to_update: Optional[List[shapes.UpdateTemplateProvider]] = Unassigned(),
     ) -> Optional["Project"]:
         """
         Update a Project resource
@@ -26527,6 +26717,7 @@ class Project(Base):
         Parameters:
             service_catalog_provisioning_update_details: The product ID and provisioning artifact ID to provision a service catalog. The provisioning artifact ID will default to the latest provisioning artifact ID of the product, if you don't provide the provisioning artifact ID. For more information, see What is Amazon Web Services Service Catalog.
             tags: An array of key-value pairs. You can use tags to categorize your Amazon Web Services resources in different ways, for example, by purpose, owner, or environment. For more information, see Tagging Amazon Web Services Resources. In addition, the project must have tag update constraints set in order to include this parameter in the request. For more information, see Amazon Web Services Service Catalog Tag Update Constraints.
+            template_providers_to_update:  The template providers to update in the project.
 
         Returns:
             The Project resource.
@@ -26552,6 +26743,7 @@ class Project(Base):
             "ProjectDescription": project_description,
             "ServiceCatalogProvisioningUpdateDetails": service_catalog_provisioning_update_details,
             "Tags": tags,
+            "TemplateProvidersToUpdate": template_providers_to_update,
         }
         logger.debug(f"Input request: {operation_input_args}")
         # serialize the input request
@@ -28730,6 +28922,9 @@ class TrainingPlan(Base):
         total_instance_count: The total number of instances reserved in this training plan.
         available_instance_count: The number of instances currently available for use in this training plan.
         in_use_instance_count: The number of instances currently in use from this training plan.
+        unhealthy_instance_count: The number of instances in the training plan that are currently in an unhealthy state.
+        available_spare_instance_count: The number of available spare instances in the training plan.
+        total_ultra_server_count: The total number of UltraServers reserved to this training plan.
         target_resources: The target resources (e.g., SageMaker Training Jobs, SageMaker HyperPod) that can use this training plan. Training plans are specific to their target resource.   A training plan designed for SageMaker training jobs can only be used to schedule and run training jobs.   A training plan for HyperPod clusters can be used exclusively to provide compute resources to a cluster's instance group.
         reserved_capacity_summaries: The list of Reserved Capacity providing the underlying compute resources of the plan.
 
@@ -28748,6 +28943,9 @@ class TrainingPlan(Base):
     total_instance_count: Optional[int] = Unassigned()
     available_instance_count: Optional[int] = Unassigned()
     in_use_instance_count: Optional[int] = Unassigned()
+    unhealthy_instance_count: Optional[int] = Unassigned()
+    available_spare_instance_count: Optional[int] = Unassigned()
+    total_ultra_server_count: Optional[int] = Unassigned()
     target_resources: Optional[List[str]] = Unassigned()
     reserved_capacity_summaries: Optional[List[shapes.ReservedCapacitySummary]] = Unassigned()
 
@@ -28773,6 +28971,7 @@ class TrainingPlan(Base):
         cls,
         training_plan_name: str,
         training_plan_offering_id: str,
+        spare_instance_count_per_ultra_server: Optional[int] = Unassigned(),
         tags: Optional[List[shapes.Tag]] = Unassigned(),
         session: Optional[Session] = None,
         region: Optional[str] = None,
@@ -28783,6 +28982,7 @@ class TrainingPlan(Base):
         Parameters:
             training_plan_name: The name of the training plan to create.
             training_plan_offering_id: The unique identifier of the training plan offering to use for creating this plan.
+            spare_instance_count_per_ultra_server: Number of spare instances to reserve per UltraServer for enhanced resiliency. Default is 1.
             tags: An array of key-value pairs to apply to this training plan.
             session: Boto3 session.
             region: Region name.
@@ -28816,6 +29016,7 @@ class TrainingPlan(Base):
         operation_input_args = {
             "TrainingPlanName": training_plan_name,
             "TrainingPlanOfferingId": training_plan_offering_id,
+            "SpareInstanceCountPerUltraServer": spare_instance_count_per_ultra_server,
             "Tags": tags,
         }
 
@@ -31117,6 +31318,7 @@ class Workforce(Base):
         source_ip_config: Optional[shapes.SourceIpConfig] = Unassigned(),
         tags: Optional[List[shapes.Tag]] = Unassigned(),
         workforce_vpc_config: Optional[shapes.WorkforceVpcConfigRequest] = Unassigned(),
+        ip_address_type: Optional[str] = Unassigned(),
         session: Optional[Session] = None,
         region: Optional[str] = None,
     ) -> Optional["Workforce"]:
@@ -31130,6 +31332,7 @@ class Workforce(Base):
             source_ip_config:
             tags: An array of key-value pairs that contain metadata to help you categorize and organize our workforce. Each tag consists of a key and a value, both of which you define.
             workforce_vpc_config: Use this parameter to configure a workforce using VPC.
+            ip_address_type: Use this parameter to specify whether you want IPv4 only or dualstack (IPv4 and IPv6) to support your labeling workforce.
             session: Boto3 session.
             region: Region name.
 
@@ -31163,6 +31366,7 @@ class Workforce(Base):
             "WorkforceName": workforce_name,
             "Tags": tags,
             "WorkforceVpcConfig": workforce_vpc_config,
+            "IpAddressType": ip_address_type,
         }
 
         operation_input_args = Base.populate_chained_attributes(
@@ -31273,6 +31477,7 @@ class Workforce(Base):
         source_ip_config: Optional[shapes.SourceIpConfig] = Unassigned(),
         oidc_config: Optional[shapes.OidcConfig] = Unassigned(),
         workforce_vpc_config: Optional[shapes.WorkforceVpcConfigRequest] = Unassigned(),
+        ip_address_type: Optional[str] = Unassigned(),
     ) -> Optional["Workforce"]:
         """
         Update a Workforce resource
@@ -31281,6 +31486,7 @@ class Workforce(Base):
             source_ip_config: A list of one to ten worker IP address ranges (CIDRs) that can be used to access tasks assigned to this workforce. Maximum: Ten CIDR values
             oidc_config: Use this parameter to update your OIDC Identity Provider (IdP) configuration for a workforce made using your own IdP.
             workforce_vpc_config: Use this parameter to update your VPC configuration for a workforce.
+            ip_address_type: Use this parameter to specify whether you want IPv4 only or dualstack (IPv4 and IPv6) to support your labeling workforce.
 
         Returns:
             The Workforce resource.
@@ -31306,6 +31512,7 @@ class Workforce(Base):
             "SourceIpConfig": source_ip_config,
             "OidcConfig": oidc_config,
             "WorkforceVpcConfig": workforce_vpc_config,
+            "IpAddressType": ip_address_type,
         }
         logger.debug(f"Input request: {operation_input_args}")
         # serialize the input request

@@ -1,5 +1,118 @@
 # Changelog
 
+## v1.0.60 (2025-10-27)
+
+ * Daily Sync with Botocore v1.40.59 on 2025/10/27 (#344)
+
+## v1.0.59 (2025-09-10)
+
+ * Daily Sync with Botocore v1.40.27 on 2025/09/10 (#343)
+ * chore: remove deleted bucket (#342)
+ * Fix missing put metrics (#341)
+
+## v1.0.58 (2025-09-08)
+
+ * Daily Sync with Botocore v1.40.25 on 2025/09/08 (#340)
+ * add both failure and success update (#339)
+
+## v1.0.57 (2025-08-28)
+
+ * Daily Sync with Botocore v1.40.19 on 2025/08/28 (#338)
+
+## v1.0.56 (2025-08-26)
+
+ * Daily Sync with Botocore v1.40.17 on 2025/08/26 (#336)
+
+## v1.0.55 (2025-08-25)
+
+ * Daily Sync with Botocore v1.40.16 on 2025/08/25 (#335)
+
+## v1.0.54 (2025-08-21)
+
+ * Daily Sync with Botocore v1.40.14 on 2025/08/21 (#333)
+
+## v1.0.53 (2025-08-19)
+
+ * Daily Sync with Botocore v1.40.12 on 2025/08/19 (#332)
+
+## v1.0.52 (2025-08-14)
+
+ * Daily Sync with Botocore v1.40.9 on 2025/08/14 (#330)
+
+## v1.0.51 (2025-08-13)
+
+ * Daily Sync with Botocore v1.40.8 on 2025/08/13 (#329)
+
+## v1.0.50 (2025-08-11)
+
+ * Daily Sync with Botocore v1.40.6 on 2025/08/11 (#328)
+
+## v1.0.49 (2025-08-06)
+
+ * Daily Sync with Botocore v1.40.3 on 2025/08/06 (#327)
+
+## v1.0.48 (2025-08-05)
+
+ * Daily Sync with Botocore v1.40.2 on 2025/08/05 (#326)
+ * Update Rich logging to be enabled only when required. (#325)
+
+## v1.0.47 (2025-07-23)
+
+ * Update boto3 version constraint (#324)
+
+## v1.0.46 (2025-07-22)
+
+ * Daily Sync with Botocore v1.39.10 on 2025/07/22 (#323)
+
+## v1.0.45 (2025-07-18)
+
+ * Update rich boundary (#322)
+ * Address pylint issue in PR:320 (#321)
+
+## v1.0.44 (2025-07-17)
+
+ * Fix: Do not generate empty classes (#320)
+ * Update importlib-metadata version boundary (#319)
+
+## v1.0.43 (2025-07-16)
+
+ * Daily Sync with Botocore v1.39.6 on 2025/07/16 (#316)
+
+## v1.0.42 (2025-07-04)
+
+ * Daily Sync with Botocore v1.39.3 on 2025/07/04 (#314)
+
+## v1.0.41 (2025-07-02)
+
+ * Daily Sync with Botocore v1.39.1 on 2025/07/02 (#313)
+
+## v1.0.40 (2025-06-20)
+
+ * Daily Sync with Botocore v1.38.40 on 2025/06/20 (#311)
+
+## v1.0.39 (2025-06-19)
+
+ * Daily Sync with Botocore v1.38.39 on 2025/06/19 (#310)
+
+## v1.0.38 (2025-06-17)
+
+ * Daily Sync with Botocore v1.38.37 on 2025/06/17 (#309)
+
+## v1.0.37 (2025-06-05)
+
+ * Daily Sync with Botocore v1.38.30 on 2025/06/05 (#307)
+ * Refactoring Intelligent Defaults for parity with documentations (#304)
+
+## v1.0.36 (2025-06-02)
+
+ * Daily Sync with Botocore v1.38.27 on 2025/06/02 (#305)
+
+## v1.0.35 (2025-05-30)
+
+ * Daily Sync with Botocore v1.38.26 on 2025/05/30 (#302)
+ * Fix: next_token causing infinite loop in fetching Clusters (#301)
+ * Add blob handler to transform endpoint output method (#299)
+
 ## v1.0.34 (2025-05-13)
 
  * Daily Sync with Botocore v1.38.14 on 2025/05/13 (#298)

@@ -66,7 +66,7 @@ class InvokeEndpointAsyncOutput(Base):
 
     Attributes
     ----------------------
-    inference_id: Identifier for an inference request. This will be the same as the InferenceId specified in the input. Amazon SageMaker will generate an identifier for you if you do not specify one.
+    inference_id: Identifier for an inference request. This will be the same as the InferenceId specified in the input. Amazon SageMaker AI will generate an identifier for you if you do not specify one.
     output_location: The Amazon S3 URI where the inference response payload is stored.
     failure_location: The Amazon S3 URI where the inference failure response payload is stored.
     """
@@ -85,7 +85,7 @@ class InvokeEndpointOutput(Base):
     body: Includes the inference provided by the model.  For information about the format of the response body, see Common Data Formats-Inference. If the explainer is activated, the body includes the explanations provided by the model. For more information, see the Response section under Invoke the Endpoint in the Developer Guide.
     content_type: The MIME type of the inference returned from the model container.
     invoked_production_variant: Identifies the production variant that was invoked.
-    custom_attributes: Provides additional information in the response about the inference returned by a model hosted at an Amazon SageMaker endpoint. The information is an opaque value that is forwarded verbatim. You could use this value, for example, to return an ID received in the CustomAttributes header of a request or other metadata that a service endpoint was programmed to produce. The value must consist of no more than 1024 visible US-ASCII characters as specified in Section 3.3.6. Field Value Components of the Hypertext Transfer Protocol (HTTP/1.1). If the customer wants the custom attribute returned, the model must set the custom attribute to be included on the way back.  The code in your model is responsible for setting or updating any custom attributes in the response. If your code does not set this value in the response, an empty value is returned. For example, if a custom attribute represents the trace ID, your model can prepend the custom attribute with Trace ID: in your post-processing function. This feature is currently supported in the Amazon Web Services SDKs but not in the Amazon SageMaker Python SDK.
+    custom_attributes: Provides additional information in the response about the inference returned by a model hosted at an Amazon SageMaker AI endpoint. The information is an opaque value that is forwarded verbatim. You could use this value, for example, to return an ID received in the CustomAttributes header of a request or other metadata that a service endpoint was programmed to produce. The value must consist of no more than 1024 visible US-ASCII characters as specified in Section 3.3.6. Field Value Components of the Hypertext Transfer Protocol (HTTP/1.1). If the customer wants the custom attribute returned, the model must set the custom attribute to be included on the way back.  The code in your model is responsible for setting or updating any custom attributes in the response. If your code does not set this value in the response, an empty value is returned. For example, if a custom attribute represents the trace ID, your model can prepend the custom attribute with Trace ID: in your post-processing function. This feature is currently supported in the Amazon Web Services SDKs but not in the Amazon SageMaker AI Python SDK.
     new_session_id: If you created a stateful session with your request, the ID and expiration time that the model assigns to that session.
     closed_session_id: If you closed a stateful session with your request, the ID of that session.
     """
@@ -114,12 +114,12 @@ class PayloadPart(Base):
 class ModelStreamError(Base):
     """
     ModelStreamError
-       An error occurred while streaming the response body. This error can have the following error codes:  ModelInvocationTimeExceeded  The model failed to finish sending the response within the timeout period allowed by Amazon SageMaker.  StreamBroken  The Transmission Control Protocol (TCP) connection between the client and the model was reset or closed.
+       An error occurred while streaming the response body. This error can have the following error codes:  ModelInvocationTimeExceeded  The model failed to finish sending the response within the timeout period allowed by Amazon SageMaker AI.  StreamBroken  The Transmission Control Protocol (TCP) connection between the client and the model was reset or closed.
 
     Attributes
     ----------------------
     message
-    error_code: This error can have the following error codes:  ModelInvocationTimeExceeded  The model failed to finish sending the response within the timeout period allowed by Amazon SageMaker.  StreamBroken  The Transmission Control Protocol (TCP) connection between the client and the model was reset or closed.
+    error_code: This error can have the following error codes:  ModelInvocationTimeExceeded  The model failed to finish sending the response within the timeout period allowed by Amazon SageMaker AI.  StreamBroken  The Transmission Control Protocol (TCP) connection between the client and the model was reset or closed.
     """
 
     message: Optional[str] = Unassigned()
@@ -134,7 +134,7 @@ class ResponseStream(Base):
     Attributes
     ----------------------
     payload_part: A wrapper for pieces of the payload that's returned in response to a streaming inference request. A streaming inference response consists of one or more payload parts.
-    model_stream_error:  An error occurred while streaming the response body. This error can have the following error codes:  ModelInvocationTimeExceeded  The model failed to finish sending the response within the timeout period allowed by Amazon SageMaker.  StreamBroken  The Transmission Control Protocol (TCP) connection between the client and the model was reset or closed.
+    model_stream_error:  An error occurred while streaming the response body. This error can have the following error codes:  ModelInvocationTimeExceeded  The model failed to finish sending the response within the timeout period allowed by Amazon SageMaker AI.  StreamBroken  The Transmission Control Protocol (TCP) connection between the client and the model was reset or closed.
     internal_stream_failure: The stream processing failed because of an unknown error, exception or failure. Try your request again.
     """
 
@@ -152,7 +152,7 @@ class InvokeEndpointWithResponseStreamOutput(Base):
     body
     content_type: The MIME type of the inference returned from the model container.
     invoked_production_variant: Identifies the production variant that was invoked.
-    custom_attributes: Provides additional information in the response about the inference returned by a model hosted at an Amazon SageMaker endpoint. The information is an opaque value that is forwarded verbatim. You could use this value, for example, to return an ID received in the CustomAttributes header of a request or other metadata that a service endpoint was programmed to produce. The value must consist of no more than 1024 visible US-ASCII characters as specified in Section 3.3.6. Field Value Components of the Hypertext Transfer Protocol (HTTP/1.1). If the customer wants the custom attribute returned, the model must set the custom attribute to be included on the way back.  The code in your model is responsible for setting or updating any custom attributes in the response. If your code does not set this value in the response, an empty value is returned. For example, if a custom attribute represents the trace ID, your model can prepend the custom attribute with Trace ID: in your post-processing function. This feature is currently supported in the Amazon Web Services SDKs but not in the Amazon SageMaker Python SDK.
+    custom_attributes: Provides additional information in the response about the inference returned by a model hosted at an Amazon SageMaker AI endpoint. The information is an opaque value that is forwarded verbatim. You could use this value, for example, to return an ID received in the CustomAttributes header of a request or other metadata that a service endpoint was programmed to produce. The value must consist of no more than 1024 visible US-ASCII characters as specified in Section 3.3.6. Field Value Components of the Hypertext Transfer Protocol (HTTP/1.1). If the customer wants the custom attribute returned, the model must set the custom attribute to be included on the way back.  The code in your model is responsible for setting or updating any custom attributes in the response. If your code does not set this value in the response, an empty value is returned. For example, if a custom attribute represents the trace ID, your model can prepend the custom attribute with Trace ID: in your post-processing function. This feature is currently supported in the Amazon Web Services SDKs but not in the Amazon SageMaker AI Python SDK.
     """
 
     body: ResponseStream
@@ -494,6 +494,21 @@ class ActionSummary(Base):
     last_modified_time: Optional[datetime.datetime] = Unassigned()
 
 
+class AddClusterNodeSpecification(Base):
+    """
+    AddClusterNodeSpecification
+      Specifies an instance group and the number of nodes to add to it.
+
+    Attributes
+    ----------------------
+    instance_group_name: The name of the instance group to which you want to add nodes.
+    increment_target_count_by: The number of nodes to add to the specified instance group. The total number of nodes across all instance groups in a single request cannot exceed 50.
+    """
+
+    instance_group_name: str
+    increment_target_count_by: int
+
+
 class Tag(Base):
     """
     Tag
@@ -507,6 +522,19 @@ class Tag(Base):
 
     key: str
     value: str
+
+
+class AdditionalEnis(Base):
+    """
+    AdditionalEnis
+      Information about additional Elastic Network Interfaces (ENIs) associated with an instance.
+
+    Attributes
+    ----------------------
+    efa_enis: A list of Elastic Fabric Adapter (EFA) ENIs associated with the instance.
+    """
+
+    efa_enis: Optional[List[str]] = Unassigned()
 
 
 class ModelAccessConfig(Base):
@@ -868,7 +896,7 @@ class S3DataSource(Base):
 
     Attributes
     ----------------------
-    s3_data_type: If you choose S3Prefix, S3Uri identifies a key name prefix. SageMaker uses all objects that match the specified key name prefix for model training.  If you choose ManifestFile, S3Uri identifies an object that is a manifest file containing a list of object keys that you want SageMaker to use for model training.  If you choose AugmentedManifestFile, S3Uri identifies an object that is an augmented manifest file in JSON lines format. This file contains the data you want to use for model training. AugmentedManifestFile can only be used if the Channel's input mode is Pipe.
+    s3_data_type: If you choose S3Prefix, S3Uri identifies a key name prefix. SageMaker uses all objects that match the specified key name prefix for model training.  If you choose ManifestFile, S3Uri identifies an object that is a manifest file containing a list of object keys that you want SageMaker to use for model training.  If you choose AugmentedManifestFile, S3Uri identifies an object that is an augmented manifest file in JSON lines format. This file contains the data you want to use for model training. AugmentedManifestFile can only be used if the Channel's input mode is Pipe. If you choose Converse, S3Uri identifies an Amazon S3 location that contains data formatted according to Converse format. This format structures conversational messages with specific roles and content types used for training and fine-tuning foundational models.
     s3_uri: Depending on the value specified for the S3DataType, identifies either a key name prefix or a manifest. For example:     A key name prefix might look like this: s3://bucketname/exampleprefix/     A manifest might look like this: s3://bucketname/example.manifest   A manifest is an S3 object which is a JSON file consisting of an array of elements. The first element is a prefix which is followed by one or more suffixes. SageMaker appends the suffix elements to the prefix to get a full set of S3Uri. Note that the prefix must be a valid non-empty S3Uri that precludes users from specifying a manifest whose individual S3Uri is sourced from different S3 buckets.  The following code example shows a valid manifest format:   [ {"prefix": "s3://customer_bucket/some/prefix/"},    "relative/path/to/custdata-1",    "relative/path/custdata-2",    ...    "relative/path/custdata-N"   ]   This JSON is equivalent to the following S3Uri list:  s3://customer_bucket/some/prefix/relative/path/to/custdata-1   s3://customer_bucket/some/prefix/relative/path/custdata-2   ...   s3://customer_bucket/some/prefix/relative/path/custdata-N  The complete set of S3Uri in this manifest is the input data for the channel for this data source. The object that each S3Uri points to must be readable by the IAM role that SageMaker uses to perform tasks on your behalf.    Your input bucket must be located in same Amazon Web Services region as your training job.
     s3_data_distribution_type: If you want SageMaker to replicate the entire dataset on each ML compute instance that is launched for model training, specify FullyReplicated.  If you want SageMaker to replicate a subset of data on each ML compute instance that is launched for model training, specify ShardedByS3Key. If there are n ML compute instances launched for a training job, each instance gets approximately 1/n of the number of S3 objects. In this case, model training on each machine uses only the subset of training data.  Don't choose more ML compute instances for training than available S3 objects. If you do, some nodes won't get any data and you will pay for nodes that aren't getting any training data. This applies in both File and Pipe modes. Keep this in mind when developing algorithms.  In distributed training, where you use multiple ML compute EC2 instances, you might choose ShardedByS3Key. If the algorithm requires copying training data to the ML storage volume (when TrainingInputMode is set to File), this copies 1/n of the number of objects.
     attribute_names: A list of one or more attribute names to use that are found in a specified augmented manifest file.
@@ -992,6 +1020,36 @@ class InstanceGroup(Base):
     instance_group_name: str
 
 
+class PlacementSpecification(Base):
+    """
+    PlacementSpecification
+      Specifies how instances should be placed on a specific UltraServer.
+
+    Attributes
+    ----------------------
+    ultra_server_id: The unique identifier of the UltraServer where instances should be placed.
+    instance_count: The number of ML compute instances required to be placed together on the same UltraServer. Minimum value of 1.
+    """
+
+    instance_count: int
+    ultra_server_id: Optional[str] = Unassigned()
+
+
+class InstancePlacementConfig(Base):
+    """
+    InstancePlacementConfig
+      Configuration for how instances are placed and allocated within UltraServers. This is only applicable for UltraServer capacity.
+
+    Attributes
+    ----------------------
+    enable_multiple_jobs: If set to true, allows multiple jobs to share the same UltraServer instances. If set to false, ensures this job's instances are placed on an UltraServer exclusively, with no other jobs sharing the same UltraServer. Default is false.
+    placement_specifications: A list of specifications for how instances should be placed on specific UltraServers. Maximum of 10 items is supported.
+    """
+
+    enable_multiple_jobs: Optional[bool] = Unassigned()
+    placement_specifications: Optional[List[PlacementSpecification]] = Unassigned()
+
+
 class ResourceConfig(Base):
     """
     ResourceConfig
@@ -999,13 +1057,14 @@ class ResourceConfig(Base):
 
     Attributes
     ----------------------
-    instance_type: The ML compute instance type.   SageMaker Training on Amazon Elastic Compute Cloud (EC2) P4de instances is in preview release starting December 9th, 2022.   Amazon EC2 P4de instances (currently in preview) are powered by 8 NVIDIA A100 GPUs with 80GB high-performance HBM2e GPU memory, which accelerate the speed of training ML models that need to be trained on large datasets of high-resolution data. In this preview release, Amazon SageMaker supports ML training jobs on P4de instances (ml.p4de.24xlarge) to reduce model training time. The ml.p4de.24xlarge instances are available in the following Amazon Web Services Regions.    US East (N. Virginia) (us-east-1)   US West (Oregon) (us-west-2)   To request quota limit increase and start using P4de instances, contact the SageMaker Training service team through your account team.
+    instance_type: The ML compute instance type.
     instance_count: The number of ML compute instances to use. For distributed training, provide a value greater than 1.
     volume_size_in_gb: The size of the ML storage volume that you want to provision.  ML storage volumes store model artifacts and incremental states. Training algorithms might also use the ML storage volume for scratch space. If you want to store the training data in the ML storage volume, choose File as the TrainingInputMode in the algorithm specification.  When using an ML instance with NVMe SSD volumes, SageMaker doesn't provision Amazon EBS General Purpose SSD (gp2) storage. Available storage is fixed to the NVMe-type instance's storage capacity. SageMaker configures storage paths for training datasets, checkpoints, model artifacts, and outputs to use the entire capacity of the instance storage. For example, ML instance families with the NVMe-type instance storage include ml.p4d, ml.g4dn, and ml.g5.  When using an ML instance with the EBS-only storage option and without instance storage, you must define the size of EBS volume through VolumeSizeInGB in the ResourceConfig API. For example, ML instance families that use EBS volumes include ml.c5 and ml.p2.  To look up instance types and their instance storage types and volumes, see Amazon EC2 Instance Types. To find the default local paths defined by the SageMaker training platform, see Amazon SageMaker Training Storage Folders for Training Datasets, Checkpoints, Model Artifacts, and Outputs.
     volume_kms_key_id: The Amazon Web Services KMS key that SageMaker uses to encrypt data on the storage volume attached to the ML compute instance(s) that run the training job.  Certain Nitro-based instances include local storage, dependent on the instance type. Local storage volumes are encrypted using a hardware module on the instance. You can't request a VolumeKmsKeyId when using an instance type with local storage. For a list of instance types that support local instance storage, see Instance Store Volumes. For more information about local instance storage encryption, see SSD Instance Store Volumes.  The VolumeKmsKeyId can be in any of the following formats:   // KMS Key ID  "1234abcd-12ab-34cd-56ef-1234567890ab"    // Amazon Resource Name (ARN) of a KMS Key  "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"
     keep_alive_period_in_seconds: The duration of time in seconds to retain configured resources in a warm pool for subsequent training jobs.
     instance_groups: The configuration of a heterogeneous cluster in JSON format.
     training_plan_arn: The Amazon Resource Name (ARN); of the training plan to use for this resource configuration.
+    instance_placement_config: Configuration for how training job instances are placed and allocated within UltraServers. Only applicable for UltraServer capacity.
     """
 
     volume_size_in_gb: int
@@ -1015,6 +1074,7 @@ class ResourceConfig(Base):
     keep_alive_period_in_seconds: Optional[int] = Unassigned()
     instance_groups: Optional[List[InstanceGroup]] = Unassigned()
     training_plan_arn: Optional[str] = Unassigned()
+    instance_placement_config: Optional[InstancePlacementConfig] = Unassigned()
 
 
 class StoppingCondition(Base):
@@ -1221,7 +1281,7 @@ class AnnotationConsolidationConfig(Base):
 
     Attributes
     ----------------------
-    annotation_consolidation_lambda_arn: The Amazon Resource Name (ARN) of a Lambda function implements the logic for annotation consolidation and to process output data. For built-in task types, use one of the following Amazon SageMaker Ground Truth Lambda function ARNs for AnnotationConsolidationLambdaArn. For custom labeling workflows, see Post-annotation Lambda.  Bounding box - Finds the most similar boxes from different workers based on the Jaccard index of the boxes.    arn:aws:lambda:us-east-1:432418664414:function:ACS-BoundingBox     arn:aws:lambda:us-east-2:266458841044:function:ACS-BoundingBox     arn:aws:lambda:us-west-2:081040173940:function:ACS-BoundingBox     arn:aws:lambda:eu-west-1:568282634449:function:ACS-BoundingBox     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-BoundingBox     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-BoundingBox     arn:aws:lambda:ap-south-1:565803892007:function:ACS-BoundingBox     arn:aws:lambda:eu-central-1:203001061592:function:ACS-BoundingBox     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-BoundingBox     arn:aws:lambda:eu-west-2:487402164563:function:ACS-BoundingBox     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-BoundingBox     arn:aws:lambda:ca-central-1:918755190332:function:ACS-BoundingBox     Image classification - Uses a variant of the Expectation Maximization approach to estimate the true class of an image based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:ACS-ImageMultiClass     arn:aws:lambda:us-east-2:266458841044:function:ACS-ImageMultiClass     arn:aws:lambda:us-west-2:081040173940:function:ACS-ImageMultiClass     arn:aws:lambda:eu-west-1:568282634449:function:ACS-ImageMultiClass     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-ImageMultiClass     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-ImageMultiClass     arn:aws:lambda:ap-south-1:565803892007:function:ACS-ImageMultiClass     arn:aws:lambda:eu-central-1:203001061592:function:ACS-ImageMultiClass     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-ImageMultiClass     arn:aws:lambda:eu-west-2:487402164563:function:ACS-ImageMultiClass     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-ImageMultiClass     arn:aws:lambda:ca-central-1:918755190332:function:ACS-ImageMultiClass     Multi-label image classification - Uses a variant of the Expectation Maximization approach to estimate the true classes of an image based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:us-east-2:266458841044:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:us-west-2:081040173940:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:eu-west-1:568282634449:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:ap-south-1:565803892007:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:eu-central-1:203001061592:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:eu-west-2:487402164563:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:ca-central-1:918755190332:function:ACS-ImageMultiClassMultiLabel     Semantic segmentation - Treats each pixel in an image as a multi-class classification and treats pixel annotations from workers as "votes" for the correct label.    arn:aws:lambda:us-east-1:432418664414:function:ACS-SemanticSegmentation     arn:aws:lambda:us-east-2:266458841044:function:ACS-SemanticSegmentation     arn:aws:lambda:us-west-2:081040173940:function:ACS-SemanticSegmentation     arn:aws:lambda:eu-west-1:568282634449:function:ACS-SemanticSegmentation     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-SemanticSegmentation     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-SemanticSegmentation     arn:aws:lambda:ap-south-1:565803892007:function:ACS-SemanticSegmentation     arn:aws:lambda:eu-central-1:203001061592:function:ACS-SemanticSegmentation     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-SemanticSegmentation     arn:aws:lambda:eu-west-2:487402164563:function:ACS-SemanticSegmentation     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-SemanticSegmentation     arn:aws:lambda:ca-central-1:918755190332:function:ACS-SemanticSegmentation     Text classification - Uses a variant of the Expectation Maximization approach to estimate the true class of text based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:ACS-TextMultiClass     arn:aws:lambda:us-east-2:266458841044:function:ACS-TextMultiClass     arn:aws:lambda:us-west-2:081040173940:function:ACS-TextMultiClass     arn:aws:lambda:eu-west-1:568282634449:function:ACS-TextMultiClass     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-TextMultiClass     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-TextMultiClass     arn:aws:lambda:ap-south-1:565803892007:function:ACS-TextMultiClass     arn:aws:lambda:eu-central-1:203001061592:function:ACS-TextMultiClass     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-TextMultiClass     arn:aws:lambda:eu-west-2:487402164563:function:ACS-TextMultiClass     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-TextMultiClass     arn:aws:lambda:ca-central-1:918755190332:function:ACS-TextMultiClass     Multi-label text classification - Uses a variant of the Expectation Maximization approach to estimate the true classes of text based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:us-east-2:266458841044:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:us-west-2:081040173940:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:eu-west-1:568282634449:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:ap-south-1:565803892007:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:eu-central-1:203001061592:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:eu-west-2:487402164563:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:ca-central-1:918755190332:function:ACS-TextMultiClassMultiLabel     Named entity recognition - Groups similar selections and calculates aggregate boundaries, resolving to most-assigned label.    arn:aws:lambda:us-east-1:432418664414:function:ACS-NamedEntityRecognition     arn:aws:lambda:us-east-2:266458841044:function:ACS-NamedEntityRecognition     arn:aws:lambda:us-west-2:081040173940:function:ACS-NamedEntityRecognition     arn:aws:lambda:eu-west-1:568282634449:function:ACS-NamedEntityRecognition     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-NamedEntityRecognition     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-NamedEntityRecognition     arn:aws:lambda:ap-south-1:565803892007:function:ACS-NamedEntityRecognition     arn:aws:lambda:eu-central-1:203001061592:function:ACS-NamedEntityRecognition     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-NamedEntityRecognition     arn:aws:lambda:eu-west-2:487402164563:function:ACS-NamedEntityRecognition     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-NamedEntityRecognition     arn:aws:lambda:ca-central-1:918755190332:function:ACS-NamedEntityRecognition     Video Classification - Use this task type when you need workers to classify videos using predefined labels that you specify. Workers are shown videos and are asked to choose one label for each video.    arn:aws:lambda:us-east-1:432418664414:function:ACS-VideoMultiClass     arn:aws:lambda:us-east-2:266458841044:function:ACS-VideoMultiClass     arn:aws:lambda:us-west-2:081040173940:function:ACS-VideoMultiClass     arn:aws:lambda:eu-west-1:568282634449:function:ACS-VideoMultiClass     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-VideoMultiClass     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-VideoMultiClass     arn:aws:lambda:ap-south-1:565803892007:function:ACS-VideoMultiClass     arn:aws:lambda:eu-central-1:203001061592:function:ACS-VideoMultiClass     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-VideoMultiClass     arn:aws:lambda:eu-west-2:487402164563:function:ACS-VideoMultiClass     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-VideoMultiClass     arn:aws:lambda:ca-central-1:918755190332:function:ACS-VideoMultiClass     Video Frame Object Detection - Use this task type to have workers identify and locate objects in a sequence of video frames (images extracted from a video) using bounding boxes. For example, you can use this task to ask workers to identify and localize various objects in a series of video frames, such as cars, bikes, and pedestrians.    arn:aws:lambda:us-east-1:432418664414:function:ACS-VideoObjectDetection     arn:aws:lambda:us-east-2:266458841044:function:ACS-VideoObjectDetection     arn:aws:lambda:us-west-2:081040173940:function:ACS-VideoObjectDetection     arn:aws:lambda:eu-west-1:568282634449:function:ACS-VideoObjectDetection     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-VideoObjectDetection     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-VideoObjectDetection     arn:aws:lambda:ap-south-1:565803892007:function:ACS-VideoObjectDetection     arn:aws:lambda:eu-central-1:203001061592:function:ACS-VideoObjectDetection     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-VideoObjectDetection     arn:aws:lambda:eu-west-2:487402164563:function:ACS-VideoObjectDetection     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-VideoObjectDetection     arn:aws:lambda:ca-central-1:918755190332:function:ACS-VideoObjectDetection     Video Frame Object Tracking - Use this task type to have workers track the movement of objects in a sequence of video frames (images extracted from a video) using bounding boxes. For example, you can use this task to ask workers to track the movement of objects, such as cars, bikes, and pedestrians.     arn:aws:lambda:us-east-1:432418664414:function:ACS-VideoObjectTracking     arn:aws:lambda:us-east-2:266458841044:function:ACS-VideoObjectTracking     arn:aws:lambda:us-west-2:081040173940:function:ACS-VideoObjectTracking     arn:aws:lambda:eu-west-1:568282634449:function:ACS-VideoObjectTracking     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-VideoObjectTracking     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-VideoObjectTracking     arn:aws:lambda:ap-south-1:565803892007:function:ACS-VideoObjectTracking     arn:aws:lambda:eu-central-1:203001061592:function:ACS-VideoObjectTracking     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-VideoObjectTracking     arn:aws:lambda:eu-west-2:487402164563:function:ACS-VideoObjectTracking     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-VideoObjectTracking     arn:aws:lambda:ca-central-1:918755190332:function:ACS-VideoObjectTracking     3D Point Cloud Object Detection - Use this task type when you want workers to classify objects in a 3D point cloud by drawing 3D cuboids around objects. For example, you can use this task type to ask workers to identify different types of objects in a point cloud, such as cars, bikes, and pedestrians.    arn:aws:lambda:us-east-1:432418664414:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:us-east-2:266458841044:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:us-west-2:081040173940:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:eu-west-1:568282634449:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:ap-south-1:565803892007:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:eu-central-1:203001061592:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:eu-west-2:487402164563:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:ca-central-1:918755190332:function:ACS-3DPointCloudObjectDetection     3D Point Cloud Object Tracking - Use this task type when you want workers to draw 3D cuboids around objects that appear in a sequence of 3D point cloud frames. For example, you can use this task type to ask workers to track the movement of vehicles across multiple point cloud frames.     arn:aws:lambda:us-east-1:432418664414:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:us-east-2:266458841044:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:us-west-2:081040173940:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:eu-west-1:568282634449:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:ap-south-1:565803892007:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:eu-central-1:203001061592:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:eu-west-2:487402164563:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:ca-central-1:918755190332:function:ACS-3DPointCloudObjectTracking     3D Point Cloud Semantic Segmentation - Use this task type when you want workers to create a point-level semantic segmentation masks by painting objects in a 3D point cloud using different colors where each color is assigned to one of the classes you specify.    arn:aws:lambda:us-east-1:432418664414:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:us-east-2:266458841044:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:us-west-2:081040173940:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-west-1:568282634449:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-south-1:565803892007:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-central-1:203001061592:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-west-2:487402164563:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:ca-central-1:918755190332:function:ACS-3DPointCloudSemanticSegmentation     Use the following ARNs for Label Verification and Adjustment Jobs  Use label verification and adjustment jobs to review and adjust labels. To learn more, see Verify and Adjust Labels .  Semantic Segmentation Adjustment - Treats each pixel in an image as a multi-class classification and treats pixel adjusted annotations from workers as "votes" for the correct label.    arn:aws:lambda:us-east-1:432418664414:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:us-east-2:266458841044:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:us-west-2:081040173940:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:eu-west-1:568282634449:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:ap-south-1:565803892007:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:eu-central-1:203001061592:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:eu-west-2:487402164563:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:ca-central-1:918755190332:function:ACS-AdjustmentSemanticSegmentation     Semantic Segmentation Verification - Uses a variant of the Expectation Maximization approach to estimate the true class of verification judgment for semantic segmentation labels based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:us-east-2:266458841044:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:us-west-2:081040173940:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:eu-west-1:568282634449:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:ap-south-1:565803892007:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:eu-central-1:203001061592:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:eu-west-2:487402164563:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:ca-central-1:918755190332:function:ACS-VerificationSemanticSegmentation     Bounding Box Adjustment - Finds the most similar boxes from different workers based on the Jaccard index of the adjusted annotations.    arn:aws:lambda:us-east-1:432418664414:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:us-east-2:266458841044:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:us-west-2:081040173940:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:eu-west-1:568282634449:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:ap-south-1:565803892007:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:eu-central-1:203001061592:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:eu-west-2:487402164563:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:ca-central-1:918755190332:function:ACS-AdjustmentBoundingBox     Bounding Box Verification - Uses a variant of the Expectation Maximization approach to estimate the true class of verification judgement for bounding box labels based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:ACS-VerificationBoundingBox     arn:aws:lambda:us-east-2:266458841044:function:ACS-VerificationBoundingBox     arn:aws:lambda:us-west-2:081040173940:function:ACS-VerificationBoundingBox     arn:aws:lambda:eu-west-1:568282634449:function:ACS-VerificationBoundingBox     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-VerificationBoundingBox     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-VerificationBoundingBox     arn:aws:lambda:ap-south-1:565803892007:function:ACS-VerificationBoundingBox     arn:aws:lambda:eu-central-1:203001061592:function:ACS-VerificationBoundingBox     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-VerificationBoundingBox     arn:aws:lambda:eu-west-2:487402164563:function:ACS-VerificationBoundingBox     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-VerificationBoundingBox     arn:aws:lambda:ca-central-1:918755190332:function:ACS-VerificationBoundingBox     Video Frame Object Detection Adjustment - Use this task type when you want workers to adjust bounding boxes that workers have added to video frames to classify and localize objects in a sequence of video frames.    arn:aws:lambda:us-east-1:432418664414:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:us-east-2:266458841044:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:us-west-2:081040173940:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:eu-west-1:568282634449:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:ap-south-1:565803892007:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:eu-central-1:203001061592:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:eu-west-2:487402164563:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:ca-central-1:918755190332:function:ACS-AdjustmentVideoObjectDetection     Video Frame Object Tracking Adjustment - Use this task type when you want workers to adjust bounding boxes that workers have added to video frames to track object movement across a sequence of video frames.    arn:aws:lambda:us-east-1:432418664414:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:us-east-2:266458841044:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:us-west-2:081040173940:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:eu-west-1:568282634449:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:ap-south-1:565803892007:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:eu-central-1:203001061592:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:eu-west-2:487402164563:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:ca-central-1:918755190332:function:ACS-AdjustmentVideoObjectTracking     3D Point Cloud Object Detection Adjustment - Use this task type when you want workers to adjust 3D cuboids around objects in a 3D point cloud.     arn:aws:lambda:us-east-1:432418664414:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:us-east-2:266458841044:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:us-west-2:081040173940:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:eu-west-1:568282634449:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ap-south-1:565803892007:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:eu-central-1:203001061592:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:eu-west-2:487402164563:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ca-central-1:918755190332:function:ACS-Adjustment3DPointCloudObjectDetection     3D Point Cloud Object Tracking Adjustment - Use this task type when you want workers to adjust 3D cuboids around objects that appear in a sequence of 3D point cloud frames.    arn:aws:lambda:us-east-1:432418664414:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:us-east-2:266458841044:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:us-west-2:081040173940:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:eu-west-1:568282634449:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ap-south-1:565803892007:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:eu-central-1:203001061592:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:eu-west-2:487402164563:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ca-central-1:918755190332:function:ACS-Adjustment3DPointCloudObjectTracking     3D Point Cloud Semantic Segmentation Adjustment - Use this task type when you want workers to adjust a point-level semantic segmentation masks using a paint tool.    arn:aws:lambda:us-east-1:432418664414:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:us-east-1:432418664414:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:us-east-2:266458841044:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:us-west-2:081040173940:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-west-1:568282634449:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-south-1:565803892007:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-central-1:203001061592:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-west-2:487402164563:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ca-central-1:918755190332:function:ACS-Adjustment3DPointCloudSemanticSegmentation
+    annotation_consolidation_lambda_arn: The Amazon Resource Name (ARN) of a Lambda function implements the logic for annotation consolidation and to process output data. For built-in task types, use one of the following Amazon SageMaker Ground Truth Lambda function ARNs for AnnotationConsolidationLambdaArn. For custom labeling workflows, see Post-annotation Lambda.  Bounding box - Finds the most similar boxes from different workers based on the Jaccard index of the boxes.    arn:aws:lambda:us-east-1:432418664414:function:ACS-BoundingBox     arn:aws:lambda:us-east-2:266458841044:function:ACS-BoundingBox     arn:aws:lambda:us-west-2:081040173940:function:ACS-BoundingBox     arn:aws:lambda:eu-west-1:568282634449:function:ACS-BoundingBox     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-BoundingBox     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-BoundingBox     arn:aws:lambda:ap-south-1:565803892007:function:ACS-BoundingBox     arn:aws:lambda:eu-central-1:203001061592:function:ACS-BoundingBox     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-BoundingBox     arn:aws:lambda:eu-west-2:487402164563:function:ACS-BoundingBox     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-BoundingBox     arn:aws:lambda:ca-central-1:918755190332:function:ACS-BoundingBox     Image classification - Uses a variant of the Expectation Maximization approach to estimate the true class of an image based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:ACS-ImageMultiClass     arn:aws:lambda:us-east-2:266458841044:function:ACS-ImageMultiClass     arn:aws:lambda:us-west-2:081040173940:function:ACS-ImageMultiClass     arn:aws:lambda:eu-west-1:568282634449:function:ACS-ImageMultiClass     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-ImageMultiClass     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-ImageMultiClass     arn:aws:lambda:ap-south-1:565803892007:function:ACS-ImageMultiClass     arn:aws:lambda:eu-central-1:203001061592:function:ACS-ImageMultiClass     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-ImageMultiClass     arn:aws:lambda:eu-west-2:487402164563:function:ACS-ImageMultiClass     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-ImageMultiClass     arn:aws:lambda:ca-central-1:918755190332:function:ACS-ImageMultiClass     Multi-label image classification - Uses a variant of the Expectation Maximization approach to estimate the true classes of an image based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:us-east-2:266458841044:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:us-west-2:081040173940:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:eu-west-1:568282634449:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:ap-south-1:565803892007:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:eu-central-1:203001061592:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:eu-west-2:487402164563:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:ca-central-1:918755190332:function:ACS-ImageMultiClassMultiLabel     Semantic segmentation - Treats each pixel in an image as a multi-class classification and treats pixel annotations from workers as "votes" for the correct label.    arn:aws:lambda:us-east-1:432418664414:function:ACS-SemanticSegmentation     arn:aws:lambda:us-east-2:266458841044:function:ACS-SemanticSegmentation     arn:aws:lambda:us-west-2:081040173940:function:ACS-SemanticSegmentation     arn:aws:lambda:eu-west-1:568282634449:function:ACS-SemanticSegmentation     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-SemanticSegmentation     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-SemanticSegmentation     arn:aws:lambda:ap-south-1:565803892007:function:ACS-SemanticSegmentation     arn:aws:lambda:eu-central-1:203001061592:function:ACS-SemanticSegmentation     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-SemanticSegmentation     arn:aws:lambda:eu-west-2:487402164563:function:ACS-SemanticSegmentation     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-SemanticSegmentation     arn:aws:lambda:ca-central-1:918755190332:function:ACS-SemanticSegmentation     Text classification - Uses a variant of the Expectation Maximization approach to estimate the true class of text based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:ACS-TextMultiClass     arn:aws:lambda:us-east-2:266458841044:function:ACS-TextMultiClass     arn:aws:lambda:us-west-2:081040173940:function:ACS-TextMultiClass     arn:aws:lambda:eu-west-1:568282634449:function:ACS-TextMultiClass     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-TextMultiClass     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-TextMultiClass     arn:aws:lambda:ap-south-1:565803892007:function:ACS-TextMultiClass     arn:aws:lambda:eu-central-1:203001061592:function:ACS-TextMultiClass     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-TextMultiClass     arn:aws:lambda:eu-west-2:487402164563:function:ACS-TextMultiClass     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-TextMultiClass     arn:aws:lambda:ca-central-1:918755190332:function:ACS-TextMultiClass     Multi-label text classification - Uses a variant of the Expectation Maximization approach to estimate the true classes of text based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:us-east-2:266458841044:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:us-west-2:081040173940:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:eu-west-1:568282634449:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:ap-south-1:565803892007:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:eu-central-1:203001061592:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:eu-west-2:487402164563:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:ca-central-1:918755190332:function:ACS-TextMultiClassMultiLabel     Named entity recognition - Groups similar selections and calculates aggregate boundaries, resolving to most-assigned label.    arn:aws:lambda:us-east-1:432418664414:function:ACS-NamedEntityRecognition     arn:aws:lambda:us-east-2:266458841044:function:ACS-NamedEntityRecognition     arn:aws:lambda:us-west-2:081040173940:function:ACS-NamedEntityRecognition     arn:aws:lambda:eu-west-1:568282634449:function:ACS-NamedEntityRecognition     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-NamedEntityRecognition     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-NamedEntityRecognition     arn:aws:lambda:ap-south-1:565803892007:function:ACS-NamedEntityRecognition     arn:aws:lambda:eu-central-1:203001061592:function:ACS-NamedEntityRecognition     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-NamedEntityRecognition     arn:aws:lambda:eu-west-2:487402164563:function:ACS-NamedEntityRecognition     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-NamedEntityRecognition     arn:aws:lambda:ca-central-1:918755190332:function:ACS-NamedEntityRecognition     Video Classification - Use this task type when you need workers to classify videos using predefined labels that you specify. Workers are shown videos and are asked to choose one label for each video.    arn:aws:lambda:us-east-1:432418664414:function:ACS-VideoMultiClass     arn:aws:lambda:us-east-2:266458841044:function:ACS-VideoMultiClass     arn:aws:lambda:us-west-2:081040173940:function:ACS-VideoMultiClass     arn:aws:lambda:eu-west-1:568282634449:function:ACS-VideoMultiClass     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-VideoMultiClass     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-VideoMultiClass     arn:aws:lambda:ap-south-1:565803892007:function:ACS-VideoMultiClass     arn:aws:lambda:eu-central-1:203001061592:function:ACS-VideoMultiClass     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-VideoMultiClass     arn:aws:lambda:eu-west-2:487402164563:function:ACS-VideoMultiClass     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-VideoMultiClass     arn:aws:lambda:ca-central-1:918755190332:function:ACS-VideoMultiClass     Video Frame Object Detection - Use this task type to have workers identify and locate objects in a sequence of video frames (images extracted from a video) using bounding boxes. For example, you can use this task to ask workers to identify and localize various objects in a series of video frames, such as cars, bikes, and pedestrians.    arn:aws:lambda:us-east-1:432418664414:function:ACS-VideoObjectDetection     arn:aws:lambda:us-east-2:266458841044:function:ACS-VideoObjectDetection     arn:aws:lambda:us-west-2:081040173940:function:ACS-VideoObjectDetection     arn:aws:lambda:eu-west-1:568282634449:function:ACS-VideoObjectDetection     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-VideoObjectDetection     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-VideoObjectDetection     arn:aws:lambda:ap-south-1:565803892007:function:ACS-VideoObjectDetection     arn:aws:lambda:eu-central-1:203001061592:function:ACS-VideoObjectDetection     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-VideoObjectDetection     arn:aws:lambda:eu-west-2:487402164563:function:ACS-VideoObjectDetection     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-VideoObjectDetection     arn:aws:lambda:ca-central-1:918755190332:function:ACS-VideoObjectDetection     Video Frame Object Tracking - Use this task type to have workers track the movement of objects in a sequence of video frames (images extracted from a video) using bounding boxes. For example, you can use this task to ask workers to track the movement of objects, such as cars, bikes, and pedestrians.     arn:aws:lambda:us-east-1:432418664414:function:ACS-VideoObjectTracking     arn:aws:lambda:us-east-2:266458841044:function:ACS-VideoObjectTracking     arn:aws:lambda:us-west-2:081040173940:function:ACS-VideoObjectTracking     arn:aws:lambda:eu-west-1:568282634449:function:ACS-VideoObjectTracking     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-VideoObjectTracking     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-VideoObjectTracking     arn:aws:lambda:ap-south-1:565803892007:function:ACS-VideoObjectTracking     arn:aws:lambda:eu-central-1:203001061592:function:ACS-VideoObjectTracking     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-VideoObjectTracking     arn:aws:lambda:eu-west-2:487402164563:function:ACS-VideoObjectTracking     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-VideoObjectTracking     arn:aws:lambda:ca-central-1:918755190332:function:ACS-VideoObjectTracking     3D Point Cloud Object Detection - Use this task type when you want workers to classify objects in a 3D point cloud by drawing 3D cuboids around objects. For example, you can use this task type to ask workers to identify different types of objects in a point cloud, such as cars, bikes, and pedestrians.    arn:aws:lambda:us-east-1:432418664414:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:us-east-2:266458841044:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:us-west-2:081040173940:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:eu-west-1:568282634449:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:ap-south-1:565803892007:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:eu-central-1:203001061592:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:eu-west-2:487402164563:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:ca-central-1:918755190332:function:ACS-3DPointCloudObjectDetection     3D Point Cloud Object Tracking - Use this task type when you want workers to draw 3D cuboids around objects that appear in a sequence of 3D point cloud frames. For example, you can use this task type to ask workers to track the movement of vehicles across multiple point cloud frames.     arn:aws:lambda:us-east-1:432418664414:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:us-east-2:266458841044:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:us-west-2:081040173940:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:eu-west-1:568282634449:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:ap-south-1:565803892007:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:eu-central-1:203001061592:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:eu-west-2:487402164563:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:ca-central-1:918755190332:function:ACS-3DPointCloudObjectTracking     3D Point Cloud Semantic Segmentation - Use this task type when you want workers to create a point-level semantic segmentation masks by painting objects in a 3D point cloud using different colors where each color is assigned to one of the classes you specify.    arn:aws:lambda:us-east-1:432418664414:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:us-east-2:266458841044:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:us-west-2:081040173940:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-west-1:568282634449:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-south-1:565803892007:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-central-1:203001061592:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-west-2:487402164563:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:ca-central-1:918755190332:function:ACS-3DPointCloudSemanticSegmentation     Use the following ARNs for Label Verification and Adjustment Jobs  Use label verification and adjustment jobs to review and adjust labels. To learn more, see Verify and Adjust Labels .  Semantic Segmentation Adjustment - Treats each pixel in an image as a multi-class classification and treats pixel adjusted annotations from workers as "votes" for the correct label.    arn:aws:lambda:us-east-1:432418664414:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:us-east-2:266458841044:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:us-west-2:081040173940:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:eu-west-1:568282634449:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:ap-south-1:565803892007:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:eu-central-1:203001061592:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:eu-west-2:487402164563:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:ca-central-1:918755190332:function:ACS-AdjustmentSemanticSegmentation     Semantic Segmentation Verification - Uses a variant of the Expectation Maximization approach to estimate the true class of verification judgment for semantic segmentation labels based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:us-east-2:266458841044:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:us-west-2:081040173940:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:eu-west-1:568282634449:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:ap-south-1:565803892007:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:eu-central-1:203001061592:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:eu-west-2:487402164563:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:ca-central-1:918755190332:function:ACS-VerificationSemanticSegmentation     Bounding Box Adjustment - Finds the most similar boxes from different workers based on the Jaccard index of the adjusted annotations.    arn:aws:lambda:us-east-1:432418664414:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:us-east-2:266458841044:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:us-west-2:081040173940:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:eu-west-1:568282634449:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:ap-south-1:565803892007:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:eu-central-1:203001061592:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:eu-west-2:487402164563:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:ca-central-1:918755190332:function:ACS-AdjustmentBoundingBox     Bounding Box Verification - Uses a variant of the Expectation Maximization approach to estimate the true class of verification judgement for bounding box labels based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:ACS-VerificationBoundingBox     arn:aws:lambda:us-east-2:266458841044:function:ACS-VerificationBoundingBox     arn:aws:lambda:us-west-2:081040173940:function:ACS-VerificationBoundingBox     arn:aws:lambda:eu-west-1:568282634449:function:ACS-VerificationBoundingBox     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-VerificationBoundingBox     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-VerificationBoundingBox     arn:aws:lambda:ap-south-1:565803892007:function:ACS-VerificationBoundingBox     arn:aws:lambda:eu-central-1:203001061592:function:ACS-VerificationBoundingBox     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-VerificationBoundingBox     arn:aws:lambda:eu-west-2:487402164563:function:ACS-VerificationBoundingBox     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-VerificationBoundingBox     arn:aws:lambda:ca-central-1:918755190332:function:ACS-VerificationBoundingBox     Video Frame Object Detection Adjustment - Use this task type when you want workers to adjust bounding boxes that workers have added to video frames to classify and localize objects in a sequence of video frames.    arn:aws:lambda:us-east-1:432418664414:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:us-east-2:266458841044:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:us-west-2:081040173940:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:eu-west-1:568282634449:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:ap-south-1:565803892007:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:eu-central-1:203001061592:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:eu-west-2:487402164563:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:ca-central-1:918755190332:function:ACS-AdjustmentVideoObjectDetection     Video Frame Object Tracking Adjustment - Use this task type when you want workers to adjust bounding boxes that workers have added to video frames to track object movement across a sequence of video frames.    arn:aws:lambda:us-east-1:432418664414:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:us-east-2:266458841044:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:us-west-2:081040173940:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:eu-west-1:568282634449:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:ap-south-1:565803892007:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:eu-central-1:203001061592:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:eu-west-2:487402164563:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:ca-central-1:918755190332:function:ACS-AdjustmentVideoObjectTracking     3D Point Cloud Object Detection Adjustment - Use this task type when you want workers to adjust 3D cuboids around objects in a 3D point cloud.     arn:aws:lambda:us-east-1:432418664414:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:us-east-2:266458841044:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:us-west-2:081040173940:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:eu-west-1:568282634449:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ap-south-1:565803892007:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:eu-central-1:203001061592:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:eu-west-2:487402164563:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ca-central-1:918755190332:function:ACS-Adjustment3DPointCloudObjectDetection     3D Point Cloud Object Tracking Adjustment - Use this task type when you want workers to adjust 3D cuboids around objects that appear in a sequence of 3D point cloud frames.    arn:aws:lambda:us-east-1:432418664414:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:us-east-2:266458841044:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:us-west-2:081040173940:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:eu-west-1:568282634449:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ap-south-1:565803892007:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:eu-central-1:203001061592:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:eu-west-2:487402164563:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ca-central-1:918755190332:function:ACS-Adjustment3DPointCloudObjectTracking     3D Point Cloud Semantic Segmentation Adjustment - Use this task type when you want workers to adjust a point-level semantic segmentation masks using a paint tool.    arn:aws:lambda:us-east-1:432418664414:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:us-east-1:432418664414:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:us-east-2:266458841044:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:us-west-2:081040173940:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-west-1:568282634449:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-south-1:565803892007:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-central-1:203001061592:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-west-2:487402164563:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ca-central-1:918755190332:function:ACS-Adjustment3DPointCloudSemanticSegmentation     Generative AI/Custom - Direct passthrough of output data without any transformation.    arn:aws:lambda:us-east-1:432418664414:function:ACS-PassThrough     arn:aws:lambda:us-east-2:266458841044:function:ACS-PassThrough     arn:aws:lambda:us-west-2:081040173940:function:ACS-PassThrough     arn:aws:lambda:eu-west-1:568282634449:function:ACS-PassThrough     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-PassThrough     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-PassThrough     arn:aws:lambda:ap-south-1:565803892007:function:ACS-PassThrough     arn:aws:lambda:eu-central-1:203001061592:function:ACS-PassThrough     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-PassThrough     arn:aws:lambda:eu-west-2:487402164563:function:ACS-PassThrough     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-PassThrough     arn:aws:lambda:ca-central-1:918755190332:function:ACS-PassThrough
     """
 
     annotation_consolidation_lambda_arn: str
@@ -1516,7 +1576,7 @@ class IamIdentity(Base):
 class UserContext(Base):
     """
     UserContext
-      Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
+      Information about the user who created or modified a SageMaker resource.
 
     Attributes
     ----------------------
@@ -1650,6 +1710,21 @@ class AthenaDatasetDefinition(Base):
     work_group: Optional[str] = Unassigned()
     kms_key_id: Optional[str] = Unassigned()
     output_compression: Optional[str] = Unassigned()
+
+
+class AuthorizedUrl(Base):
+    """
+    AuthorizedUrl
+      Contains a presigned URL and its associated local file path for downloading hub content artifacts.
+
+    Attributes
+    ----------------------
+    url: The presigned S3 URL that provides temporary, secure access to download the file. URLs expire within 15 minutes for security purposes.
+    local_path: The recommended local file path where the downloaded file should be stored to maintain proper directory structure and file organization.
+    """
+
+    url: Optional[str] = Unassigned()
+    local_path: Optional[str] = Unassigned()
 
 
 class AutoMLAlgorithmConfig(Base):
@@ -2385,6 +2460,42 @@ class Autotune(Base):
     mode: str
 
 
+class BatchAddClusterNodesError(Base):
+    """
+    BatchAddClusterNodesError
+      Information about an error that occurred during the node addition operation.
+
+    Attributes
+    ----------------------
+    instance_group_name: The name of the instance group for which the error occurred.
+    error_code: The error code associated with the failure. Possible values include InstanceGroupNotFound and InvalidInstanceGroupState.
+    failed_count: The number of nodes that failed to be added to the specified instance group.
+    message: A descriptive message providing additional details about the error.
+    """
+
+    instance_group_name: str
+    error_code: str
+    failed_count: int
+    message: Optional[str] = Unassigned()
+
+
+class NodeAdditionResult(Base):
+    """
+    NodeAdditionResult
+      Information about a node that was successfully added to the cluster.
+
+    Attributes
+    ----------------------
+    node_logical_id: A unique identifier assigned to the node that can be used to track its provisioning status through the DescribeClusterNode operation.
+    instance_group_name: The name of the instance group to which the node was added.
+    status: The current status of the node. Possible values include Pending, Running, Failed, ShuttingDown, SystemUpdating, DeepHealthCheckInProgress, and NotFound.
+    """
+
+    node_logical_id: str
+    instance_group_name: str
+    status: str
+
+
 class BatchDataCaptureConfig(Base):
     """
     BatchDataCaptureConfig
@@ -2400,6 +2511,23 @@ class BatchDataCaptureConfig(Base):
     destination_s3_uri: str
     kms_key_id: Optional[str] = Unassigned()
     generate_inference_id: Optional[bool] = Unassigned()
+
+
+class BatchDeleteClusterNodeLogicalIdsError(Base):
+    """
+    BatchDeleteClusterNodeLogicalIdsError
+      Information about an error that occurred when attempting to delete a node identified by its NodeLogicalId.
+
+    Attributes
+    ----------------------
+    code: The error code associated with the failure. Possible values include NodeLogicalIdNotFound, InvalidNodeStatus, and InternalError.
+    message: A descriptive message providing additional details about the error.
+    node_logical_id: The NodeLogicalId of the node that could not be deleted.
+    """
+
+    code: str
+    message: str
+    node_logical_id: str
 
 
 class BatchDeleteClusterNodesError(Base):
@@ -2427,10 +2555,14 @@ class BatchDeleteClusterNodesResponse(Base):
     ----------------------
     failed: A list of errors encountered when deleting the specified nodes.
     successful: A list of node IDs that were successfully deleted from the specified cluster.
+    failed_node_logical_ids: A list of NodeLogicalIds that could not be deleted, along with error information explaining why the deletion failed.
+    successful_node_logical_ids: A list of NodeLogicalIds that were successfully deleted from the cluster.
     """
 
     failed: Optional[List[BatchDeleteClusterNodesError]] = Unassigned()
     successful: Optional[List[str]] = Unassigned()
+    failed_node_logical_ids: Optional[List[BatchDeleteClusterNodeLogicalIdsError]] = Unassigned()
+    successful_node_logical_ids: Optional[List[str]] = Unassigned()
 
 
 class BatchDescribeModelPackageError(Base):
@@ -2886,6 +3018,21 @@ class CanvasAppSettings(Base):
     emr_serverless_settings: Optional[EmrServerlessSettings] = Unassigned()
 
 
+class CapacityReservation(Base):
+    """
+    CapacityReservation
+      Information about the Capacity Reservation used by an instance or instance group.
+
+    Attributes
+    ----------------------
+    arn: The Amazon Resource Name (ARN) of the Capacity Reservation.
+    type: The type of Capacity Reservation. Valid values are ODCR (On-Demand Capacity Reservation) or CRG (Capacity Reservation Group).
+    """
+
+    arn: Optional[str] = Unassigned()
+    type: Optional[str] = Unassigned()
+
+
 class CapacitySizeConfig(Base):
     """
     CapacitySizeConfig
@@ -2970,6 +3117,125 @@ class CategoricalParameterRangeSpecification(Base):
     """
 
     values: List[str]
+
+
+class CfnStackCreateParameter(Base):
+    """
+    CfnStackCreateParameter
+       A key-value pair that represents a parameter for the CloudFormation stack.
+
+    Attributes
+    ----------------------
+    key:  The name of the CloudFormation parameter.
+    value:  The value of the CloudFormation parameter.
+    """
+
+    key: str
+    value: Optional[str] = Unassigned()
+
+
+class CfnCreateTemplateProvider(Base):
+    """
+    CfnCreateTemplateProvider
+       The CloudFormation template provider configuration for creating infrastructure resources.
+
+    Attributes
+    ----------------------
+    template_name:  A unique identifier for the template within the project.
+    template_url:  The Amazon S3 URL of the CloudFormation template.
+    role_arn:  The IAM role that CloudFormation assumes when creating the stack.
+    parameters:  An array of CloudFormation stack parameters.
+    """
+
+    template_name: str
+    template_url: str
+    role_arn: Optional[str] = Unassigned()
+    parameters: Optional[List[CfnStackCreateParameter]] = Unassigned()
+
+
+class CfnStackDetail(Base):
+    """
+    CfnStackDetail
+       Details about the CloudFormation stack.
+
+    Attributes
+    ----------------------
+    name:  The name of the CloudFormation stack.
+    id:  The unique identifier of the CloudFormation stack.
+    status_message:  A human-readable message about the stack's current status.
+    """
+
+    status_message: str
+    name: Optional[str] = Unassigned()
+    id: Optional[str] = Unassigned()
+
+
+class CfnStackParameter(Base):
+    """
+    CfnStackParameter
+       A key-value pair representing a parameter used in the CloudFormation stack.
+
+    Attributes
+    ----------------------
+    key:  The name of the CloudFormation parameter.
+    value:  The value of the CloudFormation parameter.
+    """
+
+    key: str
+    value: Optional[str] = Unassigned()
+
+
+class CfnStackUpdateParameter(Base):
+    """
+    CfnStackUpdateParameter
+       A key-value pair representing a parameter used in the CloudFormation stack.
+
+    Attributes
+    ----------------------
+    key:  The name of the CloudFormation parameter.
+    value:  The value of the CloudFormation parameter.
+    """
+
+    key: str
+    value: Optional[str] = Unassigned()
+
+
+class CfnTemplateProviderDetail(Base):
+    """
+    CfnTemplateProviderDetail
+       Details about a CloudFormation template provider configuration and associated provisioning information.
+
+    Attributes
+    ----------------------
+    template_name:  The unique identifier of the template within the project.
+    template_url:  The Amazon S3 URL of the CloudFormation template.
+    role_arn:  The IAM role used by CloudFormation to create the stack.
+    parameters:  An array of CloudFormation stack parameters.
+    stack_detail:  Information about the CloudFormation stack created by the template provider.
+    """
+
+    template_name: str
+    template_url: str
+    role_arn: Optional[str] = Unassigned()
+    parameters: Optional[List[CfnStackParameter]] = Unassigned()
+    stack_detail: Optional[CfnStackDetail] = Unassigned()
+
+
+class CfnUpdateTemplateProvider(Base):
+    """
+    CfnUpdateTemplateProvider
+       Contains configuration details for updating an existing CloudFormation template provider in the project.
+
+    Attributes
+    ----------------------
+    template_name:  The unique identifier of the template to update within the project.
+    template_url:  The Amazon S3 URL of the CloudFormation template.
+    parameters:  An array of CloudFormation stack parameters.
+    """
+
+    template_name: str
+    template_url: str
+    parameters: Optional[List[CfnStackUpdateParameter]] = Unassigned()
 
 
 class ChannelSpecification(Base):
@@ -3140,6 +3406,40 @@ class ClarifyExplainerConfig(Base):
     inference_config: Optional[ClarifyInferenceConfig] = Unassigned()
 
 
+class ClusterAutoScalingConfig(Base):
+    """
+    ClusterAutoScalingConfig
+      Specifies the autoscaling configuration for a HyperPod cluster.
+
+    Attributes
+    ----------------------
+    mode: Describes whether autoscaling is enabled or disabled for the cluster. Valid values are Enable and Disable.
+    auto_scaler_type: The type of autoscaler to use. Currently supported value is Karpenter.
+    """
+
+    mode: str
+    auto_scaler_type: Optional[str] = Unassigned()
+
+
+class ClusterAutoScalingConfigOutput(Base):
+    """
+    ClusterAutoScalingConfigOutput
+      The autoscaling configuration and status information for a HyperPod cluster.
+
+    Attributes
+    ----------------------
+    mode: Describes whether autoscaling is enabled or disabled for the cluster.
+    auto_scaler_type: The type of autoscaler configured for the cluster.
+    status: The current status of the autoscaling configuration. Valid values are InService, Failed, Creating, and Deleting.
+    failure_message: If the autoscaling status is Failed, this field contains a message describing the failure.
+    """
+
+    mode: str
+    status: str
+    auto_scaler_type: Optional[str] = Unassigned()
+    failure_message: Optional[str] = Unassigned()
+
+
 class ClusterEbsVolumeConfig(Base):
     """
     ClusterEbsVolumeConfig
@@ -3148,9 +3448,181 @@ class ClusterEbsVolumeConfig(Base):
     Attributes
     ----------------------
     volume_size_in_gb: The size in gigabytes (GB) of the additional EBS volume to be attached to the instances in the SageMaker HyperPod cluster instance group. The additional EBS volume is attached to each instance within the SageMaker HyperPod cluster instance group and mounted to /opt/sagemaker.
+    volume_kms_key_id: The ID of a KMS key to encrypt the Amazon EBS volume.
+    root_volume: Specifies whether the configuration is for the cluster's root or secondary Amazon EBS volume. You can specify two ClusterEbsVolumeConfig fields to configure both the root and secondary volumes. Set the value to True if you'd like to provide your own customer managed Amazon Web Services KMS key to encrypt the root volume. When True:   The configuration is applied to the root volume.   You can't specify the VolumeSizeInGB field. The size of the root volume is determined for you.   You must specify a KMS key ID for VolumeKmsKeyId to encrypt the root volume with your own KMS key instead of an Amazon Web Services owned KMS key.   Otherwise, by default, the value is False, and the following applies:   The configuration is applied to the secondary volume, while the root volume is encrypted with an Amazon Web Services owned key.   You must specify the VolumeSizeInGB field.   You can optionally specify the VolumeKmsKeyId to encrypt the secondary volume with your own KMS key instead of an Amazon Web Services owned KMS key.
     """
 
-    volume_size_in_gb: int
+    volume_size_in_gb: Optional[int] = Unassigned()
+    volume_kms_key_id: Optional[str] = Unassigned()
+    root_volume: Optional[bool] = Unassigned()
+
+
+class ClusterMetadata(Base):
+    """
+    ClusterMetadata
+      Metadata information about a HyperPod cluster showing information about the cluster level operations, such as creating, updating, and deleting.
+
+    Attributes
+    ----------------------
+    failure_message: An error message describing why the cluster level operation (such as creating, updating, or deleting) failed.
+    eks_role_access_entries: A list of Amazon EKS IAM role ARNs associated with the cluster. This is created by HyperPod on your behalf and only applies for EKS orchestrated clusters.
+    slr_access_entry: The Service-Linked Role (SLR) associated with the cluster. This is created by HyperPod on your behalf and only applies for EKS orchestrated clusters.
+    """
+
+    failure_message: Optional[str] = Unassigned()
+    eks_role_access_entries: Optional[List[str]] = Unassigned()
+    slr_access_entry: Optional[str] = Unassigned()
+
+
+class InstanceGroupMetadata(Base):
+    """
+    InstanceGroupMetadata
+      Metadata information about an instance group in a HyperPod cluster.
+
+    Attributes
+    ----------------------
+    failure_message: An error message describing why the instance group level operation (such as creating, scaling, or deleting) failed.
+    availability_zone_id: The ID of the Availability Zone where the instance group is located.
+    capacity_reservation: Information about the Capacity Reservation used by the instance group.
+    subnet_id: The ID of the subnet where the instance group is located.
+    security_group_ids: A list of security group IDs associated with the instance group.
+    ami_override: If you use a custom Amazon Machine Image (AMI) for the instance group, this field shows the ID of the custom AMI.
+    """
+
+    failure_message: Optional[str] = Unassigned()
+    availability_zone_id: Optional[str] = Unassigned()
+    capacity_reservation: Optional[CapacityReservation] = Unassigned()
+    subnet_id: Optional[str] = Unassigned()
+    security_group_ids: Optional[List[str]] = Unassigned()
+    ami_override: Optional[str] = Unassigned()
+
+
+class InstanceGroupScalingMetadata(Base):
+    """
+    InstanceGroupScalingMetadata
+      Metadata information about scaling operations for an instance group.
+
+    Attributes
+    ----------------------
+    instance_count: The current number of instances in the group.
+    target_count: The desired number of instances for the group after scaling.
+    failure_message: An error message describing why the scaling operation failed, if applicable.
+    """
+
+    instance_count: Optional[int] = Unassigned()
+    target_count: Optional[int] = Unassigned()
+    failure_message: Optional[str] = Unassigned()
+
+
+class InstanceMetadata(Base):
+    """
+    InstanceMetadata
+      Metadata information about an instance in a HyperPod cluster.
+
+    Attributes
+    ----------------------
+    customer_eni: The ID of the customer-managed Elastic Network Interface (ENI) associated with the instance.
+    additional_enis: Information about additional Elastic Network Interfaces (ENIs) associated with the instance.
+    capacity_reservation: Information about the Capacity Reservation used by the instance.
+    failure_message: An error message describing why the instance creation or update failed, if applicable.
+    lcs_execution_state: The execution state of the Lifecycle Script (LCS) for the instance.
+    node_logical_id: The unique logical identifier of the node within the cluster. The ID used here is the same object as in the BatchAddClusterNodes API.
+    """
+
+    customer_eni: Optional[str] = Unassigned()
+    additional_enis: Optional[AdditionalEnis] = Unassigned()
+    capacity_reservation: Optional[CapacityReservation] = Unassigned()
+    failure_message: Optional[str] = Unassigned()
+    lcs_execution_state: Optional[str] = Unassigned()
+    node_logical_id: Optional[str] = Unassigned()
+
+
+class EventMetadata(Base):
+    """
+    EventMetadata
+      Metadata associated with a cluster event, which may include details about various resource types.
+
+    Attributes
+    ----------------------
+    cluster: Metadata specific to cluster-level events.
+    instance_group: Metadata specific to instance group-level events.
+    instance_group_scaling: Metadata related to instance group scaling events.
+    instance: Metadata specific to instance-level events.
+    """
+
+    cluster: Optional[ClusterMetadata] = Unassigned()
+    instance_group: Optional[InstanceGroupMetadata] = Unassigned()
+    instance_group_scaling: Optional[InstanceGroupScalingMetadata] = Unassigned()
+    instance: Optional[InstanceMetadata] = Unassigned()
+
+
+class EventDetails(Base):
+    """
+    EventDetails
+      Detailed information about a specific event, including event metadata.
+
+    Attributes
+    ----------------------
+    event_metadata: Metadata specific to the event, which may include information about the cluster, instance group, or instance involved.
+    """
+
+    event_metadata: Optional[EventMetadata] = Unassigned()
+
+
+class ClusterEventDetail(Base):
+    """
+    ClusterEventDetail
+      Detailed information about a specific event in a HyperPod cluster.
+
+    Attributes
+    ----------------------
+    event_id: The unique identifier (UUID) of the event.
+    cluster_arn: The Amazon Resource Name (ARN) of the HyperPod cluster associated with the event.
+    cluster_name: The name of the HyperPod cluster associated with the event.
+    instance_group_name: The name of the instance group associated with the event, if applicable.
+    instance_id: The EC2 instance ID associated with the event, if applicable.
+    resource_type: The type of resource associated with the event. Valid values are Cluster, InstanceGroup, or Instance.
+    event_time: The timestamp when the event occurred.
+    event_details: Additional details about the event, including event-specific metadata.
+    description: A human-readable description of the event.
+    """
+
+    event_id: str
+    cluster_arn: str
+    cluster_name: Union[str, object]
+    resource_type: str
+    event_time: datetime.datetime
+    instance_group_name: Optional[str] = Unassigned()
+    instance_id: Optional[str] = Unassigned()
+    event_details: Optional[EventDetails] = Unassigned()
+    description: Optional[str] = Unassigned()
+
+
+class ClusterEventSummary(Base):
+    """
+    ClusterEventSummary
+      A summary of an event in a HyperPod cluster.
+
+    Attributes
+    ----------------------
+    event_id: The unique identifier (UUID) of the event.
+    cluster_arn: The Amazon Resource Name (ARN) of the HyperPod cluster associated with the event.
+    cluster_name: The name of the HyperPod cluster associated with the event.
+    instance_group_name: The name of the instance group associated with the event, if applicable.
+    instance_id: The Amazon Elastic Compute Cloud (EC2) instance ID associated with the event, if applicable.
+    resource_type: The type of resource associated with the event. Valid values are Cluster, InstanceGroup, or Instance.
+    event_time: The timestamp when the event occurred.
+    description: A brief, human-readable description of the event.
+    """
+
+    event_id: str
+    cluster_arn: str
+    cluster_name: Union[str, object]
+    resource_type: str
+    event_time: datetime.datetime
+    instance_group_name: Optional[str] = Unassigned()
+    instance_id: Optional[str] = Unassigned()
+    description: Optional[str] = Unassigned()
 
 
 class ClusterLifeCycleConfig(Base):
@@ -3249,6 +3721,8 @@ class ClusterInstanceGroupDetails(Base):
     training_plan_status: The current status of the training plan associated with this cluster instance group.
     override_vpc_config: The customized Amazon VPC configuration at the instance group level that overrides the default Amazon VPC configuration of the SageMaker HyperPod cluster.
     scheduled_update_config: The configuration object of the schedule that SageMaker follows when updating the AMI.
+    current_image_id: The ID of the Amazon Machine Image (AMI) currently in use by the instance group.
+    desired_image_id: The ID of the Amazon Machine Image (AMI) desired for the instance group.
     """
 
     current_count: Optional[int] = Unassigned()
@@ -3265,6 +3739,8 @@ class ClusterInstanceGroupDetails(Base):
     training_plan_status: Optional[str] = Unassigned()
     override_vpc_config: Optional[VpcConfig] = Unassigned()
     scheduled_update_config: Optional[ScheduledUpdateConfig] = Unassigned()
+    current_image_id: Optional[str] = Unassigned()
+    desired_image_id: Optional[str] = Unassigned()
 
 
 class ClusterInstanceGroupSpecification(Base):
@@ -3285,6 +3761,7 @@ class ClusterInstanceGroupSpecification(Base):
     training_plan_arn: The Amazon Resource Name (ARN); of the training plan to use for this cluster instance group. For more information about how to reserve GPU capacity for your SageMaker HyperPod clusters using Amazon SageMaker Training Plan, see  CreateTrainingPlan .
     override_vpc_config: To configure multi-AZ deployments, customize the Amazon VPC configuration at the instance group level. You can specify different subnets and security groups across different AZs in the instance group specification to override a SageMaker HyperPod cluster's default Amazon VPC configuration. For more information about deploying a cluster in multiple AZs, see Setting up SageMaker HyperPod clusters across multiple AZs.  When your Amazon VPC and subnets support IPv6, network communications differ based on the cluster orchestration platform:   Slurm-orchestrated clusters automatically configure nodes with dual IPv6 and IPv4 addresses, allowing immediate IPv6 network communications.   In Amazon EKS-orchestrated clusters, nodes receive dual-stack addressing, but pods can only use IPv6 when the Amazon EKS cluster is explicitly IPv6-enabled. For information about deploying an IPv6 Amazon EKS cluster, see Amazon EKS IPv6 Cluster Deployment.   Additional resources for IPv6 configuration:   For information about adding IPv6 support to your VPC, see to IPv6 Support for VPC.   For information about creating a new IPv6-compatible VPC, see Amazon VPC Creation Guide.   To configure SageMaker HyperPod with a custom Amazon VPC, see Custom Amazon VPC Setup for SageMaker HyperPod.
     scheduled_update_config: The configuration object of the schedule that SageMaker uses to update the AMI.
+    image_id: When configuring your HyperPod cluster, you can specify an image ID using one of the following options:    HyperPodPublicAmiId: Use a HyperPod public AMI    CustomAmiId: Use your custom AMI    default: Use the default latest system image   If you choose to use a custom AMI (CustomAmiId), ensure it meets the following requirements:   Encryption: The custom AMI must be unencrypted.   Ownership: The custom AMI must be owned by the same Amazon Web Services account that is creating the HyperPod cluster.   Volume support: Only the primary AMI snapshot volume is supported; additional AMI volumes are not supported.   When updating the instance group's AMI through the UpdateClusterSoftware operation, if an instance group uses a custom AMI, you must provide an ImageId or use the default as input. Note that if you don't specify an instance group in your UpdateClusterSoftware request, then all of the instance groups are patched with the specified image.
     """
 
     instance_count: int
@@ -3298,6 +3775,7 @@ class ClusterInstanceGroupSpecification(Base):
     training_plan_arn: Optional[str] = Unassigned()
     override_vpc_config: Optional[VpcConfig] = Unassigned()
     scheduled_update_config: Optional[ScheduledUpdateConfig] = Unassigned()
+    image_id: Optional[str] = Unassigned()
 
 
 class ClusterInstancePlacement(Base):
@@ -3330,6 +3808,19 @@ class ClusterInstanceStatusDetails(Base):
     message: Optional[str] = Unassigned()
 
 
+class UltraServerInfo(Base):
+    """
+    UltraServerInfo
+      Contains information about the UltraServer object.
+
+    Attributes
+    ----------------------
+    id: The unique identifier of the UltraServer.
+    """
+
+    id: Optional[str] = Unassigned()
+
+
 class ClusterNodeDetails(Base):
     """
     ClusterNodeDetails
@@ -3339,6 +3830,7 @@ class ClusterNodeDetails(Base):
     ----------------------
     instance_group_name: The instance group name in which the instance is.
     instance_id: The ID of the instance.
+    node_logical_id: A unique identifier for the node that persists throughout its lifecycle, from provisioning request to termination. This identifier can be used to track the node even before it has an assigned InstanceId.
     instance_status: The status of the instance.
     instance_type: The type of the instance.
     launch_time: The time when the instance is launched.
@@ -3351,10 +3843,14 @@ class ClusterNodeDetails(Base):
     private_primary_ipv6: The private primary IPv6 address of the SageMaker HyperPod cluster node when configured with an Amazon VPC that supports IPv6 and includes subnets with IPv6 addressing enabled in either the cluster Amazon VPC configuration or the instance group Amazon VPC configuration.
     private_dns_hostname: The private DNS hostname of the SageMaker HyperPod cluster node.
     placement: The placement details of the SageMaker HyperPod cluster node.
+    current_image_id: The ID of the Amazon Machine Image (AMI) currently in use by the node.
+    desired_image_id: The ID of the Amazon Machine Image (AMI) desired for the node.
+    ultra_server_info: Contains information about the UltraServer.
     """
 
     instance_group_name: Optional[str] = Unassigned()
     instance_id: Optional[str] = Unassigned()
+    node_logical_id: Optional[str] = Unassigned()
     instance_status: Optional[ClusterInstanceStatusDetails] = Unassigned()
     instance_type: Optional[str] = Unassigned()
     launch_time: Optional[datetime.datetime] = Unassigned()
@@ -3367,6 +3863,9 @@ class ClusterNodeDetails(Base):
     private_primary_ipv6: Optional[str] = Unassigned()
     private_dns_hostname: Optional[str] = Unassigned()
     placement: Optional[ClusterInstancePlacement] = Unassigned()
+    current_image_id: Optional[str] = Unassigned()
+    desired_image_id: Optional[str] = Unassigned()
+    ultra_server_info: Optional[UltraServerInfo] = Unassigned()
 
 
 class ClusterNodeSummary(Base):
@@ -3378,10 +3877,12 @@ class ClusterNodeSummary(Base):
     ----------------------
     instance_group_name: The name of the instance group in which the instance is.
     instance_id: The ID of the instance.
+    node_logical_id: A unique identifier for the node that persists throughout its lifecycle, from provisioning request to termination. This identifier can be used to track the node even before it has an assigned InstanceId. This field is only included when IncludeNodeLogicalIds is set to True in the ListClusterNodes request.
     instance_type: The type of the instance.
     launch_time: The time when the instance is launched.
     last_software_update_time: The time when SageMaker last updated the software of the instances in the cluster.
     instance_status: The status of the instance.
+    ultra_server_info: Contains information about the UltraServer.
     """
 
     instance_group_name: str
@@ -3389,7 +3890,9 @@ class ClusterNodeSummary(Base):
     instance_type: str
     launch_time: datetime.datetime
     instance_status: ClusterInstanceStatusDetails
+    node_logical_id: Optional[str] = Unassigned()
     last_software_update_time: Optional[datetime.datetime] = Unassigned()
+    ultra_server_info: Optional[UltraServerInfo] = Unassigned()
 
 
 class ClusterOrchestratorEksConfig(Base):
@@ -3416,6 +3919,121 @@ class ClusterOrchestrator(Base):
     """
 
     eks: ClusterOrchestratorEksConfig
+
+
+class FSxLustreConfig(Base):
+    """
+    FSxLustreConfig
+      Configuration settings for an Amazon FSx for Lustre file system to be used with the cluster.
+
+    Attributes
+    ----------------------
+    size_in_gi_b: The storage capacity of the Amazon FSx for Lustre file system, specified in gibibytes (GiB).
+    per_unit_storage_throughput: The throughput capacity of the Amazon FSx for Lustre file system, measured in MB/s per TiB of storage.
+    """
+
+    size_in_gi_b: int
+    per_unit_storage_throughput: int
+
+
+class EnvironmentConfigDetails(Base):
+    """
+    EnvironmentConfigDetails
+      The configuration details for the restricted instance groups (RIG) environment.
+
+    Attributes
+    ----------------------
+    f_sx_lustre_config: Configuration settings for an Amazon FSx for Lustre file system to be used with the cluster.
+    s3_output_path: The Amazon S3 path where output data from the restricted instance group (RIG) environment will be stored.
+    """
+
+    f_sx_lustre_config: Optional[FSxLustreConfig] = Unassigned()
+    s3_output_path: Optional[str] = Unassigned()
+
+
+class ClusterRestrictedInstanceGroupDetails(Base):
+    """
+    ClusterRestrictedInstanceGroupDetails
+      The instance group details of the restricted instance group (RIG).
+
+    Attributes
+    ----------------------
+    current_count: The number of instances that are currently in the restricted instance group of a SageMaker HyperPod cluster.
+    target_count: The number of instances you specified to add to the restricted instance group of a SageMaker HyperPod cluster.
+    instance_group_name: The name of the restricted instance group of a SageMaker HyperPod cluster.
+    instance_type: The instance type of the restricted instance group of a SageMaker HyperPod cluster.
+    execution_role: The execution role for the restricted instance group to assume.
+    threads_per_core: The number you specified to TreadsPerCore in CreateCluster for enabling or disabling multithreading. For instance types that support multithreading, you can specify 1 for disabling multithreading and 2 for enabling multithreading. For more information, see the reference table of CPU cores and threads per CPU core per instance type in the Amazon Elastic Compute Cloud User Guide.
+    instance_storage_configs: The additional storage configurations for the instances in the SageMaker HyperPod cluster restricted instance group.
+    on_start_deep_health_checks: A flag indicating whether deep health checks should be performed when the cluster's restricted instance group is created or updated.
+    status: The current status of the cluster's restricted instance group.    InService: The restricted instance group is active and healthy.    Creating: The restricted instance group is being provisioned.    Updating: The restricted instance group is being updated.    Failed: The restricted instance group has failed to provision or is no longer healthy.    Degraded: The restricted instance group is degraded, meaning that some instances have failed to provision or are no longer healthy.    Deleting: The restricted instance group is being deleted.
+    training_plan_arn: The Amazon Resource Name (ARN) of the training plan to filter clusters by. For more information about reserving GPU capacity for your SageMaker HyperPod clusters using Amazon SageMaker Training Plan, see  CreateTrainingPlan .
+    training_plan_status: The current status of the training plan associated with this cluster restricted instance group.
+    override_vpc_config
+    scheduled_update_config
+    environment_config: The configuration for the restricted instance groups (RIG) environment.
+    """
+
+    current_count: Optional[int] = Unassigned()
+    target_count: Optional[int] = Unassigned()
+    instance_group_name: Optional[str] = Unassigned()
+    instance_type: Optional[str] = Unassigned()
+    execution_role: Optional[str] = Unassigned()
+    threads_per_core: Optional[int] = Unassigned()
+    instance_storage_configs: Optional[List[ClusterInstanceStorageConfig]] = Unassigned()
+    on_start_deep_health_checks: Optional[List[str]] = Unassigned()
+    status: Optional[str] = Unassigned()
+    training_plan_arn: Optional[str] = Unassigned()
+    training_plan_status: Optional[str] = Unassigned()
+    override_vpc_config: Optional[VpcConfig] = Unassigned()
+    scheduled_update_config: Optional[ScheduledUpdateConfig] = Unassigned()
+    environment_config: Optional[EnvironmentConfigDetails] = Unassigned()
+
+
+class EnvironmentConfig(Base):
+    """
+    EnvironmentConfig
+      The configuration for the restricted instance groups (RIG) environment.
+
+    Attributes
+    ----------------------
+    f_sx_lustre_config: Configuration settings for an Amazon FSx for Lustre file system to be used with the cluster.
+    """
+
+    f_sx_lustre_config: Optional[FSxLustreConfig] = Unassigned()
+
+
+class ClusterRestrictedInstanceGroupSpecification(Base):
+    """
+    ClusterRestrictedInstanceGroupSpecification
+      The specifications of a restricted instance group that you need to define.
+
+    Attributes
+    ----------------------
+    instance_count: Specifies the number of instances to add to the restricted instance group of a SageMaker HyperPod cluster.
+    instance_group_name: Specifies the name of the restricted instance group.
+    instance_type: Specifies the instance type of the restricted instance group.
+    execution_role: Specifies an IAM execution role to be assumed by the restricted instance group.
+    threads_per_core: The number you specified to TreadsPerCore in CreateCluster for enabling or disabling multithreading. For instance types that support multithreading, you can specify 1 for disabling multithreading and 2 for enabling multithreading. For more information, see the reference table of CPU cores and threads per CPU core per instance type in the Amazon Elastic Compute Cloud User Guide.
+    instance_storage_configs: Specifies the additional storage configurations for the instances in the SageMaker HyperPod cluster restricted instance group.
+    on_start_deep_health_checks: A flag indicating whether deep health checks should be performed when the cluster restricted instance group is created or updated.
+    training_plan_arn: The Amazon Resource Name (ARN) of the training plan to filter clusters by. For more information about reserving GPU capacity for your SageMaker HyperPod clusters using Amazon SageMaker Training Plan, see  CreateTrainingPlan .
+    override_vpc_config
+    scheduled_update_config
+    environment_config: The configuration for the restricted instance groups (RIG) environment.
+    """
+
+    instance_count: int
+    instance_group_name: str
+    instance_type: str
+    execution_role: str
+    environment_config: EnvironmentConfig
+    threads_per_core: Optional[int] = Unassigned()
+    instance_storage_configs: Optional[List[ClusterInstanceStorageConfig]] = Unassigned()
+    on_start_deep_health_checks: Optional[List[str]] = Unassigned()
+    training_plan_arn: Optional[str] = Unassigned()
+    override_vpc_config: Optional[VpcConfig] = Unassigned()
+    scheduled_update_config: Optional[ScheduledUpdateConfig] = Unassigned()
 
 
 class ClusterSchedulerConfigSummary(Base):
@@ -3464,6 +4082,21 @@ class ClusterSummary(Base):
     creation_time: datetime.datetime
     cluster_status: str
     training_plan_arns: Optional[List[str]] = Unassigned()
+
+
+class ClusterTieredStorageConfig(Base):
+    """
+    ClusterTieredStorageConfig
+      Defines the configuration for managed tier checkpointing in a HyperPod cluster. Managed tier checkpointing uses multiple storage tiers, including cluster CPU memory, to provide faster checkpoint operations and improved fault tolerance for large-scale model training. The system automatically saves checkpoints at high frequency to memory and periodically persists them to durable storage, like Amazon S3.
+
+    Attributes
+    ----------------------
+    mode: Specifies whether managed tier checkpointing is enabled or disabled for the HyperPod cluster. When set to Enable, the system installs a memory management daemon that provides disaggregated memory as a service for checkpoint storage. When set to Disable, the feature is turned off and the memory management daemon is removed from the cluster.
+    instance_memory_allocation_percentage: The percentage (int) of cluster memory to allocate for checkpointing.
+    """
+
+    mode: str
+    instance_memory_allocation_percentage: Optional[int] = Unassigned()
 
 
 class CustomImage(Base):
@@ -3670,10 +4303,16 @@ class ComputeQuotaResourceConfig(Base):
     ----------------------
     instance_type: The instance type of the instance group for the cluster.
     count: The number of instances to add to the instance group of a SageMaker HyperPod cluster.
+    accelerators: The number of accelerators to allocate. If you don't specify a value for vCPU and MemoryInGiB, SageMaker AI automatically allocates ratio-based values for those parameters based on the number of accelerators you provide. For example, if you allocate 16 out of 32 total accelerators, SageMaker AI uses the ratio of 0.5 and allocates values to vCPU and MemoryInGiB.
+    v_cpu: The number of vCPU to allocate. If you specify a value only for vCPU, SageMaker AI automatically allocates ratio-based values for MemoryInGiB based on this vCPU parameter. For example, if you allocate 20 out of 40 total vCPU, SageMaker AI uses the ratio of 0.5 and allocates values to MemoryInGiB. Accelerators are set to 0.
+    memory_in_gi_b: The amount of memory in GiB to allocate. If you specify a value only for this parameter, SageMaker AI automatically allocates a ratio-based value for vCPU based on this memory that you provide. For example, if you allocate 200 out of 400 total memory in GiB, SageMaker AI uses the ratio of 0.5 and allocates values to vCPU. Accelerators are set to 0.
     """
 
     instance_type: str
-    count: int
+    count: Optional[int] = Unassigned()
+    accelerators: Optional[int] = Unassigned()
+    v_cpu: Optional[float] = Unassigned()
+    memory_in_gi_b: Optional[float] = Unassigned()
 
 
 class ResourceSharingConfig(Base):
@@ -4635,6 +5274,21 @@ class FSxLustreFileSystemConfig(Base):
     file_system_path: Optional[str] = Unassigned()
 
 
+class S3FileSystemConfig(Base):
+    """
+    S3FileSystemConfig
+      Configuration for the custom Amazon S3 file system.
+
+    Attributes
+    ----------------------
+    mount_path: The file system path where the Amazon S3 storage location will be mounted within the Amazon SageMaker Studio environment.
+    s3_uri: The Amazon S3 URI of the S3 file system configuration.
+    """
+
+    s3_uri: str
+    mount_path: Optional[str] = Unassigned()
+
+
 class CustomFileSystemConfig(Base):
     """
     CustomFileSystemConfig
@@ -4644,10 +5298,12 @@ class CustomFileSystemConfig(Base):
     ----------------------
     efs_file_system_config: The settings for a custom Amazon EFS file system.
     f_sx_lustre_file_system_config: The settings for a custom Amazon FSx for Lustre file system.
+    s3_file_system_config: Configuration settings for a custom Amazon S3 file system.
     """
 
     efs_file_system_config: Optional[EFSFileSystemConfig] = Unassigned()
     f_sx_lustre_file_system_config: Optional[FSxLustreFileSystemConfig] = Unassigned()
+    s3_file_system_config: Optional[S3FileSystemConfig] = Unassigned()
 
 
 class HiddenSageMakerImage(Base):
@@ -4750,6 +5406,19 @@ class RStudioServerProDomainSettings(Base):
     default_resource_spec: Optional[ResourceSpec] = Unassigned()
 
 
+class TrustedIdentityPropagationSettings(Base):
+    """
+    TrustedIdentityPropagationSettings
+      The Trusted Identity Propagation (TIP) settings for the SageMaker domain. These settings determine how user identities from IAM Identity Center are propagated through the domain to TIP enabled Amazon Web Services services.
+
+    Attributes
+    ----------------------
+    status: The status of Trusted Identity Propagation (TIP) at the SageMaker domain level.  When disabled, standard IAM role-based access is used.  When enabled:   User identities from IAM Identity Center are propagated through the application to TIP enabled Amazon Web Services services.   New applications or existing applications that are automatically patched, will use the domain level configuration.
+    """
+
+    status: str
+
+
 class DockerSettings(Base):
     """
     DockerSettings
@@ -4759,10 +5428,12 @@ class DockerSettings(Base):
     ----------------------
     enable_docker_access: Indicates whether the domain can access Docker.
     vpc_only_trusted_accounts: The list of Amazon Web Services accounts that are trusted when the domain is created in VPC-only mode.
+    rootless_docker: Indicates whether to use rootless Docker.
     """
 
     enable_docker_access: Optional[str] = Unassigned()
     vpc_only_trusted_accounts: Optional[List[str]] = Unassigned()
+    rootless_docker: Optional[str] = Unassigned()
 
 
 class UnifiedStudioSettings(Base):
@@ -4779,6 +5450,7 @@ class UnifiedStudioSettings(Base):
     project_id: The ID of the Amazon SageMaker Unified Studio project that corresponds to the domain.
     environment_id: The ID of the environment that Amazon SageMaker Unified Studio associates with the domain.
     project_s3_path: The location where Amazon S3 stores temporary execution data and other artifacts for the project that corresponds to the domain.
+    single_sign_on_application_arn: The ARN of the Amazon DataZone application managed by Amazon SageMaker Unified Studio in the Amazon Web Services IAM Identity Center.
     """
 
     studio_web_portal_access: Optional[str] = Unassigned()
@@ -4788,6 +5460,7 @@ class UnifiedStudioSettings(Base):
     project_id: Optional[str] = Unassigned()
     environment_id: Optional[str] = Unassigned()
     project_s3_path: Optional[str] = Unassigned()
+    single_sign_on_application_arn: Optional[str] = Unassigned()
 
 
 class DomainSettings(Base):
@@ -4800,17 +5473,23 @@ class DomainSettings(Base):
     security_group_ids: The security groups for the Amazon Virtual Private Cloud that the Domain uses for communication between Domain-level apps and user apps.
     r_studio_server_pro_domain_settings: A collection of settings that configure the RStudioServerPro Domain-level app.
     execution_role_identity_config: The configuration for attaching a SageMaker AI user profile name to the execution role as a sts:SourceIdentity key.
+    trusted_identity_propagation_settings: The Trusted Identity Propagation (TIP) settings for the SageMaker domain. These settings determine how user identities from IAM Identity Center are propagated through the domain to TIP enabled Amazon Web Services services.
     docker_settings: A collection of settings that configure the domain's Docker interaction.
     amazon_q_settings: A collection of settings that configure the Amazon Q experience within the domain. The AuthMode that you use to create the domain must be SSO.
     unified_studio_settings: The settings that apply to an SageMaker AI domain when you use it in Amazon SageMaker Unified Studio.
+    ip_address_type: The IP address type for the domain. Specify ipv4 for IPv4-only connectivity or dualstack for both IPv4 and IPv6 connectivity. When you specify dualstack, the subnet must support IPv6 CIDR blocks. If not specified, defaults to ipv4.
     """
 
     security_group_ids: Optional[List[str]] = Unassigned()
     r_studio_server_pro_domain_settings: Optional[RStudioServerProDomainSettings] = Unassigned()
     execution_role_identity_config: Optional[str] = Unassigned()
+    trusted_identity_propagation_settings: Optional[TrustedIdentityPropagationSettings] = (
+        Unassigned()
+    )
     docker_settings: Optional[DockerSettings] = Unassigned()
     amazon_q_settings: Optional[AmazonQSettings] = Unassigned()
     unified_studio_settings: Optional[UnifiedStudioSettings] = Unassigned()
+    ip_address_type: Optional[str] = Unassigned()
 
 
 class DefaultSpaceSettings(Base):
@@ -4966,6 +5645,21 @@ class ProductionVariantRoutingConfig(Base):
     routing_strategy: str
 
 
+class ProductionVariantCapacityReservationConfig(Base):
+    """
+    ProductionVariantCapacityReservationConfig
+      Settings for the capacity reservation for the compute instances that SageMaker AI reserves for an endpoint.
+
+    Attributes
+    ----------------------
+    capacity_reservation_preference: Options that you can choose for the capacity reservation. SageMaker AI supports the following options:  capacity-reservations-only  SageMaker AI launches instances only into an ML capacity reservation. If no capacity is available, the instances fail to launch.
+    ml_reservation_arn: The Amazon Resource Name (ARN) that uniquely identifies the ML capacity reservation that SageMaker AI applies when it deploys the endpoint.
+    """
+
+    capacity_reservation_preference: Optional[str] = Unassigned()
+    ml_reservation_arn: Optional[str] = Unassigned()
+
+
 class ProductionVariant(Base):
     """
     ProductionVariant
@@ -4988,6 +5682,7 @@ class ProductionVariant(Base):
     managed_instance_scaling: Settings that control the range in the number of instances that the endpoint provisions as it scales up or down to accommodate traffic.
     routing_config: Settings that control how the endpoint routes incoming traffic to the instances that the endpoint hosts.
     inference_ami_version: Specifies an option from a collection of preconfigured Amazon Machine Image (AMI) images. Each image is configured by Amazon Web Services with a set of software and driver versions. Amazon Web Services optimizes these configurations for different machine learning workloads. By selecting an AMI version, you can ensure that your inference environment is compatible with specific software requirements, such as CUDA driver versions, Linux kernel versions, or Amazon Web Services Neuron driver versions. The AMI version names, and their configurations, are the following:  al2-ami-sagemaker-inference-gpu-2    Accelerator: GPU   NVIDIA driver version: 535   CUDA version: 12.2    al2-ami-sagemaker-inference-gpu-2-1    Accelerator: GPU   NVIDIA driver version: 535   CUDA version: 12.2   NVIDIA Container Toolkit with disabled CUDA-compat mounting    al2-ami-sagemaker-inference-gpu-3-1    Accelerator: GPU   NVIDIA driver version: 550   CUDA version: 12.4   NVIDIA Container Toolkit with disabled CUDA-compat mounting    al2-ami-sagemaker-inference-neuron-2    Accelerator: Inferentia2 and Trainium   Neuron driver version: 2.19
+    capacity_reservation_config: Settings for the capacity reservation for the compute instances that SageMaker AI reserves for an endpoint.
     """
 
     variant_name: str
@@ -5005,6 +5700,7 @@ class ProductionVariant(Base):
     managed_instance_scaling: Optional[ProductionVariantManagedInstanceScaling] = Unassigned()
     routing_config: Optional[ProductionVariantRoutingConfig] = Unassigned()
     inference_ami_version: Optional[str] = Unassigned()
+    capacity_reservation_config: Optional[ProductionVariantCapacityReservationConfig] = Unassigned()
 
 
 class DataCaptureConfig(Base):
@@ -5311,6 +6007,21 @@ class FlowDefinitionOutputConfig(Base):
 
     s3_output_path: str
     kms_key_id: Optional[str] = Unassigned()
+
+
+class PresignedUrlAccessConfig(Base):
+    """
+    PresignedUrlAccessConfig
+      Configuration for accessing hub content through presigned URLs, including license agreement acceptance and URL validation settings.
+
+    Attributes
+    ----------------------
+    accept_eula: Indicates acceptance of the End User License Agreement (EULA) for gated models. Set to true to acknowledge acceptance of the license terms required for accessing gated content.
+    expected_s3_url: The expected S3 URL prefix for validation purposes. This parameter helps ensure consistency between the resolved S3 URIs and the deployment configuration, reducing potential compatibility issues.
+    """
+
+    accept_eula: Optional[bool] = Unassigned()
+    expected_s3_url: Optional[str] = Unassigned()
 
 
 class HubS3StorageConfig(Base):
@@ -5666,6 +6377,19 @@ class InferenceComponentComputeResourceRequirements(Base):
     max_memory_required_in_mb: Optional[int] = Unassigned()
 
 
+class InferenceComponentDataCacheConfig(Base):
+    """
+    InferenceComponentDataCacheConfig
+      Settings that affect how the inference component caches data.
+
+    Attributes
+    ----------------------
+    enable_caching: Sets whether the endpoint that hosts the inference component caches the model artifacts and container image. With caching enabled, the endpoint caches this data in each instance that it provisions for the inference component. That way, the inference component deploys faster during the auto scaling process. If caching isn't enabled, the inference component takes longer to deploy because of the time it spends downloading the data.
+    """
+
+    enable_caching: bool
+
+
 class InferenceComponentSpecification(Base):
     """
     InferenceComponentSpecification
@@ -5678,6 +6402,7 @@ class InferenceComponentSpecification(Base):
     startup_parameters: Settings that take effect while the model container starts up.
     compute_resource_requirements: The compute resources allocated to run the model, plus any adapter models, that you assign to the inference component. Omit this parameter if your request is meant to create an adapter inference component. An adapter inference component is loaded by a base inference component, and it uses the compute resources of the base inference component.
     base_inference_component_name: The name of an existing inference component that is to contain the inference component that you're creating with your request. Specify this parameter only if your request is meant to create an adapter inference component. An adapter inference component contains the path to an adapter model. The purpose of the adapter model is to tailor the inference output of a base foundation model, which is hosted by the base inference component. The adapter inference component uses the compute resources that you assigned to the base inference component. When you create an adapter inference component, use the Container parameter to specify the location of the adapter artifacts. In the parameter value, use the ArtifactUrl parameter of the InferenceComponentContainerSpecification data type. Before you can create an adapter inference component, you must have an existing inference component that contains the foundation model that you want to adapt.
+    data_cache_config: Settings that affect how the inference component caches data.
     """
 
     model_name: Optional[Union[str, object]] = Unassigned()
@@ -5687,6 +6412,7 @@ class InferenceComponentSpecification(Base):
         Unassigned()
     )
     base_inference_component_name: Optional[str] = Unassigned()
+    data_cache_config: Optional[InferenceComponentDataCacheConfig] = Unassigned()
 
 
 class InferenceComponentRuntimeConfig(Base):
@@ -6231,7 +6957,7 @@ class HumanTaskConfig(Base):
     ----------------------
     workteam_arn: The Amazon Resource Name (ARN) of the work team assigned to complete the tasks.
     ui_config: Information about the user interface that workers use to complete the labeling task.
-    pre_human_task_lambda_arn: The Amazon Resource Name (ARN) of a Lambda function that is run before a data object is sent to a human worker. Use this function to provide input to a custom labeling job. For built-in task types, use one of the following Amazon SageMaker Ground Truth Lambda function ARNs for PreHumanTaskLambdaArn. For custom labeling workflows, see Pre-annotation Lambda.   Bounding box - Finds the most similar boxes from different workers based on the Jaccard index of the boxes.    arn:aws:lambda:us-east-1:432418664414:function:PRE-BoundingBox     arn:aws:lambda:us-east-2:266458841044:function:PRE-BoundingBox     arn:aws:lambda:us-west-2:081040173940:function:PRE-BoundingBox     arn:aws:lambda:ca-central-1:918755190332:function:PRE-BoundingBox     arn:aws:lambda:eu-west-1:568282634449:function:PRE-BoundingBox     arn:aws:lambda:eu-west-2:487402164563:function:PRE-BoundingBox     arn:aws:lambda:eu-central-1:203001061592:function:PRE-BoundingBox     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-BoundingBox     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-BoundingBox     arn:aws:lambda:ap-south-1:565803892007:function:PRE-BoundingBox     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-BoundingBox     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-BoundingBox     Image classification - Uses a variant of the Expectation Maximization approach to estimate the true class of an image based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:PRE-ImageMultiClass     arn:aws:lambda:us-east-2:266458841044:function:PRE-ImageMultiClass     arn:aws:lambda:us-west-2:081040173940:function:PRE-ImageMultiClass     arn:aws:lambda:ca-central-1:918755190332:function:PRE-ImageMultiClass     arn:aws:lambda:eu-west-1:568282634449:function:PRE-ImageMultiClass     arn:aws:lambda:eu-west-2:487402164563:function:PRE-ImageMultiClass     arn:aws:lambda:eu-central-1:203001061592:function:PRE-ImageMultiClass     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-ImageMultiClass     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-ImageMultiClass     arn:aws:lambda:ap-south-1:565803892007:function:PRE-ImageMultiClass     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-ImageMultiClass     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-ImageMultiClass     Multi-label image classification - Uses a variant of the Expectation Maximization approach to estimate the true classes of an image based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:PRE-ImageMultiClassMultiLabel     arn:aws:lambda:us-east-2:266458841044:function:PRE-ImageMultiClassMultiLabel     arn:aws:lambda:us-west-2:081040173940:function:PRE-ImageMultiClassMultiLabel     arn:aws:lambda:ca-central-1:918755190332:function:PRE-ImageMultiClassMultiLabel     arn:aws:lambda:eu-west-1:568282634449:function:PRE-ImageMultiClassMultiLabel     arn:aws:lambda:eu-west-2:487402164563:function:PRE-ImageMultiClassMultiLabel     arn:aws:lambda:eu-central-1:203001061592:function:PRE-ImageMultiClassMultiLabel     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-ImageMultiClassMultiLabel     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-ImageMultiClassMultiLabel     arn:aws:lambda:ap-south-1:565803892007:function:PRE-ImageMultiClassMultiLabel     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-ImageMultiClassMultiLabel     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-ImageMultiClassMultiLabel     Semantic segmentation - Treats each pixel in an image as a multi-class classification and treats pixel annotations from workers as "votes" for the correct label.    arn:aws:lambda:us-east-1:432418664414:function:PRE-SemanticSegmentation     arn:aws:lambda:us-east-2:266458841044:function:PRE-SemanticSegmentation     arn:aws:lambda:us-west-2:081040173940:function:PRE-SemanticSegmentation     arn:aws:lambda:ca-central-1:918755190332:function:PRE-SemanticSegmentation     arn:aws:lambda:eu-west-1:568282634449:function:PRE-SemanticSegmentation     arn:aws:lambda:eu-west-2:487402164563:function:PRE-SemanticSegmentation     arn:aws:lambda:eu-central-1:203001061592:function:PRE-SemanticSegmentation     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-SemanticSegmentation     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-SemanticSegmentation     arn:aws:lambda:ap-south-1:565803892007:function:PRE-SemanticSegmentation     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-SemanticSegmentation     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-SemanticSegmentation     Text classification - Uses a variant of the Expectation Maximization approach to estimate the true class of text based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:PRE-TextMultiClass     arn:aws:lambda:us-east-2:266458841044:function:PRE-TextMultiClass     arn:aws:lambda:us-west-2:081040173940:function:PRE-TextMultiClass     arn:aws:lambda:ca-central-1:918755190332:function:PRE-TextMultiClass     arn:aws:lambda:eu-west-1:568282634449:function:PRE-TextMultiClass     arn:aws:lambda:eu-west-2:487402164563:function:PRE-TextMultiClass     arn:aws:lambda:eu-central-1:203001061592:function:PRE-TextMultiClass     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-TextMultiClass     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-TextMultiClass     arn:aws:lambda:ap-south-1:565803892007:function:PRE-TextMultiClass     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-TextMultiClass     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-TextMultiClass     Multi-label text classification - Uses a variant of the Expectation Maximization approach to estimate the true classes of text based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:PRE-TextMultiClassMultiLabel     arn:aws:lambda:us-east-2:266458841044:function:PRE-TextMultiClassMultiLabel     arn:aws:lambda:us-west-2:081040173940:function:PRE-TextMultiClassMultiLabel     arn:aws:lambda:ca-central-1:918755190332:function:PRE-TextMultiClassMultiLabel     arn:aws:lambda:eu-west-1:568282634449:function:PRE-TextMultiClassMultiLabel     arn:aws:lambda:eu-west-2:487402164563:function:PRE-TextMultiClassMultiLabel     arn:aws:lambda:eu-central-1:203001061592:function:PRE-TextMultiClassMultiLabel     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-TextMultiClassMultiLabel     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-TextMultiClassMultiLabel     arn:aws:lambda:ap-south-1:565803892007:function:PRE-TextMultiClassMultiLabel     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-TextMultiClassMultiLabel     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-TextMultiClassMultiLabel     Named entity recognition - Groups similar selections and calculates aggregate boundaries, resolving to most-assigned label.    arn:aws:lambda:us-east-1:432418664414:function:PRE-NamedEntityRecognition     arn:aws:lambda:us-east-2:266458841044:function:PRE-NamedEntityRecognition     arn:aws:lambda:us-west-2:081040173940:function:PRE-NamedEntityRecognition     arn:aws:lambda:ca-central-1:918755190332:function:PRE-NamedEntityRecognition     arn:aws:lambda:eu-west-1:568282634449:function:PRE-NamedEntityRecognition     arn:aws:lambda:eu-west-2:487402164563:function:PRE-NamedEntityRecognition     arn:aws:lambda:eu-central-1:203001061592:function:PRE-NamedEntityRecognition     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-NamedEntityRecognition     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-NamedEntityRecognition     arn:aws:lambda:ap-south-1:565803892007:function:PRE-NamedEntityRecognition     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-NamedEntityRecognition     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-NamedEntityRecognition     Video Classification - Use this task type when you need workers to classify videos using predefined labels that you specify. Workers are shown videos and are asked to choose one label for each video.    arn:aws:lambda:us-east-1:432418664414:function:PRE-VideoMultiClass     arn:aws:lambda:us-east-2:266458841044:function:PRE-VideoMultiClass     arn:aws:lambda:us-west-2:081040173940:function:PRE-VideoMultiClass     arn:aws:lambda:eu-west-1:568282634449:function:PRE-VideoMultiClass     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-VideoMultiClass     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-VideoMultiClass     arn:aws:lambda:ap-south-1:565803892007:function:PRE-VideoMultiClass     arn:aws:lambda:eu-central-1:203001061592:function:PRE-VideoMultiClass     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-VideoMultiClass     arn:aws:lambda:eu-west-2:487402164563:function:PRE-VideoMultiClass     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-VideoMultiClass     arn:aws:lambda:ca-central-1:918755190332:function:PRE-VideoMultiClass     Video Frame Object Detection - Use this task type to have workers identify and locate objects in a sequence of video frames (images extracted from a video) using bounding boxes. For example, you can use this task to ask workers to identify and localize various objects in a series of video frames, such as cars, bikes, and pedestrians.    arn:aws:lambda:us-east-1:432418664414:function:PRE-VideoObjectDetection     arn:aws:lambda:us-east-2:266458841044:function:PRE-VideoObjectDetection     arn:aws:lambda:us-west-2:081040173940:function:PRE-VideoObjectDetection     arn:aws:lambda:eu-west-1:568282634449:function:PRE-VideoObjectDetection     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-VideoObjectDetection     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-VideoObjectDetection     arn:aws:lambda:ap-south-1:565803892007:function:PRE-VideoObjectDetection     arn:aws:lambda:eu-central-1:203001061592:function:PRE-VideoObjectDetection     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-VideoObjectDetection     arn:aws:lambda:eu-west-2:487402164563:function:PRE-VideoObjectDetection     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-VideoObjectDetection     arn:aws:lambda:ca-central-1:918755190332:function:PRE-VideoObjectDetection     Video Frame Object Tracking - Use this task type to have workers track the movement of objects in a sequence of video frames (images extracted from a video) using bounding boxes. For example, you can use this task to ask workers to track the movement of objects, such as cars, bikes, and pedestrians.     arn:aws:lambda:us-east-1:432418664414:function:PRE-VideoObjectTracking     arn:aws:lambda:us-east-2:266458841044:function:PRE-VideoObjectTracking     arn:aws:lambda:us-west-2:081040173940:function:PRE-VideoObjectTracking     arn:aws:lambda:eu-west-1:568282634449:function:PRE-VideoObjectTracking     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-VideoObjectTracking     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-VideoObjectTracking     arn:aws:lambda:ap-south-1:565803892007:function:PRE-VideoObjectTracking     arn:aws:lambda:eu-central-1:203001061592:function:PRE-VideoObjectTracking     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-VideoObjectTracking     arn:aws:lambda:eu-west-2:487402164563:function:PRE-VideoObjectTracking     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-VideoObjectTracking     arn:aws:lambda:ca-central-1:918755190332:function:PRE-VideoObjectTracking     3D Point Cloud Modalities  Use the following pre-annotation lambdas for 3D point cloud labeling modality tasks. See 3D Point Cloud Task types  to learn more.   3D Point Cloud Object Detection - Use this task type when you want workers to classify objects in a 3D point cloud by drawing 3D cuboids around objects. For example, you can use this task type to ask workers to identify different types of objects in a point cloud, such as cars, bikes, and pedestrians.    arn:aws:lambda:us-east-1:432418664414:function:PRE-3DPointCloudObjectDetection     arn:aws:lambda:us-east-2:266458841044:function:PRE-3DPointCloudObjectDetection     arn:aws:lambda:us-west-2:081040173940:function:PRE-3DPointCloudObjectDetection     arn:aws:lambda:eu-west-1:568282634449:function:PRE-3DPointCloudObjectDetection     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-3DPointCloudObjectDetection     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-3DPointCloudObjectDetection     arn:aws:lambda:ap-south-1:565803892007:function:PRE-3DPointCloudObjectDetection     arn:aws:lambda:eu-central-1:203001061592:function:PRE-3DPointCloudObjectDetection     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-3DPointCloudObjectDetection     arn:aws:lambda:eu-west-2:487402164563:function:PRE-3DPointCloudObjectDetection     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-3DPointCloudObjectDetection     arn:aws:lambda:ca-central-1:918755190332:function:PRE-3DPointCloudObjectDetection     3D Point Cloud Object Tracking - Use this task type when you want workers to draw 3D cuboids around objects that appear in a sequence of 3D point cloud frames. For example, you can use this task type to ask workers to track the movement of vehicles across multiple point cloud frames.     arn:aws:lambda:us-east-1:432418664414:function:PRE-3DPointCloudObjectTracking     arn:aws:lambda:us-east-2:266458841044:function:PRE-3DPointCloudObjectTracking     arn:aws:lambda:us-west-2:081040173940:function:PRE-3DPointCloudObjectTracking     arn:aws:lambda:eu-west-1:568282634449:function:PRE-3DPointCloudObjectTracking     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-3DPointCloudObjectTracking     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-3DPointCloudObjectTracking     arn:aws:lambda:ap-south-1:565803892007:function:PRE-3DPointCloudObjectTracking     arn:aws:lambda:eu-central-1:203001061592:function:PRE-3DPointCloudObjectTracking     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-3DPointCloudObjectTracking     arn:aws:lambda:eu-west-2:487402164563:function:PRE-3DPointCloudObjectTracking     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-3DPointCloudObjectTracking     arn:aws:lambda:ca-central-1:918755190332:function:PRE-3DPointCloudObjectTracking     3D Point Cloud Semantic Segmentation - Use this task type when you want workers to create a point-level semantic segmentation masks by painting objects in a 3D point cloud using different colors where each color is assigned to one of the classes you specify.    arn:aws:lambda:us-east-1:432418664414:function:PRE-3DPointCloudSemanticSegmentation     arn:aws:lambda:us-east-2:266458841044:function:PRE-3DPointCloudSemanticSegmentation     arn:aws:lambda:us-west-2:081040173940:function:PRE-3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-west-1:568282634449:function:PRE-3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-south-1:565803892007:function:PRE-3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-central-1:203001061592:function:PRE-3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-west-2:487402164563:function:PRE-3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-3DPointCloudSemanticSegmentation     arn:aws:lambda:ca-central-1:918755190332:function:PRE-3DPointCloudSemanticSegmentation     Use the following ARNs for Label Verification and Adjustment Jobs  Use label verification and adjustment jobs to review and adjust labels. To learn more, see Verify and Adjust Labels .  Bounding box verification - Uses a variant of the Expectation Maximization approach to estimate the true class of verification judgement for bounding box labels based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:PRE-VerificationBoundingBox     arn:aws:lambda:us-east-2:266458841044:function:PRE-VerificationBoundingBox     arn:aws:lambda:us-west-2:081040173940:function:PRE-VerificationBoundingBox     arn:aws:lambda:eu-west-1:568282634449:function:PRE-VerificationBoundingBox     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-VerificationBoundingBox     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-VerificationBoundingBox     arn:aws:lambda:ap-south-1:565803892007:function:PRE-VerificationBoundingBox     arn:aws:lambda:eu-central-1:203001061592:function:PRE-VerificationBoundingBox     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-VerificationBoundingBox     arn:aws:lambda:eu-west-2:487402164563:function:PRE-VerificationBoundingBox     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-VerificationBoundingBox     arn:aws:lambda:ca-central-1:918755190332:function:PRE-VerificationBoundingBox     Bounding box adjustment - Finds the most similar boxes from different workers based on the Jaccard index of the adjusted annotations.    arn:aws:lambda:us-east-1:432418664414:function:PRE-AdjustmentBoundingBox     arn:aws:lambda:us-east-2:266458841044:function:PRE-AdjustmentBoundingBox     arn:aws:lambda:us-west-2:081040173940:function:PRE-AdjustmentBoundingBox     arn:aws:lambda:ca-central-1:918755190332:function:PRE-AdjustmentBoundingBox     arn:aws:lambda:eu-west-1:568282634449:function:PRE-AdjustmentBoundingBox     arn:aws:lambda:eu-west-2:487402164563:function:PRE-AdjustmentBoundingBox     arn:aws:lambda:eu-central-1:203001061592:function:PRE-AdjustmentBoundingBox     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-AdjustmentBoundingBox     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-AdjustmentBoundingBox     arn:aws:lambda:ap-south-1:565803892007:function:PRE-AdjustmentBoundingBox     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-AdjustmentBoundingBox     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-AdjustmentBoundingBox     Semantic segmentation verification - Uses a variant of the Expectation Maximization approach to estimate the true class of verification judgment for semantic segmentation labels based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:PRE-VerificationSemanticSegmentation     arn:aws:lambda:us-east-2:266458841044:function:PRE-VerificationSemanticSegmentation     arn:aws:lambda:us-west-2:081040173940:function:PRE-VerificationSemanticSegmentation     arn:aws:lambda:ca-central-1:918755190332:function:PRE-VerificationSemanticSegmentation     arn:aws:lambda:eu-west-1:568282634449:function:PRE-VerificationSemanticSegmentation     arn:aws:lambda:eu-west-2:487402164563:function:PRE-VerificationSemanticSegmentation     arn:aws:lambda:eu-central-1:203001061592:function:PRE-VerificationSemanticSegmentation     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-VerificationSemanticSegmentation     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-VerificationSemanticSegmentation     arn:aws:lambda:ap-south-1:565803892007:function:PRE-VerificationSemanticSegmentation     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-VerificationSemanticSegmentation     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-VerificationSemanticSegmentation     Semantic segmentation adjustment - Treats each pixel in an image as a multi-class classification and treats pixel adjusted annotations from workers as "votes" for the correct label.    arn:aws:lambda:us-east-1:432418664414:function:PRE-AdjustmentSemanticSegmentation     arn:aws:lambda:us-east-2:266458841044:function:PRE-AdjustmentSemanticSegmentation     arn:aws:lambda:us-west-2:081040173940:function:PRE-AdjustmentSemanticSegmentation     arn:aws:lambda:ca-central-1:918755190332:function:PRE-AdjustmentSemanticSegmentation     arn:aws:lambda:eu-west-1:568282634449:function:PRE-AdjustmentSemanticSegmentation     arn:aws:lambda:eu-west-2:487402164563:function:PRE-AdjustmentSemanticSegmentation     arn:aws:lambda:eu-central-1:203001061592:function:PRE-AdjustmentSemanticSegmentation     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-AdjustmentSemanticSegmentation     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-AdjustmentSemanticSegmentation     arn:aws:lambda:ap-south-1:565803892007:function:PRE-AdjustmentSemanticSegmentation     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-AdjustmentSemanticSegmentation     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-AdjustmentSemanticSegmentation     Video Frame Object Detection Adjustment - Use this task type when you want workers to adjust bounding boxes that workers have added to video frames to classify and localize objects in a sequence of video frames.    arn:aws:lambda:us-east-1:432418664414:function:PRE-AdjustmentVideoObjectDetection     arn:aws:lambda:us-east-2:266458841044:function:PRE-AdjustmentVideoObjectDetection     arn:aws:lambda:us-west-2:081040173940:function:PRE-AdjustmentVideoObjectDetection     arn:aws:lambda:eu-west-1:568282634449:function:PRE-AdjustmentVideoObjectDetection     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-AdjustmentVideoObjectDetection     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-AdjustmentVideoObjectDetection     arn:aws:lambda:ap-south-1:565803892007:function:PRE-AdjustmentVideoObjectDetection     arn:aws:lambda:eu-central-1:203001061592:function:PRE-AdjustmentVideoObjectDetection     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-AdjustmentVideoObjectDetection     arn:aws:lambda:eu-west-2:487402164563:function:PRE-AdjustmentVideoObjectDetection     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-AdjustmentVideoObjectDetection     arn:aws:lambda:ca-central-1:918755190332:function:PRE-AdjustmentVideoObjectDetection     Video Frame Object Tracking Adjustment - Use this task type when you want workers to adjust bounding boxes that workers have added to video frames to track object movement across a sequence of video frames.    arn:aws:lambda:us-east-1:432418664414:function:PRE-AdjustmentVideoObjectTracking     arn:aws:lambda:us-east-2:266458841044:function:PRE-AdjustmentVideoObjectTracking     arn:aws:lambda:us-west-2:081040173940:function:PRE-AdjustmentVideoObjectTracking     arn:aws:lambda:eu-west-1:568282634449:function:PRE-AdjustmentVideoObjectTracking     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-AdjustmentVideoObjectTracking     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-AdjustmentVideoObjectTracking     arn:aws:lambda:ap-south-1:565803892007:function:PRE-AdjustmentVideoObjectTracking     arn:aws:lambda:eu-central-1:203001061592:function:PRE-AdjustmentVideoObjectTracking     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-AdjustmentVideoObjectTracking     arn:aws:lambda:eu-west-2:487402164563:function:PRE-AdjustmentVideoObjectTracking     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-AdjustmentVideoObjectTracking     arn:aws:lambda:ca-central-1:918755190332:function:PRE-AdjustmentVideoObjectTracking     3D point cloud object detection adjustment - Adjust 3D cuboids in a point cloud frame.     arn:aws:lambda:us-east-1:432418664414:function:PRE-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:us-east-2:266458841044:function:PRE-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:us-west-2:081040173940:function:PRE-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:eu-west-1:568282634449:function:PRE-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ap-south-1:565803892007:function:PRE-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:eu-central-1:203001061592:function:PRE-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:eu-west-2:487402164563:function:PRE-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ca-central-1:918755190332:function:PRE-Adjustment3DPointCloudObjectDetection     3D point cloud object tracking adjustment - Adjust 3D cuboids across a sequence of point cloud frames.     arn:aws:lambda:us-east-1:432418664414:function:PRE-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:us-east-2:266458841044:function:PRE-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:us-west-2:081040173940:function:PRE-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:eu-west-1:568282634449:function:PRE-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ap-south-1:565803892007:function:PRE-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:eu-central-1:203001061592:function:PRE-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:eu-west-2:487402164563:function:PRE-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ca-central-1:918755190332:function:PRE-Adjustment3DPointCloudObjectTracking     3D point cloud semantic segmentation adjustment - Adjust semantic segmentation masks in a 3D point cloud.     arn:aws:lambda:us-east-1:432418664414:function:PRE-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:us-east-2:266458841044:function:PRE-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:us-west-2:081040173940:function:PRE-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-west-1:568282634449:function:PRE-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-south-1:565803892007:function:PRE-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-central-1:203001061592:function:PRE-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-west-2:487402164563:function:PRE-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ca-central-1:918755190332:function:PRE-Adjustment3DPointCloudSemanticSegmentation
+    pre_human_task_lambda_arn: The Amazon Resource Name (ARN) of a Lambda function that is run before a data object is sent to a human worker. Use this function to provide input to a custom labeling job. For built-in task types, use one of the following Amazon SageMaker Ground Truth Lambda function ARNs for PreHumanTaskLambdaArn. For custom labeling workflows, see Pre-annotation Lambda.   Bounding box - Finds the most similar boxes from different workers based on the Jaccard index of the boxes.    arn:aws:lambda:us-east-1:432418664414:function:PRE-BoundingBox     arn:aws:lambda:us-east-2:266458841044:function:PRE-BoundingBox     arn:aws:lambda:us-west-2:081040173940:function:PRE-BoundingBox     arn:aws:lambda:ca-central-1:918755190332:function:PRE-BoundingBox     arn:aws:lambda:eu-west-1:568282634449:function:PRE-BoundingBox     arn:aws:lambda:eu-west-2:487402164563:function:PRE-BoundingBox     arn:aws:lambda:eu-central-1:203001061592:function:PRE-BoundingBox     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-BoundingBox     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-BoundingBox     arn:aws:lambda:ap-south-1:565803892007:function:PRE-BoundingBox     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-BoundingBox     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-BoundingBox     Image classification - Uses a variant of the Expectation Maximization approach to estimate the true class of an image based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:PRE-ImageMultiClass     arn:aws:lambda:us-east-2:266458841044:function:PRE-ImageMultiClass     arn:aws:lambda:us-west-2:081040173940:function:PRE-ImageMultiClass     arn:aws:lambda:ca-central-1:918755190332:function:PRE-ImageMultiClass     arn:aws:lambda:eu-west-1:568282634449:function:PRE-ImageMultiClass     arn:aws:lambda:eu-west-2:487402164563:function:PRE-ImageMultiClass     arn:aws:lambda:eu-central-1:203001061592:function:PRE-ImageMultiClass     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-ImageMultiClass     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-ImageMultiClass     arn:aws:lambda:ap-south-1:565803892007:function:PRE-ImageMultiClass     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-ImageMultiClass     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-ImageMultiClass     Multi-label image classification - Uses a variant of the Expectation Maximization approach to estimate the true classes of an image based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:PRE-ImageMultiClassMultiLabel     arn:aws:lambda:us-east-2:266458841044:function:PRE-ImageMultiClassMultiLabel     arn:aws:lambda:us-west-2:081040173940:function:PRE-ImageMultiClassMultiLabel     arn:aws:lambda:ca-central-1:918755190332:function:PRE-ImageMultiClassMultiLabel     arn:aws:lambda:eu-west-1:568282634449:function:PRE-ImageMultiClassMultiLabel     arn:aws:lambda:eu-west-2:487402164563:function:PRE-ImageMultiClassMultiLabel     arn:aws:lambda:eu-central-1:203001061592:function:PRE-ImageMultiClassMultiLabel     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-ImageMultiClassMultiLabel     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-ImageMultiClassMultiLabel     arn:aws:lambda:ap-south-1:565803892007:function:PRE-ImageMultiClassMultiLabel     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-ImageMultiClassMultiLabel     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-ImageMultiClassMultiLabel     Semantic segmentation - Treats each pixel in an image as a multi-class classification and treats pixel annotations from workers as "votes" for the correct label.    arn:aws:lambda:us-east-1:432418664414:function:PRE-SemanticSegmentation     arn:aws:lambda:us-east-2:266458841044:function:PRE-SemanticSegmentation     arn:aws:lambda:us-west-2:081040173940:function:PRE-SemanticSegmentation     arn:aws:lambda:ca-central-1:918755190332:function:PRE-SemanticSegmentation     arn:aws:lambda:eu-west-1:568282634449:function:PRE-SemanticSegmentation     arn:aws:lambda:eu-west-2:487402164563:function:PRE-SemanticSegmentation     arn:aws:lambda:eu-central-1:203001061592:function:PRE-SemanticSegmentation     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-SemanticSegmentation     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-SemanticSegmentation     arn:aws:lambda:ap-south-1:565803892007:function:PRE-SemanticSegmentation     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-SemanticSegmentation     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-SemanticSegmentation     Text classification - Uses a variant of the Expectation Maximization approach to estimate the true class of text based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:PRE-TextMultiClass     arn:aws:lambda:us-east-2:266458841044:function:PRE-TextMultiClass     arn:aws:lambda:us-west-2:081040173940:function:PRE-TextMultiClass     arn:aws:lambda:ca-central-1:918755190332:function:PRE-TextMultiClass     arn:aws:lambda:eu-west-1:568282634449:function:PRE-TextMultiClass     arn:aws:lambda:eu-west-2:487402164563:function:PRE-TextMultiClass     arn:aws:lambda:eu-central-1:203001061592:function:PRE-TextMultiClass     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-TextMultiClass     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-TextMultiClass     arn:aws:lambda:ap-south-1:565803892007:function:PRE-TextMultiClass     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-TextMultiClass     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-TextMultiClass     Multi-label text classification - Uses a variant of the Expectation Maximization approach to estimate the true classes of text based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:PRE-TextMultiClassMultiLabel     arn:aws:lambda:us-east-2:266458841044:function:PRE-TextMultiClassMultiLabel     arn:aws:lambda:us-west-2:081040173940:function:PRE-TextMultiClassMultiLabel     arn:aws:lambda:ca-central-1:918755190332:function:PRE-TextMultiClassMultiLabel     arn:aws:lambda:eu-west-1:568282634449:function:PRE-TextMultiClassMultiLabel     arn:aws:lambda:eu-west-2:487402164563:function:PRE-TextMultiClassMultiLabel     arn:aws:lambda:eu-central-1:203001061592:function:PRE-TextMultiClassMultiLabel     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-TextMultiClassMultiLabel     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-TextMultiClassMultiLabel     arn:aws:lambda:ap-south-1:565803892007:function:PRE-TextMultiClassMultiLabel     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-TextMultiClassMultiLabel     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-TextMultiClassMultiLabel     Named entity recognition - Groups similar selections and calculates aggregate boundaries, resolving to most-assigned label.    arn:aws:lambda:us-east-1:432418664414:function:PRE-NamedEntityRecognition     arn:aws:lambda:us-east-2:266458841044:function:PRE-NamedEntityRecognition     arn:aws:lambda:us-west-2:081040173940:function:PRE-NamedEntityRecognition     arn:aws:lambda:ca-central-1:918755190332:function:PRE-NamedEntityRecognition     arn:aws:lambda:eu-west-1:568282634449:function:PRE-NamedEntityRecognition     arn:aws:lambda:eu-west-2:487402164563:function:PRE-NamedEntityRecognition     arn:aws:lambda:eu-central-1:203001061592:function:PRE-NamedEntityRecognition     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-NamedEntityRecognition     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-NamedEntityRecognition     arn:aws:lambda:ap-south-1:565803892007:function:PRE-NamedEntityRecognition     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-NamedEntityRecognition     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-NamedEntityRecognition     Video Classification - Use this task type when you need workers to classify videos using predefined labels that you specify. Workers are shown videos and are asked to choose one label for each video.    arn:aws:lambda:us-east-1:432418664414:function:PRE-VideoMultiClass     arn:aws:lambda:us-east-2:266458841044:function:PRE-VideoMultiClass     arn:aws:lambda:us-west-2:081040173940:function:PRE-VideoMultiClass     arn:aws:lambda:eu-west-1:568282634449:function:PRE-VideoMultiClass     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-VideoMultiClass     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-VideoMultiClass     arn:aws:lambda:ap-south-1:565803892007:function:PRE-VideoMultiClass     arn:aws:lambda:eu-central-1:203001061592:function:PRE-VideoMultiClass     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-VideoMultiClass     arn:aws:lambda:eu-west-2:487402164563:function:PRE-VideoMultiClass     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-VideoMultiClass     arn:aws:lambda:ca-central-1:918755190332:function:PRE-VideoMultiClass     Video Frame Object Detection - Use this task type to have workers identify and locate objects in a sequence of video frames (images extracted from a video) using bounding boxes. For example, you can use this task to ask workers to identify and localize various objects in a series of video frames, such as cars, bikes, and pedestrians.    arn:aws:lambda:us-east-1:432418664414:function:PRE-VideoObjectDetection     arn:aws:lambda:us-east-2:266458841044:function:PRE-VideoObjectDetection     arn:aws:lambda:us-west-2:081040173940:function:PRE-VideoObjectDetection     arn:aws:lambda:eu-west-1:568282634449:function:PRE-VideoObjectDetection     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-VideoObjectDetection     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-VideoObjectDetection     arn:aws:lambda:ap-south-1:565803892007:function:PRE-VideoObjectDetection     arn:aws:lambda:eu-central-1:203001061592:function:PRE-VideoObjectDetection     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-VideoObjectDetection     arn:aws:lambda:eu-west-2:487402164563:function:PRE-VideoObjectDetection     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-VideoObjectDetection     arn:aws:lambda:ca-central-1:918755190332:function:PRE-VideoObjectDetection     Video Frame Object Tracking - Use this task type to have workers track the movement of objects in a sequence of video frames (images extracted from a video) using bounding boxes. For example, you can use this task to ask workers to track the movement of objects, such as cars, bikes, and pedestrians.     arn:aws:lambda:us-east-1:432418664414:function:PRE-VideoObjectTracking     arn:aws:lambda:us-east-2:266458841044:function:PRE-VideoObjectTracking     arn:aws:lambda:us-west-2:081040173940:function:PRE-VideoObjectTracking     arn:aws:lambda:eu-west-1:568282634449:function:PRE-VideoObjectTracking     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-VideoObjectTracking     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-VideoObjectTracking     arn:aws:lambda:ap-south-1:565803892007:function:PRE-VideoObjectTracking     arn:aws:lambda:eu-central-1:203001061592:function:PRE-VideoObjectTracking     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-VideoObjectTracking     arn:aws:lambda:eu-west-2:487402164563:function:PRE-VideoObjectTracking     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-VideoObjectTracking     arn:aws:lambda:ca-central-1:918755190332:function:PRE-VideoObjectTracking     3D Point Cloud Modalities  Use the following pre-annotation lambdas for 3D point cloud labeling modality tasks. See 3D Point Cloud Task types  to learn more.   3D Point Cloud Object Detection - Use this task type when you want workers to classify objects in a 3D point cloud by drawing 3D cuboids around objects. For example, you can use this task type to ask workers to identify different types of objects in a point cloud, such as cars, bikes, and pedestrians.    arn:aws:lambda:us-east-1:432418664414:function:PRE-3DPointCloudObjectDetection     arn:aws:lambda:us-east-2:266458841044:function:PRE-3DPointCloudObjectDetection     arn:aws:lambda:us-west-2:081040173940:function:PRE-3DPointCloudObjectDetection     arn:aws:lambda:eu-west-1:568282634449:function:PRE-3DPointCloudObjectDetection     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-3DPointCloudObjectDetection     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-3DPointCloudObjectDetection     arn:aws:lambda:ap-south-1:565803892007:function:PRE-3DPointCloudObjectDetection     arn:aws:lambda:eu-central-1:203001061592:function:PRE-3DPointCloudObjectDetection     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-3DPointCloudObjectDetection     arn:aws:lambda:eu-west-2:487402164563:function:PRE-3DPointCloudObjectDetection     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-3DPointCloudObjectDetection     arn:aws:lambda:ca-central-1:918755190332:function:PRE-3DPointCloudObjectDetection     3D Point Cloud Object Tracking - Use this task type when you want workers to draw 3D cuboids around objects that appear in a sequence of 3D point cloud frames. For example, you can use this task type to ask workers to track the movement of vehicles across multiple point cloud frames.     arn:aws:lambda:us-east-1:432418664414:function:PRE-3DPointCloudObjectTracking     arn:aws:lambda:us-east-2:266458841044:function:PRE-3DPointCloudObjectTracking     arn:aws:lambda:us-west-2:081040173940:function:PRE-3DPointCloudObjectTracking     arn:aws:lambda:eu-west-1:568282634449:function:PRE-3DPointCloudObjectTracking     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-3DPointCloudObjectTracking     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-3DPointCloudObjectTracking     arn:aws:lambda:ap-south-1:565803892007:function:PRE-3DPointCloudObjectTracking     arn:aws:lambda:eu-central-1:203001061592:function:PRE-3DPointCloudObjectTracking     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-3DPointCloudObjectTracking     arn:aws:lambda:eu-west-2:487402164563:function:PRE-3DPointCloudObjectTracking     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-3DPointCloudObjectTracking     arn:aws:lambda:ca-central-1:918755190332:function:PRE-3DPointCloudObjectTracking     3D Point Cloud Semantic Segmentation - Use this task type when you want workers to create a point-level semantic segmentation masks by painting objects in a 3D point cloud using different colors where each color is assigned to one of the classes you specify.    arn:aws:lambda:us-east-1:432418664414:function:PRE-3DPointCloudSemanticSegmentation     arn:aws:lambda:us-east-2:266458841044:function:PRE-3DPointCloudSemanticSegmentation     arn:aws:lambda:us-west-2:081040173940:function:PRE-3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-west-1:568282634449:function:PRE-3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-south-1:565803892007:function:PRE-3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-central-1:203001061592:function:PRE-3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-west-2:487402164563:function:PRE-3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-3DPointCloudSemanticSegmentation     arn:aws:lambda:ca-central-1:918755190332:function:PRE-3DPointCloudSemanticSegmentation     Use the following ARNs for Label Verification and Adjustment Jobs  Use label verification and adjustment jobs to review and adjust labels. To learn more, see Verify and Adjust Labels .  Bounding box verification - Uses a variant of the Expectation Maximization approach to estimate the true class of verification judgement for bounding box labels based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:PRE-VerificationBoundingBox     arn:aws:lambda:us-east-2:266458841044:function:PRE-VerificationBoundingBox     arn:aws:lambda:us-west-2:081040173940:function:PRE-VerificationBoundingBox     arn:aws:lambda:eu-west-1:568282634449:function:PRE-VerificationBoundingBox     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-VerificationBoundingBox     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-VerificationBoundingBox     arn:aws:lambda:ap-south-1:565803892007:function:PRE-VerificationBoundingBox     arn:aws:lambda:eu-central-1:203001061592:function:PRE-VerificationBoundingBox     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-VerificationBoundingBox     arn:aws:lambda:eu-west-2:487402164563:function:PRE-VerificationBoundingBox     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-VerificationBoundingBox     arn:aws:lambda:ca-central-1:918755190332:function:PRE-VerificationBoundingBox     Bounding box adjustment - Finds the most similar boxes from different workers based on the Jaccard index of the adjusted annotations.    arn:aws:lambda:us-east-1:432418664414:function:PRE-AdjustmentBoundingBox     arn:aws:lambda:us-east-2:266458841044:function:PRE-AdjustmentBoundingBox     arn:aws:lambda:us-west-2:081040173940:function:PRE-AdjustmentBoundingBox     arn:aws:lambda:ca-central-1:918755190332:function:PRE-AdjustmentBoundingBox     arn:aws:lambda:eu-west-1:568282634449:function:PRE-AdjustmentBoundingBox     arn:aws:lambda:eu-west-2:487402164563:function:PRE-AdjustmentBoundingBox     arn:aws:lambda:eu-central-1:203001061592:function:PRE-AdjustmentBoundingBox     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-AdjustmentBoundingBox     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-AdjustmentBoundingBox     arn:aws:lambda:ap-south-1:565803892007:function:PRE-AdjustmentBoundingBox     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-AdjustmentBoundingBox     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-AdjustmentBoundingBox     Semantic segmentation verification - Uses a variant of the Expectation Maximization approach to estimate the true class of verification judgment for semantic segmentation labels based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:PRE-VerificationSemanticSegmentation     arn:aws:lambda:us-east-2:266458841044:function:PRE-VerificationSemanticSegmentation     arn:aws:lambda:us-west-2:081040173940:function:PRE-VerificationSemanticSegmentation     arn:aws:lambda:ca-central-1:918755190332:function:PRE-VerificationSemanticSegmentation     arn:aws:lambda:eu-west-1:568282634449:function:PRE-VerificationSemanticSegmentation     arn:aws:lambda:eu-west-2:487402164563:function:PRE-VerificationSemanticSegmentation     arn:aws:lambda:eu-central-1:203001061592:function:PRE-VerificationSemanticSegmentation     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-VerificationSemanticSegmentation     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-VerificationSemanticSegmentation     arn:aws:lambda:ap-south-1:565803892007:function:PRE-VerificationSemanticSegmentation     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-VerificationSemanticSegmentation     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-VerificationSemanticSegmentation     Semantic segmentation adjustment - Treats each pixel in an image as a multi-class classification and treats pixel adjusted annotations from workers as "votes" for the correct label.    arn:aws:lambda:us-east-1:432418664414:function:PRE-AdjustmentSemanticSegmentation     arn:aws:lambda:us-east-2:266458841044:function:PRE-AdjustmentSemanticSegmentation     arn:aws:lambda:us-west-2:081040173940:function:PRE-AdjustmentSemanticSegmentation     arn:aws:lambda:ca-central-1:918755190332:function:PRE-AdjustmentSemanticSegmentation     arn:aws:lambda:eu-west-1:568282634449:function:PRE-AdjustmentSemanticSegmentation     arn:aws:lambda:eu-west-2:487402164563:function:PRE-AdjustmentSemanticSegmentation     arn:aws:lambda:eu-central-1:203001061592:function:PRE-AdjustmentSemanticSegmentation     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-AdjustmentSemanticSegmentation     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-AdjustmentSemanticSegmentation     arn:aws:lambda:ap-south-1:565803892007:function:PRE-AdjustmentSemanticSegmentation     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-AdjustmentSemanticSegmentation     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-AdjustmentSemanticSegmentation     Video Frame Object Detection Adjustment - Use this task type when you want workers to adjust bounding boxes that workers have added to video frames to classify and localize objects in a sequence of video frames.    arn:aws:lambda:us-east-1:432418664414:function:PRE-AdjustmentVideoObjectDetection     arn:aws:lambda:us-east-2:266458841044:function:PRE-AdjustmentVideoObjectDetection     arn:aws:lambda:us-west-2:081040173940:function:PRE-AdjustmentVideoObjectDetection     arn:aws:lambda:eu-west-1:568282634449:function:PRE-AdjustmentVideoObjectDetection     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-AdjustmentVideoObjectDetection     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-AdjustmentVideoObjectDetection     arn:aws:lambda:ap-south-1:565803892007:function:PRE-AdjustmentVideoObjectDetection     arn:aws:lambda:eu-central-1:203001061592:function:PRE-AdjustmentVideoObjectDetection     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-AdjustmentVideoObjectDetection     arn:aws:lambda:eu-west-2:487402164563:function:PRE-AdjustmentVideoObjectDetection     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-AdjustmentVideoObjectDetection     arn:aws:lambda:ca-central-1:918755190332:function:PRE-AdjustmentVideoObjectDetection     Video Frame Object Tracking Adjustment - Use this task type when you want workers to adjust bounding boxes that workers have added to video frames to track object movement across a sequence of video frames.    arn:aws:lambda:us-east-1:432418664414:function:PRE-AdjustmentVideoObjectTracking     arn:aws:lambda:us-east-2:266458841044:function:PRE-AdjustmentVideoObjectTracking     arn:aws:lambda:us-west-2:081040173940:function:PRE-AdjustmentVideoObjectTracking     arn:aws:lambda:eu-west-1:568282634449:function:PRE-AdjustmentVideoObjectTracking     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-AdjustmentVideoObjectTracking     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-AdjustmentVideoObjectTracking     arn:aws:lambda:ap-south-1:565803892007:function:PRE-AdjustmentVideoObjectTracking     arn:aws:lambda:eu-central-1:203001061592:function:PRE-AdjustmentVideoObjectTracking     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-AdjustmentVideoObjectTracking     arn:aws:lambda:eu-west-2:487402164563:function:PRE-AdjustmentVideoObjectTracking     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-AdjustmentVideoObjectTracking     arn:aws:lambda:ca-central-1:918755190332:function:PRE-AdjustmentVideoObjectTracking     3D point cloud object detection adjustment - Adjust 3D cuboids in a point cloud frame.     arn:aws:lambda:us-east-1:432418664414:function:PRE-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:us-east-2:266458841044:function:PRE-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:us-west-2:081040173940:function:PRE-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:eu-west-1:568282634449:function:PRE-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ap-south-1:565803892007:function:PRE-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:eu-central-1:203001061592:function:PRE-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:eu-west-2:487402164563:function:PRE-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ca-central-1:918755190332:function:PRE-Adjustment3DPointCloudObjectDetection     3D point cloud object tracking adjustment - Adjust 3D cuboids across a sequence of point cloud frames.     arn:aws:lambda:us-east-1:432418664414:function:PRE-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:us-east-2:266458841044:function:PRE-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:us-west-2:081040173940:function:PRE-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:eu-west-1:568282634449:function:PRE-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ap-south-1:565803892007:function:PRE-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:eu-central-1:203001061592:function:PRE-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:eu-west-2:487402164563:function:PRE-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ca-central-1:918755190332:function:PRE-Adjustment3DPointCloudObjectTracking     3D point cloud semantic segmentation adjustment - Adjust semantic segmentation masks in a 3D point cloud.     arn:aws:lambda:us-east-1:432418664414:function:PRE-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:us-east-2:266458841044:function:PRE-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:us-west-2:081040173940:function:PRE-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-west-1:568282634449:function:PRE-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-south-1:565803892007:function:PRE-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-central-1:203001061592:function:PRE-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-west-2:487402164563:function:PRE-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ca-central-1:918755190332:function:PRE-Adjustment3DPointCloudSemanticSegmentation     Generative AI/Custom - Direct passthrough of input data without any transformation.    arn:aws:lambda:us-east-1:432418664414:function:PRE-PassThrough     arn:aws:lambda:us-east-2:266458841044:function:PRE-PassThrough     arn:aws:lambda:us-west-2:081040173940:function:PRE-PassThrough     arn:aws:lambda:ca-central-1:918755190332:function:PRE-PassThrough     arn:aws:lambda:eu-west-1:568282634449:function:PRE-PassThrough     arn:aws:lambda:eu-west-2:487402164563:function:PRE-PassThrough     arn:aws:lambda:eu-central-1:203001061592:function:PRE-PassThrough     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-PassThrough     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-PassThrough     arn:aws:lambda:ap-south-1:565803892007:function:PRE-PassThrough     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-PassThrough     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-PassThrough
     task_keywords: Keywords used to describe the task so that workers on Amazon Mechanical Turk can discover the task.
     task_title: A title for the task for your human workers.
     task_description: A description of the task for your human workers.
@@ -7092,7 +7818,7 @@ class ProcessingS3Input(Base):
     local_path: The local path in your container where you want Amazon SageMaker to write input data to. LocalPath is an absolute path to the input data and must begin with /opt/ml/processing/. LocalPath is a required parameter when AppManaged is False (default).
     s3_data_type: Whether you use an S3Prefix or a ManifestFile for the data type. If you choose S3Prefix, S3Uri identifies a key name prefix. Amazon SageMaker uses all objects with the specified key name prefix for the processing job. If you choose ManifestFile, S3Uri identifies an object that is a manifest file containing a list of object keys that you want Amazon SageMaker to use for the processing job.
     s3_input_mode: Whether to use File or Pipe input mode. In File mode, Amazon SageMaker copies the data from the input source onto the local ML storage volume before starting your processing container. This is the most commonly used input mode. In Pipe mode, Amazon SageMaker streams input data from the source directly to your processing container into named pipes without using the ML storage volume.
-    s3_data_distribution_type: Whether to distribute the data from Amazon S3 to all processing instances with FullyReplicated, or whether the data from Amazon S3 is shared by Amazon S3 key, downloading one shard of data to each processing instance.
+    s3_data_distribution_type: Whether to distribute the data from Amazon S3 to all processing instances with FullyReplicated, or whether the data from Amazon S3 is sharded by Amazon S3 key, downloading one shard of data to each processing instance.
     s3_compression_type: Whether to GZIP-decompress the data in Amazon S3 as it is streamed into the processing container. Gzip can only be used when Pipe mode is specified as the S3InputMode. In Pipe mode, Amazon SageMaker streams input data from the source directly to your container without using the EBS volume.
     """
 
@@ -7335,6 +8061,19 @@ class ServiceCatalogProvisioningDetails(Base):
     provisioning_parameters: Optional[List[ProvisioningParameter]] = Unassigned()
 
 
+class CreateTemplateProvider(Base):
+    """
+    CreateTemplateProvider
+       Contains configuration details for a template provider. Only one type of template provider can be specified.
+
+    Attributes
+    ----------------------
+    cfn_template_provider:  The CloudFormation template provider configuration for creating infrastructure resources.
+    """
+
+    cfn_template_provider: Optional[CfnCreateTemplateProvider] = Unassigned()
+
+
 class SpaceIdleSettings(Base):
     """
     SpaceIdleSettings
@@ -7445,6 +8184,19 @@ class FSxLustreFileSystem(Base):
     file_system_id: str
 
 
+class S3FileSystem(Base):
+    """
+    S3FileSystem
+      A custom file system in Amazon S3. This is only supported in Amazon SageMaker Unified Studio.
+
+    Attributes
+    ----------------------
+    s3_uri: The Amazon S3 URI that specifies the location in S3 where files are stored, which is mounted within the Studio environment. For example: s3://&lt;bucket-name&gt;/&lt;prefix&gt;/.
+    """
+
+    s3_uri: str
+
+
 class CustomFileSystem(Base):
     """
     CustomFileSystem
@@ -7454,10 +8206,12 @@ class CustomFileSystem(Base):
     ----------------------
     efs_file_system: A custom file system in Amazon EFS.
     f_sx_lustre_file_system: A custom file system in Amazon FSx for Lustre.
+    s3_file_system: A custom file system in Amazon S3. This is only supported in Amazon SageMaker Unified Studio.
     """
 
     efs_file_system: Optional[EFSFileSystem] = Unassigned()
     f_sx_lustre_file_system: Optional[FSxLustreFileSystem] = Unassigned()
+    s3_file_system: Optional[S3FileSystem] = Unassigned()
 
 
 class SpaceSettings(Base):
@@ -7475,6 +8229,7 @@ class SpaceSettings(Base):
     space_storage_settings: The storage settings for a space.
     space_managed_resources: If you enable this option, SageMaker AI creates the following resources on your behalf when you create the space:   The user profile that possesses the space.   The app that the space contains.
     custom_file_systems: A file system, created by you, that you assign to a space for an Amazon SageMaker AI Domain. Permitted users can access this file system in Amazon SageMaker AI Studio.
+    remote_access: A setting that enables or disables remote access for a SageMaker space. When enabled, this allows you to connect to the remote space from your local IDE.
     """
 
     jupyter_server_app_settings: Optional[JupyterServerAppSettings] = Unassigned()
@@ -7485,6 +8240,7 @@ class SpaceSettings(Base):
     space_storage_settings: Optional[SpaceStorageSettings] = Unassigned()
     space_managed_resources: Optional[str] = Unassigned()
     custom_file_systems: Optional[List[CustomFileSystem]] = Unassigned()
+    remote_access: Optional[str] = Unassigned()
 
 
 class OwnershipSettings(Base):
@@ -8164,6 +8920,48 @@ class ProductionVariantStatus(Base):
     start_time: Optional[datetime.datetime] = Unassigned()
 
 
+class Ec2CapacityReservation(Base):
+    """
+    Ec2CapacityReservation
+      The EC2 capacity reservations that are shared to an ML capacity reservation.
+
+    Attributes
+    ----------------------
+    ec2_capacity_reservation_id: The unique identifier for an EC2 capacity reservation that's part of the ML capacity reservation.
+    total_instance_count: The number of instances that you allocated to the EC2 capacity reservation.
+    available_instance_count: The number of instances that are currently available in the EC2 capacity reservation.
+    used_by_current_endpoint: The number of instances from the EC2 capacity reservation that are being used by the endpoint.
+    """
+
+    ec2_capacity_reservation_id: Optional[str] = Unassigned()
+    total_instance_count: Optional[int] = Unassigned()
+    available_instance_count: Optional[int] = Unassigned()
+    used_by_current_endpoint: Optional[int] = Unassigned()
+
+
+class ProductionVariantCapacityReservationSummary(Base):
+    """
+    ProductionVariantCapacityReservationSummary
+      Details about an ML capacity reservation.
+
+    Attributes
+    ----------------------
+    ml_reservation_arn: The Amazon Resource Name (ARN) that uniquely identifies the ML capacity reservation that SageMaker AI applies when it deploys the endpoint.
+    capacity_reservation_preference: The option that you chose for the capacity reservation. SageMaker AI supports the following options:  capacity-reservations-only  SageMaker AI launches instances only into an ML capacity reservation. If no capacity is available, the instances fail to launch.
+    total_instance_count: The number of instances that you allocated to the ML capacity reservation.
+    available_instance_count: The number of instances that are currently available in the ML capacity reservation.
+    used_by_current_endpoint: The number of instances from the ML capacity reservation that are being used by the endpoint.
+    ec2_capacity_reservations: The EC2 capacity reservations that are shared to this ML capacity reservation, if any.
+    """
+
+    ml_reservation_arn: Optional[str] = Unassigned()
+    capacity_reservation_preference: Optional[str] = Unassigned()
+    total_instance_count: Optional[int] = Unassigned()
+    available_instance_count: Optional[int] = Unassigned()
+    used_by_current_endpoint: Optional[int] = Unassigned()
+    ec2_capacity_reservations: Optional[List[Ec2CapacityReservation]] = Unassigned()
+
+
 class ProductionVariantSummary(Base):
     """
     ProductionVariantSummary
@@ -8182,6 +8980,7 @@ class ProductionVariantSummary(Base):
     desired_serverless_config: The serverless configuration requested for the endpoint update.
     managed_instance_scaling: Settings that control the range in the number of instances that the endpoint provisions as it scales up or down to accommodate traffic.
     routing_config: Settings that control how the endpoint routes incoming traffic to the instances that the endpoint hosts.
+    capacity_reservation_config: Settings for the capacity reservation for the compute instances that SageMaker AI reserves for an endpoint.
     """
 
     variant_name: str
@@ -8195,6 +8994,9 @@ class ProductionVariantSummary(Base):
     desired_serverless_config: Optional[ProductionVariantServerlessConfig] = Unassigned()
     managed_instance_scaling: Optional[ProductionVariantManagedInstanceScaling] = Unassigned()
     routing_config: Optional[ProductionVariantRoutingConfig] = Unassigned()
+    capacity_reservation_config: Optional[ProductionVariantCapacityReservationSummary] = (
+        Unassigned()
+    )
 
 
 class PendingProductionVariantSummary(Base):
@@ -8497,6 +9299,19 @@ class InferenceComponentContainerSpecificationSummary(Base):
     environment: Optional[Dict[str, str]] = Unassigned()
 
 
+class InferenceComponentDataCacheConfigSummary(Base):
+    """
+    InferenceComponentDataCacheConfigSummary
+      Settings that affect how the inference component caches data.
+
+    Attributes
+    ----------------------
+    enable_caching: Indicates whether the inference component caches model artifacts as part of the auto scaling process.
+    """
+
+    enable_caching: bool
+
+
 class InferenceComponentSpecificationSummary(Base):
     """
     InferenceComponentSpecificationSummary
@@ -8509,6 +9324,7 @@ class InferenceComponentSpecificationSummary(Base):
     startup_parameters: Settings that take effect while the model container starts up.
     compute_resource_requirements: The compute resources allocated to run the model, plus any adapter models, that you assign to the inference component.
     base_inference_component_name: The name of the base inference component that contains this inference component.
+    data_cache_config: Settings that affect how the inference component caches data.
     """
 
     model_name: Optional[Union[str, object]] = Unassigned()
@@ -8518,6 +9334,7 @@ class InferenceComponentSpecificationSummary(Base):
         Unassigned()
     )
     base_inference_component_name: Optional[str] = Unassigned()
+    data_cache_config: Optional[InferenceComponentDataCacheConfigSummary] = Unassigned()
 
 
 class InferenceComponentRuntimeConfigSummary(Base):
@@ -8967,6 +9784,40 @@ class ServiceCatalogProvisionedProductDetails(Base):
     provisioned_product_status_message: Optional[str] = Unassigned()
 
 
+class TemplateProviderDetail(Base):
+    """
+    TemplateProviderDetail
+       Details about a template provider configuration and associated provisioning information.
+
+    Attributes
+    ----------------------
+    cfn_template_provider_detail:  Details about a CloudFormation template provider configuration and associated provisioning information.
+    """
+
+    cfn_template_provider_detail: Optional[CfnTemplateProviderDetail] = Unassigned()
+
+
+class UltraServerSummary(Base):
+    """
+    UltraServerSummary
+      A summary of UltraServer resources and their current status.
+
+    Attributes
+    ----------------------
+    ultra_server_type: The type of UltraServer, such as ml.u-p6e-gb200x72.
+    instance_type: The Amazon EC2 instance type used in the UltraServer.
+    ultra_server_count: The number of UltraServers of this type.
+    available_spare_instance_count: The number of available spare instances in the UltraServers.
+    unhealthy_instance_count: The total number of instances across all UltraServers of this type that are currently in an unhealthy state.
+    """
+
+    ultra_server_type: str
+    instance_type: str
+    ultra_server_count: Optional[int] = Unassigned()
+    available_spare_instance_count: Optional[int] = Unassigned()
+    unhealthy_instance_count: Optional[int] = Unassigned()
+
+
 class SubscribedWorkteam(Base):
     """
     SubscribedWorkteam
@@ -9070,6 +9921,9 @@ class ReservedCapacitySummary(Base):
     Attributes
     ----------------------
     reserved_capacity_arn: The Amazon Resource Name (ARN); of the reserved capacity.
+    reserved_capacity_type: The type of reserved capacity.
+    ultra_server_type: The type of UltraServer included in this reserved capacity, such as ml.u-p6e-gb200x72.
+    ultra_server_count: The number of UltraServers included in this reserved capacity.
     instance_type: The instance type for the reserved capacity.
     total_instance_count: The total number of instances in the reserved capacity.
     status: The current status of the reserved capacity.
@@ -9084,6 +9938,9 @@ class ReservedCapacitySummary(Base):
     instance_type: str
     total_instance_count: int
     status: str
+    reserved_capacity_type: Optional[str] = Unassigned()
+    ultra_server_type: Optional[str] = Unassigned()
+    ultra_server_count: Optional[int] = Unassigned()
     availability_zone: Optional[str] = Unassigned()
     duration_hours: Optional[int] = Unassigned()
     duration_minutes: Optional[int] = Unassigned()
@@ -9216,6 +10073,7 @@ class Workforce(Base):
     workforce_vpc_config: The configuration of a VPC workforce.
     status: The status of your workforce.
     failure_reason: The reason your workforce failed.
+    ip_address_type: The IP address type you specify - either IPv4 only or dualstack (IPv4 and IPv6) - to support your labeling workforce.
     """
 
     workforce_name: Union[str, object]
@@ -9229,6 +10087,7 @@ class Workforce(Base):
     workforce_vpc_config: Optional[WorkforceVpcConfigResponse] = Unassigned()
     status: Optional[str] = Unassigned()
     failure_reason: Optional[str] = Unassigned()
+    ip_address_type: Optional[str] = Unassigned()
 
 
 class Workteam(Base):
@@ -9480,9 +10339,11 @@ class DomainSettingsForUpdate(Base):
     r_studio_server_pro_domain_settings_for_update: A collection of RStudioServerPro Domain-level app settings to update. A single RStudioServerPro application is created for a domain.
     execution_role_identity_config: The configuration for attaching a SageMaker AI user profile name to the execution role as a sts:SourceIdentity key. This configuration can only be modified if there are no apps in the InService or Pending state.
     security_group_ids: The security groups for the Amazon Virtual Private Cloud that the Domain uses for communication between Domain-level apps and user apps.
+    trusted_identity_propagation_settings: The Trusted Identity Propagation (TIP) settings for the SageMaker domain. These settings determine how user identities from IAM Identity Center are propagated through the domain to TIP enabled Amazon Web Services services.
     docker_settings: A collection of settings that configure the domain's Docker interaction.
     amazon_q_settings: A collection of settings that configure the Amazon Q experience within the domain.
     unified_studio_settings: The settings that apply to an SageMaker AI domain when you use it in Amazon SageMaker Unified Studio.
+    ip_address_type: The IP address type for the domain. Specify ipv4 for IPv4-only connectivity or dualstack for both IPv4 and IPv6 connectivity. When you specify dualstack, the subnet must support IPv6 CIDR blocks.
     """
 
     r_studio_server_pro_domain_settings_for_update: Optional[
@@ -9490,9 +10351,13 @@ class DomainSettingsForUpdate(Base):
     ] = Unassigned()
     execution_role_identity_config: Optional[str] = Unassigned()
     security_group_ids: Optional[List[str]] = Unassigned()
+    trusted_identity_propagation_settings: Optional[TrustedIdentityPropagationSettings] = (
+        Unassigned()
+    )
     docker_settings: Optional[DockerSettings] = Unassigned()
     amazon_q_settings: Optional[AmazonQSettings] = Unassigned()
     unified_studio_settings: Optional[UnifiedStudioSettings] = Unassigned()
+    ip_address_type: Optional[str] = Unassigned()
 
 
 class PredefinedMetricSpecification(Base):
@@ -11258,6 +12123,29 @@ class Parameter(Base):
     value: str
 
 
+class PipelineVersionSummary(Base):
+    """
+    PipelineVersionSummary
+      The summary of the pipeline version.
+
+    Attributes
+    ----------------------
+    pipeline_arn: The Amazon Resource Name (ARN) of the pipeline.
+    pipeline_version_id: The ID of the pipeline version.
+    creation_time: The creation time of the pipeline version.
+    pipeline_version_description: The description of the pipeline version.
+    pipeline_version_display_name: The display name of the pipeline version.
+    last_execution_pipeline_execution_arn: The Amazon Resource Name (ARN) of the most recent pipeline execution created from this pipeline version.
+    """
+
+    pipeline_arn: Optional[str] = Unassigned()
+    pipeline_version_id: Optional[int] = Unassigned()
+    creation_time: Optional[datetime.datetime] = Unassigned()
+    pipeline_version_description: Optional[str] = Unassigned()
+    pipeline_version_display_name: Optional[str] = Unassigned()
+    last_execution_pipeline_execution_arn: Optional[str] = Unassigned()
+
+
 class PipelineSummary(Base):
     """
     PipelineSummary
@@ -11362,10 +12250,12 @@ class SpaceSettingsSummary(Base):
     Attributes
     ----------------------
     app_type: The type of app created within the space.
+    remote_access: A setting that enables or disables remote access for a SageMaker space. When enabled, this allows you to connect to the remote space from your local IDE.
     space_storage_settings: The storage settings for a space.
     """
 
     app_type: Optional[str] = Unassigned()
+    remote_access: Optional[str] = Unassigned()
     space_storage_settings: Optional[SpaceStorageSettings] = Unassigned()
 
 
@@ -11509,6 +12399,7 @@ class TrainingPlanSummary(Base):
     total_instance_count: The total number of instances reserved in this training plan.
     available_instance_count: The number of instances currently available for use in this training plan.
     in_use_instance_count: The number of instances currently in use from this training plan.
+    total_ultra_server_count: The total number of UltraServers allocated to this training plan.
     target_resources: The target resources (e.g., training jobs, HyperPod clusters) that can use this training plan. Training plans are specific to their target resource.   A training plan designed for SageMaker training jobs can only be used to schedule and run training jobs.   A training plan for HyperPod clusters can be used exclusively to provide compute resources to a cluster's instance group.
     reserved_capacity_summaries: A list of reserved capacities associated with this training plan, including details such as instance types, counts, and availability zones.
     """
@@ -11526,6 +12417,7 @@ class TrainingPlanSummary(Base):
     total_instance_count: Optional[int] = Unassigned()
     available_instance_count: Optional[int] = Unassigned()
     in_use_instance_count: Optional[int] = Unassigned()
+    total_ultra_server_count: Optional[int] = Unassigned()
     target_resources: Optional[List[str]] = Unassigned()
     reserved_capacity_summaries: Optional[List[ReservedCapacitySummary]] = Unassigned()
 
@@ -11609,6 +12501,39 @@ class TrialSummary(Base):
     trial_source: Optional[TrialSource] = Unassigned()
     creation_time: Optional[datetime.datetime] = Unassigned()
     last_modified_time: Optional[datetime.datetime] = Unassigned()
+
+
+class UltraServer(Base):
+    """
+    UltraServer
+      Represents a high-performance compute server used for distributed training in SageMaker AI. An UltraServer consists of multiple instances within a shared NVLink interconnect domain.
+
+    Attributes
+    ----------------------
+    ultra_server_id: The unique identifier for the UltraServer.
+    ultra_server_type: The type of UltraServer, such as ml.u-p6e-gb200x72.
+    availability_zone: The name of the Availability Zone where the UltraServer is provisioned.
+    instance_type: The Amazon EC2 instance type used in the UltraServer.
+    total_instance_count: The total number of instances in this UltraServer.
+    configured_spare_instance_count: The number of spare instances configured for this UltraServer to provide enhanced resiliency.
+    available_instance_count: The number of instances currently available for use in this UltraServer.
+    in_use_instance_count: The number of instances currently in use in this UltraServer.
+    available_spare_instance_count: The number of available spare instances in the UltraServer.
+    unhealthy_instance_count: The number of instances in this UltraServer that are currently in an unhealthy state.
+    health_status: The overall health status of the UltraServer.
+    """
+
+    ultra_server_id: str
+    ultra_server_type: str
+    availability_zone: str
+    instance_type: str
+    total_instance_count: int
+    configured_spare_instance_count: Optional[int] = Unassigned()
+    available_instance_count: Optional[int] = Unassigned()
+    in_use_instance_count: Optional[int] = Unassigned()
+    available_spare_instance_count: Optional[int] = Unassigned()
+    unhealthy_instance_count: Optional[int] = Unassigned()
+    health_status: Optional[str] = Unassigned()
 
 
 class UserProfileDetails(Base):
@@ -12072,6 +12997,8 @@ class PipelineExecution(Base):
     parallelism_configuration: The parallelism configuration applied to the pipeline execution.
     selective_execution_config: The selective execution configuration applied to the pipeline run.
     pipeline_parameters: Contains a list of pipeline parameters. This list can be empty.
+    pipeline_version_id: The ID of the pipeline version that started this execution.
+    pipeline_version_display_name: The display name of the pipeline version that started this execution.
     """
 
     pipeline_arn: Optional[str] = Unassigned()
@@ -12088,6 +13015,41 @@ class PipelineExecution(Base):
     parallelism_configuration: Optional[ParallelismConfiguration] = Unassigned()
     selective_execution_config: Optional[SelectiveExecutionConfig] = Unassigned()
     pipeline_parameters: Optional[List[Parameter]] = Unassigned()
+    pipeline_version_id: Optional[int] = Unassigned()
+    pipeline_version_display_name: Optional[str] = Unassigned()
+
+
+class PipelineVersion(Base):
+    """
+    PipelineVersion
+      The version of the pipeline.
+
+    Attributes
+    ----------------------
+    pipeline_arn: The Amazon Resource Name (ARN) of the pipeline.
+    pipeline_version_id: The ID of the pipeline version.
+    pipeline_version_display_name: The display name of the pipeline version.
+    pipeline_version_description: The description of the pipeline version.
+    creation_time: The creation time of the pipeline version.
+    last_modified_time: The time when the pipeline version was last modified.
+    created_by
+    last_modified_by
+    last_executed_pipeline_execution_arn: The Amazon Resource Name (ARN) of the most recent pipeline execution created from this pipeline version.
+    last_executed_pipeline_execution_display_name: The display name of the most recent pipeline execution created from this pipeline version.
+    last_executed_pipeline_execution_status: The status of the most recent pipeline execution created from this pipeline version.
+    """
+
+    pipeline_arn: Optional[str] = Unassigned()
+    pipeline_version_id: Optional[int] = Unassigned()
+    pipeline_version_display_name: Optional[str] = Unassigned()
+    pipeline_version_description: Optional[str] = Unassigned()
+    creation_time: Optional[datetime.datetime] = Unassigned()
+    last_modified_time: Optional[datetime.datetime] = Unassigned()
+    created_by: Optional[UserContext] = Unassigned()
+    last_modified_by: Optional[UserContext] = Unassigned()
+    last_executed_pipeline_execution_arn: Optional[str] = Unassigned()
+    last_executed_pipeline_execution_display_name: Optional[str] = Unassigned()
+    last_executed_pipeline_execution_status: Optional[str] = Unassigned()
 
 
 class ProcessingJob(Base):
@@ -12180,6 +13142,7 @@ class Project(Base):
     project_status: The status of the project.
     created_by: Who created the project.
     creation_time: A timestamp specifying when the project was created.
+    template_provider_details:  An array of template providers associated with the project.
     tags: An array of key-value pairs. You can use tags to categorize your Amazon Web Services resources in different ways, for example, by purpose, owner, or environment. For more information, see Tagging Amazon Web Services Resources.
     last_modified_time: A timestamp container for when the project was last modified.
     last_modified_by
@@ -12196,6 +13159,7 @@ class Project(Base):
     project_status: Optional[str] = Unassigned()
     created_by: Optional[UserContext] = Unassigned()
     creation_time: Optional[datetime.datetime] = Unassigned()
+    template_provider_details: Optional[List[TemplateProviderDetail]] = Unassigned()
     tags: Optional[List[Tag]] = Unassigned()
     last_modified_time: Optional[datetime.datetime] = Unassigned()
     last_modified_by: Optional[UserContext] = Unassigned()
@@ -12291,6 +13255,9 @@ class ReservedCapacityOffering(Base):
 
     Attributes
     ----------------------
+    reserved_capacity_type: The type of reserved capacity offering.
+    ultra_server_type: The type of UltraServer included in this reserved capacity offering, such as ml.u-p6e-gb200x72.
+    ultra_server_count: The number of UltraServers included in this reserved capacity offering.
     instance_type: The instance type for the reserved capacity offering.
     instance_count: The number of instances in the reserved capacity offering.
     availability_zone: The availability zone for the reserved capacity offering.
@@ -12302,6 +13269,9 @@ class ReservedCapacityOffering(Base):
 
     instance_type: str
     instance_count: int
+    reserved_capacity_type: Optional[str] = Unassigned()
+    ultra_server_type: Optional[str] = Unassigned()
+    ultra_server_count: Optional[int] = Unassigned()
     availability_zone: Optional[str] = Unassigned()
     duration_hours: Optional[int] = Unassigned()
     duration_minutes: Optional[int] = Unassigned()
@@ -12598,6 +13568,7 @@ class SearchRecord(Base):
     model_package_group
     pipeline
     pipeline_execution
+    pipeline_version: The version of the pipeline.
     feature_group
     feature_metadata: The feature metadata used to search through the features.
     project: The properties of a project.
@@ -12615,6 +13586,7 @@ class SearchRecord(Base):
     model_package_group: Optional[ModelPackageGroup] = Unassigned()
     pipeline: Optional[Pipeline] = Unassigned()
     pipeline_execution: Optional[PipelineExecution] = Unassigned()
+    pipeline_version: Optional[PipelineVersion] = Unassigned()
     feature_group: Optional[FeatureGroup] = Unassigned()
     feature_metadata: Optional[FeatureMetadata] = Unassigned()
     project: Optional[Project] = Unassigned()
@@ -12738,3 +13710,16 @@ class VariantProperty(Base):
     """
 
     variant_property_type: str
+
+
+class UpdateTemplateProvider(Base):
+    """
+    UpdateTemplateProvider
+       Contains configuration details for updating an existing template provider in the project.
+
+    Attributes
+    ----------------------
+    cfn_template_provider:  The CloudFormation template provider configuration to update.
+    """
+
+    cfn_template_provider: Optional[CfnUpdateTemplateProvider] = Unassigned()

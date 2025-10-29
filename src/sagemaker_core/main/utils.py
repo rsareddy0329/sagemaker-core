@@ -146,7 +146,7 @@ def get_textual_rich_theme() -> Theme:
 textual_rich_console_and_traceback_enabled = False
 
 
-def enable_textual_rich_console_and_traceback():
+def enable_rich_logging():
     """
     Reconfigure the global textual rich console with the customized theme
         and enable textual rich error traceback
@@ -180,7 +180,7 @@ def get_textual_rich_logger(name: str, log_level: str = "INFO") -> logging.Logge
         logging.Logger: A textial rich logger.
 
     """
-    enable_textual_rich_console_and_traceback()
+    enable_rich_logging()
     handler = get_rich_handler()
     logger = logging.getLogger(name)
     for handler in logger.handlers:
@@ -457,13 +457,13 @@ class ResourceIterator(Generic[T]):
         elif (
             len(self.summary_list) > 0
             and self.index >= len(self.summary_list)
-            and self.next_token is None
+            and (not self.next_token)
         ):
             raise StopIteration
 
         # Otherwise, get the next page of summaries by calling the list method with the next token if available
         else:
-            if self.next_token is not None:
+            if self.next_token:
                 response = getattr(self.client, self.list_method)(
                     NextToken=self.next_token, **self.list_method_kwargs
                 )

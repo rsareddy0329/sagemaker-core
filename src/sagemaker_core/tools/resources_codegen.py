@@ -17,7 +17,7 @@ import os
 import json
 from sagemaker_core.main.code_injection.codec import pascal_to_snake
 from sagemaker_core.main.config_schema import SAGEMAKER_PYTHON_SDK_CONFIG_SCHEMA
-from sagemaker_core.main.exceptions import IntelligentDefaultsError
+from sagemaker_core.main.exceptions import DefaultConfigsError
 from sagemaker_core.main.utils import get_textual_rich_logger
 from sagemaker_core.tools.constants import (
     BASIC_RETURN_TYPES,
@@ -190,7 +190,7 @@ class ResourcesCodeGen:
             "from sagemaker_core.main.code_injection.constants import Color",
             "from sagemaker_core.main.utils import SageMakerClient, ResourceIterator, Unassigned, get_textual_rich_logger, "
             "snake_to_pascal, pascal_to_snake, is_not_primitive, is_not_str_dict, is_primitive_list, serialize",
-            "from sagemaker_core.main.intelligent_defaults_helper import load_default_configs_for_resource_name, get_config_value",
+            "from sagemaker_core.main.default_configs_helper import load_default_configs_for_resource_name, get_config_value",
             "from sagemaker_core.main.logs import MultiLogStreamHandler",
             "from sagemaker_core.main.exceptions import *",
             "import sagemaker_core.main.shapes as shapes",
@@ -339,8 +339,11 @@ class ResourcesCodeGen:
             str: The formatted resource class.
 
         """
-        # Initialize an empty string for the resource class
-        resource_class = ""
+        resource_class = f"class {resource_name}(Base):\n"
+        class_documentation_string = f"Class representing resource {resource_name}\n"
+        basic_class_content = resource_class + add_indent(
+            f'"""\n{class_documentation_string}\n"""\n', 4
+        )
 
         # _get_class_attributes will return value only if the resource has get or get_all method
         if class_attribute_info := self._get_class_attributes(resource_name, class_methods):
@@ -348,11 +351,7 @@ class ResourcesCodeGen:
                 class_attribute_info
             )
 
-            # Start defining the class
-            resource_class = f"class {resource_name}(Base):\n"
-
-            class_documentation_string = f"Class representing resource {resource_name}\n\n"
-            class_documentation_string += f"Attributes:\n"
+            class_documentation_string += f"\nAttributes:\n"
             class_documentation_string += self._get_shape_attr_documentation_string(
                 attributes_and_documentation
             )
@@ -444,9 +443,12 @@ class ResourcesCodeGen:
         else:
             # If there's no 'get' or 'list' or 'create' method, generate a class with no attributes
             resource_attributes = []
-            resource_class = f"class {resource_name}(Base):\n"
-            class_documentation_string = f"Class representing resource {resource_name}\n"
-            resource_class += add_indent(f'"""\n{class_documentation_string}\n"""\n', 4)
+            resource_class = basic_class_content
+
+            # if there are no attributes or methods including addition operations
+            # class need not be generated
+            if resource_name not in self.resource_methods:
+                return ""
 
         if resource_name in self.resource_methods:
             # TODO: use resource_methods for all methods
@@ -859,7 +861,7 @@ class ResourcesCodeGen:
             operation_input_shape_name=operation_input_shape_name,
             include_session_region=True,
             include_return_resource_docstring=True,
-            include_intelligent_defaults_errors=True,
+            include_default_configs_errors=True,
         )
 
         if "Describe" + resource_name in self.operations:
@@ -956,7 +958,7 @@ class ResourcesCodeGen:
         include_session_region: bool = False,
         include_return_resource_docstring: bool = False,
         return_string: str = None,
-        include_intelligent_defaults_errors: bool = False,
+        include_default_configs_errors: bool = False,
         exclude_resource_attrs: list = None,
     ) -> str:
         """
@@ -970,7 +972,7 @@ class ResourcesCodeGen:
             include_session_region (bool): Whether to include session and region documentation.
             include_return_resource_docstring (bool): Whether to include resource-specific documentation.
             return_string (str): The return string.
-            include_intelligent_defaults_errors (bool): Whether to include intelligent defaults errors.
+            include_default_configs_errors (bool): Whether to include default configs errors.
             exclude_resource_attrs (list): A list of attributes to exclude from the docstring.
 
         Returns:
@@ -1000,8 +1002,8 @@ class ResourcesCodeGen:
 
         docstring += self._exception_docstring(operation_name)
 
-        if include_intelligent_defaults_errors:
-            subclasses = set(IntelligentDefaultsError.__subclasses__())
+        if include_default_configs_errors:
+            subclasses = set(DefaultConfigsError.__subclasses__())
             _id_exception_docstrings = [
                 f"\n    {subclass.__name__}: {subclass.__doc__}" for subclass in subclasses
             ]
